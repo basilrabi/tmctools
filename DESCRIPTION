@@ -1,0 +1,21 @@
+Package: tmctools
+Type: Package
+Title: Various Tools for TMC
+Version: 0.1.0.9000
+Date: 2018-09-12
+Authors@R: c(
+  person("Basil Eric", "Rabi",
+  email = "basil.rabi@tmc.nickelasia.com",
+  role  = c("cre", "aut")))
+Description: Tools used for processing some data in Taganito Mine.
+License: file LICENSE
+Encoding: UTF-8
+Depends: R (>= 3.5.0)
+Imports:
+  gstat (>= 1.1-6),
+  Rcpp  (>= 0.12.18)
+Suggests:
+  rstudioapi (>= 0.6),
+  testthat   (>= 1.0.2)
+RoxygenNote: 6.1.0
+LinkingTo: Rcpp, RcppArmadillo

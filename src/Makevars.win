@@ -1,0 +1,2 @@
+PKG_LIBS = -lboost_regex -lboost_system
+CXX_STD = CXX11

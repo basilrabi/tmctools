@@ -1,0 +1,6 @@
+^.*\.Rproj$
+^\.git
+^\.gitignore$
+^\.Rhistory$
+^\.Rproj\.user$
+^clean\.sh$
