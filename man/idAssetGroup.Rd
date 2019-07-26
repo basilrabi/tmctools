@@ -45,6 +45,7 @@ Below are the identified groups:
     \item{FTR}{farm tractors}
     \item{GS}{power generator set}
     \item{GT}{garbage truck}
+    \item{HDT}{HOWO dump truck}
     \item{LM}{lawn mower}
     \item{MC}{motorcycle}
     \item{MDT}{mini dump truck}

@@ -118,6 +118,7 @@ bool isSubset( std::string x, std::string y )
 //'     \item{FTR}{farm tractors}
 //'     \item{GS}{power generator set}
 //'     \item{GT}{garbage truck}
+//'     \item{HDT}{HOWO dump truck}
 //'     \item{LM}{lawn mower}
 //'     \item{MC}{motorcycle}
 //'     \item{MDT}{mini dump truck}
@@ -277,7 +278,15 @@ StringVector idAssetGroup( StringVector x )
               b == glc_DT3 ||
               b == glc_DT4 ||
               b == glc_DT5 )
-      equip[i] = "DT";
+    {
+      if ( boost::regex_match( testChar, boost::regex( ".*23[8-9].*" ) ) ||
+           boost::regex_match( testChar, boost::regex( ".*24[0-9].*" ) ) )
+        equip[i] = "HDT";
+
+      else
+        equip[i] = "DT";
+    }
+
 
     else if ( b == glc_EQ ||
               boost::regex_match( testChar, boost::regex( ".*EQ\\s*[[:digit:]].*" ) ) )
