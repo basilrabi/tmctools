@@ -11,7 +11,7 @@
 #'   \itemize{
 #'   \item Contractors
 #'     \describe{
-#'     \item{HPK}{}
+#'     \item{HPK}{HPK Construction}
 #'     \item{NBC}{Nickel Base Corporation}
 #'     \item{PACE}{PrinceAce Corporation}
 #'     \item{SDMC}{Southernphil Development and Marketing Corporation (FITZ-SDMC)}
@@ -21,6 +21,7 @@
 #'     }
 #'   \item Equipment
 #'     \describe{
+#'     \item{ADT}{articulated dump truck}
 #'     \item{ATV}{all-terrain vehicle}
 #'     \item{CM}{concrete mixer}
 #'     \item{CT}{bulldozer}

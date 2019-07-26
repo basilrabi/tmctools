@@ -4,6 +4,7 @@ test_that("idAssetGroup() works", {
   expect_equal(idAssetGroup(NA)                 , as.character(NA))
   expect_equal(idAssetGroup("ADMIN")            , "ADMIN")
   expect_equal(idAssetGroup("GEN ADMIN")        , "ADMIN")
+  expect_equal(idAssetGroup("ADT-1")            , "ADT")
   expect_equal(idAssetGroup("ATV-1")            , "ATV")
   expect_equal(idAssetGroup("BADMINTON")        , "ZZZ")
   expect_equal(idAssetGroup("BRGY")             , "LGU")

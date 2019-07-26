@@ -95,7 +95,7 @@ bool isSubset( std::string x, std::string y )
 //'   \itemize{
 //'   \item Contractors
 //'     \describe{
-//'     \item{HPK}{}
+//'     \item{HPK}{HPK Construction}
 //'     \item{NBC}{Nickel Base Corporation}
 //'     \item{PACE}{PrinceAce Corporation}
 //'     \item{SDMC}{Southernphil Development and Marketing Corporation (FITZ-SDMC)}
@@ -105,6 +105,7 @@ bool isSubset( std::string x, std::string y )
 //'     }
 //'   \item Equipment
 //'     \describe{
+//'     \item{ADT}{articulated dump truck}
 //'     \item{ATV}{all-terrain vehicle}
 //'     \item{CM}{concrete mixer}
 //'     \item{CT}{bulldozer}
@@ -175,6 +176,7 @@ StringVector idAssetGroup( StringVector x )
   std::string testChar;
 
   // declare getLetterCount constants to avoid repeating in the loop
+  String glc_ADT       = getLetterCount( "ADT" );
   String glc_ATV       = getLetterCount( "ATV" );
   String glc_MC        = getLetterCount( "CM" );
   String glc_CT        = getLetterCount( "CT" );
@@ -444,6 +446,9 @@ StringVector idAssetGroup( StringVector x )
 
     else if ( b == glc_ATV )
       equip[i] = "ATV";
+
+    else if ( b == glc_ADT )
+      equip[i] = "ADT";
 
     else
       equip[i] = "ZZZ";
