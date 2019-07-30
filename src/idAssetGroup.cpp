@@ -471,6 +471,9 @@ StringVector idAssetGroup( StringVector x )
     else if ( testChar == "FV VI" )
       equip[i] = "FS";
 
+    else if ( testChar == "R6 11" )
+      equip[i] = "RG";
+
     else
       equip[i] = "ZZZ";
   }
