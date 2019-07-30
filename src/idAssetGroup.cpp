@@ -186,6 +186,7 @@ StringVector idAssetGroup( StringVector x )
   String glc_DT3       = getLetterCount( "DTUP" );
   String glc_DT4       = getLetterCount( "DTPDT" );
   String glc_DT5       = getLetterCount( "DTT" );
+  String glc_DT6       = getLetterCount( "DST" );
   String glc_EQ        = getLetterCount( "EQ" );
   String glc_FL        = getLetterCount( "FL" );
   String glc_FORKLIFT  = getLetterCount( "FORKLIFT" );
@@ -273,11 +274,8 @@ StringVector idAssetGroup( StringVector x )
     else if ( b == glc_CT )
       equip[i] = "CT";
 
-    else if ( b == glc_DT1 ||
-              b == glc_DT2 ||
-              b == glc_DT3 ||
-              b == glc_DT4 ||
-              b == glc_DT5 )
+    else if ( b == glc_DT1 || b == glc_DT2 || b == glc_DT3 ||
+              b == glc_DT4 || b == glc_DT5 || b == glc_DT6 )
     {
       if ( boost::regex_match( testChar, boost::regex( ".*23[8-9].*" ) ) ||
            boost::regex_match( testChar, boost::regex( ".*24[0-9].*" ) ) )
