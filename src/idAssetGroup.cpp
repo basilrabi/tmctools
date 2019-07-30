@@ -414,7 +414,8 @@ StringVector idAssetGroup( StringVector x )
     else if ( b == glc_VC )
       equip[i] = "VC";
 
-    else if ( b == glc_WC )
+    else if ( b == glc_WC ||
+              boost::regex_match( testChar, boost::regex( ".*CRANE.*" ) ) )
       equip[i] = "WC";
 
     else if ( b == glc_WM &&
