@@ -269,7 +269,7 @@ StringVector idAssetGroup( StringVector x )
         equip[i] = "CM";
     }
 
-    else if ( boost::regex_match( testChar, boost::regex( ".*MIXE?R.*" ) ) )
+    else if ( boost::regex_match( testChar, boost::regex( ".*MI?XE?R.*" ) ) )
       equip[i] = "CM";
 
     else if ( b == glc_CT )
@@ -291,7 +291,7 @@ StringVector idAssetGroup( StringVector x )
               boost::regex_match( testChar, boost::regex( ".*EQ\\s*[[:digit:]].*" ) ) )
       equip[i] = "EQ";
 
-    else if ( isSubset( "FASTCRAFT", b ) )
+    else if ( isSubset( "FASCRAFT", b ) )
       equip[i] = "FASTCRAFT";
 
     else if ( b == glc_FL )
