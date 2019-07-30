@@ -88,7 +88,6 @@ Below are the identified groups:
     }
   \item Unknown
     \itemize{
-    \item WC
     \item ZZZ
     }
   }

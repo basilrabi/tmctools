@@ -77,7 +77,6 @@
 #'     }
 #'   \item Unknown
 #'     \itemize{
-#'     \item WC
 #'     \item ZZZ
 #'     }
 #'   }

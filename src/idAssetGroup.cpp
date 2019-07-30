@@ -161,7 +161,6 @@ bool isSubset( std::string x, std::string y )
 //'     }
 //'   \item Unknown
 //'     \itemize{
-//'     \item WC
 //'     \item ZZZ
 //'     }
 //'   }
@@ -296,7 +295,7 @@ StringVector idAssetGroup( StringVector x )
               boost::regex_match( testChar, boost::regex( ".*EQ\\s*[[:digit:]].*" ) ) )
       equip[i] = "EQ";
 
-    else if ( isSubset( "FASCRAFT", b ) )
+    else if ( boost::regex_match( testChar, boost::regex( ".*FAST?\\s?CRAFT.*" ) ) )
       equip[i] = "FASTCRAFT";
 
     else if ( b == glc_FL )
