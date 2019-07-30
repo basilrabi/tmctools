@@ -35,6 +35,8 @@ test_that("idAssetGroup() works", {
   expect_equal(idAssetGroup("LAWN MOER")        , "LM")
   expect_equal(idAssetGroup("LAWN MOWER")       , "LM")
   expect_equal(idAssetGroup("LM 1")             , "LM")
+  expect_equal(idAssetGroup("LWN MOWER 4")      , "LM")
+  expect_equal(idAssetGroup("MOER 3")           , "LM")
   expect_equal(idAssetGroup("MC")               , "MC")
   expect_equal(idAssetGroup("MC 1 MC 2")        , "MC")
   expect_equal(idAssetGroup("MDT 1")            , "MDT")

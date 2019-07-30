@@ -332,7 +332,7 @@ StringVector idAssetGroup( StringVector x )
         equip[i] = "ML";
     }
 
-    else if ( boost::regex_match( testChar, boost::regex( ".*LAWN\\s*MOW?ER.*" ) ) )
+    else if ( boost::regex_match( testChar, boost::regex( ".*MOW?ER.*" ) ) )
       equip[i] = "LM";
 
     else if ( boost::regex_match( testChar, boost::regex( ".*MANLIFT.*" ) ) )
