@@ -141,6 +141,7 @@ bool isSubset( std::string x, std::string y )
 //'     \item{VC}{vibrating compactor}
 //'     \item{WC}{wheeled crane}
 //'     \item{WL}{wheeled pay loader}
+//'     \item{WM}{welding machine}
 //'     \item{WP}{water pump}
 //'     \item{WTL}{water lorry}
 //'     \item{WX}{wheeled excavator}
@@ -218,6 +219,7 @@ StringVector idAssetGroup( StringVector x )
   String glc_WL1       = getLetterCount( "WL" );
   String glc_WL2       = getLetterCount( "W" );
   String glc_WL3       = getLetterCount( "WLRGCT" );
+  String glc_WM        = getLetterCount( "WM" );
   String glc_WP1       = getLetterCount( "WP" );
   String glc_WP2       = getLetterCount( "WTLWP" );
   String glc_WTL1      = getLetterCount( "WT" );
@@ -414,6 +416,10 @@ StringVector idAssetGroup( StringVector x )
 
     else if ( b == glc_WC )
       equip[i] = "WC";
+
+    else if ( b == glc_WM &&
+              boost::regex_match( testChar, boost::regex( ".*WM.*" ) ) )
+      equip[i] = "WM";
 
     else if ( b == glc_WL1 ||
               b == glc_WL2 ||

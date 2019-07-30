@@ -68,6 +68,7 @@ Below are the identified groups:
     \item{VC}{vibrating compactor}
     \item{WC}{wheeled crane}
     \item{WL}{wheeled pay loader}
+    \item{WM}{welding machine}
     \item{WP}{water pump}
     \item{WTL}{water lorry}
     \item{WX}{wheeled excavator}
