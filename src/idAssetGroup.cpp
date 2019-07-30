@@ -461,6 +461,9 @@ StringVector idAssetGroup( StringVector x )
     else if ( b == glc_ADT )
       equip[i] = "ADT";
 
+    else if ( testChar == "219" )
+      equip[i] = "DT";
+
     else
       equip[i] = "ZZZ";
   }
