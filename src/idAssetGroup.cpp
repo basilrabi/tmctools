@@ -214,7 +214,8 @@ StringVector idAssetGroup( StringVector x )
   String glc_TX1       = getLetterCount( "TX" );
   String glc_TX2       = getLetterCount( "TZ" );
   String glc_TX3       = getLetterCount( "X" );
-  String glc_VC        = getLetterCount( "VC" );
+  String glc_VC1       = getLetterCount( "V" );
+  String glc_VC2       = getLetterCount( "VC" );
   String glc_WC        = getLetterCount( "WC" );
   String glc_WL1       = getLetterCount( "WL" );
   String glc_WL2       = getLetterCount( "W" );
@@ -411,7 +412,7 @@ StringVector idAssetGroup( StringVector x )
               b == glc_TX3 )
       equip[i] = "TX";
 
-    else if ( b == glc_VC )
+    else if ( b == glc_VC2 || b == glc_VC1 )
       equip[i] = "VC";
 
     else if ( b == glc_WC ||
