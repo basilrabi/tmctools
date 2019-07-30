@@ -463,8 +463,13 @@ StringVector idAssetGroup( StringVector x )
     else if ( b == glc_ADT )
       equip[i] = "ADT";
 
+    // Exotic cases
+
     else if ( testChar == "219" )
       equip[i] = "DT";
+
+    else if ( testChar == "FV VI" )
+      equip[i] = "FS";
 
     else
       equip[i] = "ZZZ";
