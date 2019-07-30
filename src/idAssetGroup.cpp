@@ -190,7 +190,9 @@ StringVector idAssetGroup( StringVector x )
   String glc_DT6       = getLetterCount( "DST" );
   String glc_EQ        = getLetterCount( "EQ" );
   String glc_FL        = getLetterCount( "FL" );
-  String glc_FORKLIFT  = getLetterCount( "FORKLIFT" );
+  String glc_FORKLIFT1 = getLetterCount( "FORKLIFT" );
+  String glc_FORKLIFT2 = getLetterCount( "FRL" );
+  String glc_FORKLIFT3 = getLetterCount( "MFL" );
   String glc_FT        = getLetterCount( "FT" );
   String glc_FTR       = getLetterCount( "FTR" );
   String glc_GS        = getLetterCount( "GS" );
@@ -297,7 +299,7 @@ StringVector idAssetGroup( StringVector x )
     else if ( b == glc_FL )
       equip[i] = "FL";
 
-    else if ( b == glc_FORKLIFT )
+    else if ( b == glc_FORKLIFT1 || b == glc_FORKLIFT2 || b == glc_FORKLIFT3 )
       equip[i] = "FORKLIFT";
 
     else if ( boost::regex_match( testChar, boost::regex( "^F\\s*S.*" ) ) ||

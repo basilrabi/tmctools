@@ -22,6 +22,8 @@ test_that("idAssetGroup() works", {
   expect_equal(idAssetGroup("FL 5")             , "FL")
   expect_equal(idAssetGroup("FLY SQUID")        , "FS")
   expect_equal(idAssetGroup("forklift 2")       , "FORKLIFT")
+  expect_equal(idAssetGroup("FRL 1")            , "FORKLIFT")
+  expect_equal(idAssetGroup("MFL 2")            , "FORKLIFT")
   expect_equal(idAssetGroup("FT 5")             , "FT")
   expect_equal(idAssetGroup("FTR 5")            , "FTR")
   expect_equal(idAssetGroup("GEN SET")          , "GS")
