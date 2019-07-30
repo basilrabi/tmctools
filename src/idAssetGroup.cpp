@@ -124,6 +124,7 @@ bool isSubset( std::string x, std::string y )
 //'     \item{MDT}{mini dump truck}
 //'     \item{ML}{man lift}
 //'     \item{MOC}{mobile crusher}
+//'     \item{MOS}{mobile screener}
 //'     \item{MT}{maintenance truck}
 //'     \item{MTX}{mini tracked excavator}
 //'     \item{MWL}{mini wheeled pay loader}
@@ -347,6 +348,9 @@ StringVector idAssetGroup( StringVector x )
 
     else if ( boost::regex_match( testChar, boost::regex( ".*CRU?SHE?E?R.*" ) ) )
       equip[i] = "MOC";
+
+    else if ( boost::regex_match( testChar, boost::regex( ".*SCREE?N(E|I)?R?.*" ) ) )
+      equip[i] = "MOS";
 
     else if ( b == glc_MT ||
               boost::regex_match( testChar, boost::regex( "^MT\\s*\\d+.*" ) ) )

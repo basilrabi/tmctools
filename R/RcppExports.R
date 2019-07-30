@@ -40,6 +40,7 @@
 #'     \item{MDT}{mini dump truck}
 #'     \item{ML}{man lift}
 #'     \item{MOC}{mobile crusher}
+#'     \item{MOS}{mobile screener}
 #'     \item{MT}{maintenance truck}
 #'     \item{MTX}{mini tracked excavator}
 #'     \item{MWL}{mini wheeled pay loader}
