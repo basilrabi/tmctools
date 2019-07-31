@@ -343,7 +343,7 @@ StringVector idAssetGroup( StringVector x )
       equip[i] = "ML";
 
     else if ( b == glc_MDT ||
-              boost::regex_match( testChar, boost::regex( ".*MD+T.*" ) ) )
+              boost::regex_match( testChar, boost::regex( ".*MD+T\\b.*" ) ) )
       equip[i] = "MDT";
 
     else if ( boost::regex_match( testChar, boost::regex( ".*MA?R?KE?TI?N?G.*" ) ) ||
