@@ -350,7 +350,8 @@ StringVector idAssetGroup( StringVector x )
               boost::regex_match( testChar, boost::regex( ".*MKGT.*" ) ) )
       equip[i] = "MKTG";
 
-    else if ( boost::regex_match( testChar, boost::regex( ".*CRU?SHE?E?R.*" ) ) )
+    else if ( boost::regex_match( testChar, boost::regex( "^CRUSHER.*" ) ) ||
+              boost::regex_match( testChar, boost::regex( "^M.*CRU?SHE?E?R.*" ) ) )
       equip[i] = "MOC";
 
     else if ( boost::regex_match( testChar, boost::regex( ".*SCREE?N(E|I)?R?.*" ) ) )
