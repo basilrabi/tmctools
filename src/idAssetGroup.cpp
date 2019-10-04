@@ -199,6 +199,8 @@ StringVector idAssetGroup( StringVector x )
   String glc_GT        = getLetterCount( "GT" );
   String glc_LM        = getLetterCount( "LM" );
   String glc_MDT       = getLetterCount( "MDT" );
+  String glc_MOS1      = getLetterCount( "MOS" );
+  String glc_MOS2      = getLetterCount( "MS" );
   String glc_MT        = getLetterCount( "MT" );
   String glc_MTX       = getLetterCount( "MTX" );
   String glc_MWL       = getLetterCount( "MWL" );
@@ -354,7 +356,9 @@ StringVector idAssetGroup( StringVector x )
               boost::regex_match( testChar, boost::regex( "^M.*CRU?SHE?E?R.*" ) ) )
       equip[i] = "MOC";
 
-    else if ( boost::regex_match( testChar, boost::regex( ".*SCREE?N(E|I)?R?.*" ) ) )
+    else if ( boost::regex_match( testChar, boost::regex( ".*SCREE?N(E|I)?R?.*" ) ) ||
+              ( b == glc_MOS1 ) ||
+              ( b == glc_MOS2 ) )
       equip[i] = "MOS";
 
     else if ( b == glc_MT ||

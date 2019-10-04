@@ -51,6 +51,8 @@ test_that("idAssetGroup() works", {
   expect_equal(idAssetGroup("MOBILE SCREEN")       , "MOS")
   expect_equal(idAssetGroup("MOBILE SCREENER")     , "MOS")
   expect_equal(idAssetGroup("MOBILE SCRENR")       , "MOS")
+  expect_equal(idAssetGroup("MOS")                 , "MOS")
+  expect_equal(idAssetGroup("MS-1")                , "MOS")
   expect_equal(idAssetGroup("SCREENER")            , "MOS")
   expect_equal(idAssetGroup("SCRENIR 1")           , "MOS")
   expect_equal(idAssetGroup("MT 5")                , "MT")
