@@ -11,10 +11,13 @@
 #'   \itemize{
 #'   \item Contractors
 #'     \describe{
+#'     \item{4K}{4K Development Corporation}
 #'     \item{HPK}{HPK Construction}
 #'     \item{NBC}{Nickel Base Corporation}
 #'     \item{PACE}{PrinceAce Corporation}
+#'     \item{POLARIS}{Polaris Construction & General Services}
 #'     \item{SDMC}{Southernphil Development and Marketing Corporation (FITZ-SDMC)}
+#'     \item{SKAFF}{SKAFF Construkt Incorporated}
 #'     \item{SMCC}{Sumitomo-Mitsui Construction Company}
 #'     \item{TACOPHIL}{}
 #'     \item{TRGC}{Tango Romeo General Construction}

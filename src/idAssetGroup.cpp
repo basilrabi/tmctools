@@ -95,10 +95,13 @@ bool isSubset( std::string x, std::string y )
 //'   \itemize{
 //'   \item Contractors
 //'     \describe{
+//'     \item{4K}{4K Development Corporation}
 //'     \item{HPK}{HPK Construction}
 //'     \item{NBC}{Nickel Base Corporation}
 //'     \item{PACE}{PrinceAce Corporation}
+//'     \item{POLARIS}{Polaris Construction & General Services}
 //'     \item{SDMC}{Southernphil Development and Marketing Corporation (FITZ-SDMC)}
+//'     \item{SKAFF}{SKAFF Construkt Incorporated}
 //'     \item{SMCC}{Sumitomo-Mitsui Construction Company}
 //'     \item{TACOPHIL}{}
 //'     \item{TRGC}{Tango Romeo General Construction}
@@ -248,6 +251,9 @@ StringVector idAssetGroup( StringVector x )
     if ( boost::regex_match( testChar, boost::regex( ".*TACOPHIL.*" ) ) )
       equip[i] = "TACOPHIL";
 
+    else if ( boost::regex_match( testChar, boost::regex( ".*4K.*" ) ) )
+      equip[i] = "4K";
+
     else if ( boost::regex_match( testChar, boost::regex( ".*PACE.*" ) ) ||
               boost::regex_match( testChar, boost::regex( ".*PRI?N?CE *ACE.*" ) ) )
       equip[i] = "PACE";
@@ -378,6 +384,9 @@ StringVector idAssetGroup( StringVector x )
     else if ( boost::regex_match( testChar, boost::regex( ".*PATROL\\s*BOAT.*" ) ) )
       equip[i] = "PATROLBOAT";
 
+    else if ( boost::regex_match( testChar, boost::regex( ".*POA?LA?RIS.*" ) ) )
+      equip[i] = "POLARIS";
+
     else if ( b == glc_PB ||
               boost::regex_match( testChar, boost::regex( ".*PUMP\\s*BOAT.*" ) ) )
       equip[i] = "PB";
@@ -397,6 +406,9 @@ StringVector idAssetGroup( StringVector x )
 
     else if ( b == glc_SECURITY )
       equip[i] = "SECURITY";
+
+    else if ( boost::regex_match( testChar, boost::regex( ".*SKAFF.*" ) ) )
+      equip[i] = "SKAFF";
 
     else if ( b == glc_SP )
       equip[i] = "SP";

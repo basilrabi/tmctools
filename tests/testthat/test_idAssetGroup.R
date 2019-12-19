@@ -2,9 +2,12 @@ library(tmctools)
 
 test_that("idAssetGroup() works", {
   expect_equal(idAssetGroup(NA)                    , as.character(NA))
+  expect_equal(idAssetGroup("4K DT 5")             , "4K")
   expect_equal(idAssetGroup("ADMIN")               , "ADMIN")
   expect_equal(idAssetGroup("GEN ADMIN")           , "ADMIN")
+  # TODO: AC?
   expect_equal(idAssetGroup("ADT-1")               , "ADT")
+  # TODO: ARMOR VEHICLE
   expect_equal(idAssetGroup("ATV-1")               , "ATV")
   expect_equal(idAssetGroup("CIP XX")              , "CIP")
   expect_equal(idAssetGroup("CM 2")                , "CM")
@@ -36,6 +39,7 @@ test_that("idAssetGroup() works", {
   expect_equal(idAssetGroup("DT - 249")            , "HDT")
   expect_equal(idAssetGroup("HPK DT 1")            , "HPK")
   expect_equal(idAssetGroup("BRGY")                , "LGU")
+  # TODO: LCT
   expect_equal(idAssetGroup("LAWN MOER")           , "LM")
   expect_equal(idAssetGroup("LAWN MOWER")          , "LM")
   expect_equal(idAssetGroup("LM 1")                , "LM")
@@ -47,7 +51,9 @@ test_that("idAssetGroup() works", {
   expect_equal(idAssetGroup("MDDT 1")              , "MDT")
   expect_equal(idAssetGroup("Marketing")           , "MKTG")
   expect_equal(idAssetGroup("ML 5")                , "ML")
+  # TODO: "MAN\s*LIFT
   expect_equal(idAssetGroup("Crusher")             , "MOC")
+  # TODO: "MOBILE CRUSER"
   expect_equal(idAssetGroup("MOBILE SCREEN")       , "MOS")
   expect_equal(idAssetGroup("MOBILE SCREENER")     , "MOS")
   expect_equal(idAssetGroup("MOBILE SCRENR")       , "MOS")
@@ -62,16 +68,20 @@ test_that("idAssetGroup() works", {
   expect_equal(idAssetGroup("NB DT 5")             , "NBC")
   expect_equal(idAssetGroup("NBC DT 5")            , "NBC")
   expect_equal(idAssetGroup("NC DT 5")             , "NBC")
+  # TODO: Fix NCIP matched to CIP
   expect_equal(idAssetGroup("PACE XX")             , "PACE")
   expect_equal(idAssetGroup("Patrolboat")          , "PATROLBOAT")
   expect_equal(idAssetGroup("Pumpboat")            , "PB")
   expect_equal(idAssetGroup("PMT-1")               , "PMT")
+  expect_equal(idAssetGroup("POALRIS DT-090110")   , "POLARIS")
+  expect_equal(idAssetGroup("POLARIS DT RAM-530")  , "POLARIS")
   expect_equal(idAssetGroup("R6 11")               , "RG")
   expect_equal(idAssetGroup("RG 15")               , "RG")
   expect_equal(idAssetGroup("SB 15")               , "SB")
   expect_equal(idAssetGroup("SDMC DT 15")          , "SDMC")
   expect_equal(idAssetGroup("SMDC DT 15")          , "SDMC")
   expect_equal(idAssetGroup("Security")            , "SECURITY")
+  expect_equal(idAssetGroup("SKAFF DT 15")         , "SKAFF")
   expect_equal(idAssetGroup("SMCC")                , "SMCC")
   expect_equal(idAssetGroup("SP 96")               , "SP")
   expect_equal(idAssetGroup("ST 96")               , "ST")
