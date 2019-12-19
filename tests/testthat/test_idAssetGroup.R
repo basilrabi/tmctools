@@ -65,9 +65,9 @@ test_that("idAssetGroup() works", {
   expect_equal(idAssetGroup("MT 5 GT 21")          , "MT")
   expect_equal(idAssetGroup("MTX-1")               , "MTX")
   expect_equal(idAssetGroup("MWL 5")               , "MWL")
-  expect_equal(idAssetGroup("NB DT 5")             , "NBC")
-  expect_equal(idAssetGroup("NBC DT 5")            , "NBC")
-  expect_equal(idAssetGroup("NC DT 5")             , "NBC")
+  expect_equal(idAssetGroup("NB DT 5")             , "NBI")
+  expect_equal(idAssetGroup("NBC DT 5")            , "NBI")
+  expect_equal(idAssetGroup("NC DT 5")             , "NBI")
   # TODO: Fix NCIP matched to CIP
   expect_equal(idAssetGroup("PACE XX")             , "PACE")
   expect_equal(idAssetGroup("Patrolboat")          , "PATROLBOAT")

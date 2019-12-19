@@ -97,7 +97,7 @@ bool isSubset( std::string x, std::string y )
 //'     \describe{
 //'     \item{4K}{4K Development Corporation}
 //'     \item{HPK}{HPK Construction}
-//'     \item{NBC}{Nickel Base Corporation}
+//'     \item{NBI}{Nickelbase Incorporated}
 //'     \item{PACE}{PrinceAce Corporation}
 //'     \item{POLARIS}{Polaris Construction & General Services}
 //'     \item{SDMC}{Southernphil Development and Marketing Corporation (FITZ-SDMC)}
@@ -379,7 +379,7 @@ StringVector idAssetGroup( StringVector x )
 
     else if ( boost::regex_match( testChar, boost::regex( ".*NBC.*" ) ) ||
               boost::regex_match( testChar, boost::regex( "^NB?C?\\s+.*" ) ) )
-      equip[i] = "NBC";
+      equip[i] = "NBI";
 
     else if ( boost::regex_match( testChar, boost::regex( ".*PATROL\\s*BOAT.*" ) ) )
       equip[i] = "PATROLBOAT";
