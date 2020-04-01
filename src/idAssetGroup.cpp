@@ -146,6 +146,7 @@ bool isSubset( std::string x, std::string y )
 //'     \item{WL}{wheeled pay loader}
 //'     \item{WM}{welding machine}
 //'     \item{WP}{water pump}
+//'     \item{WT}{water tank}
 //'     \item{WTL}{water lorry}
 //'     \item{WX}{wheeled excavator}
 //'     \item{YBM}{Yoshida Boring Machine}
@@ -227,8 +228,8 @@ StringVector idAssetGroup( StringVector x )
   String glc_WM        = getLetterCount( "WM" );
   String glc_WP1       = getLetterCount( "WP" );
   String glc_WP2       = getLetterCount( "WTLWP" );
-  String glc_WTL1      = getLetterCount( "WT" );
-  String glc_WTL2      = getLetterCount( "WTL" );
+  String glc_WT        = getLetterCount( "WT" );
+  String glc_WTL       = getLetterCount( "WTL" );
   String glc_WX        = getLetterCount( "WX" );
   String glc_YBM       = getLetterCount( "YBM" );
 
@@ -450,7 +451,7 @@ StringVector idAssetGroup( StringVector x )
               isSubset( "WATER PUMP", b ) )
       equip[i] = "WP";
 
-    else if ( b == glc_WTL2 )
+    else if ( b == glc_WTL )
     {
 
       if ( boost::regex_match( testChar, boost::regex( ".*WTL.*" ) ) ||
@@ -464,8 +465,8 @@ StringVector idAssetGroup( StringVector x )
         equip[i] = "ZZZ";
     }
 
-    else if ( b == glc_WTL1 )
-      equip[i] = "WTL";
+    else if ( b == glc_WT )
+      equip[i] = "WT";
 
     else if ( boost::regex_match( testChar, boost::regex( ".*WX.*" ) ) ||
               b == glc_WX )

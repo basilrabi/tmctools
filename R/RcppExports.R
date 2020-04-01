@@ -62,6 +62,7 @@
 #'     \item{WL}{wheeled pay loader}
 #'     \item{WM}{welding machine}
 #'     \item{WP}{water pump}
+#'     \item{WT}{water tank}
 #'     \item{WTL}{water lorry}
 #'     \item{WX}{wheeled excavator}
 #'     \item{YBM}{Yoshida Boring Machine}
