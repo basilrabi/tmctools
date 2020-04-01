@@ -20,5 +20,5 @@ Imports:
 Suggests:
   rstudioapi (>= 0.10),
   testthat   (>= 2.3.1)
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 LinkingTo: Rcpp, RcppArmadillo
