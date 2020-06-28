@@ -92,22 +92,3 @@ idAssetGroup <- function(x) {
     .Call('_tmctools_idAssetGroup', PACKAGE = 'tmctools', x)
 }
 
-#' Interpolate
-#'
-#' This is used in a spatial study for limonite face samples.
-#'
-#' @param modelT data frame of prediction model
-#' @param sample data frame of sample coordinates
-#' @param radius numeric value representing buffer radius
-#' @param vario List contaning variogram models
-#' @return a dataframe containing the following:
-#'   \enumerate{
-#'     \item interpolated grade of element
-#'     \item interpolation variance
-#'     \item interpolation variance using absolute value of kriging weight
-#'   }
-#' @export
-predictVars <- function(modelT, sample, radius, vario) {
-    .Call('_tmctools_predictVars', PACKAGE = 'tmctools', modelT, sample, radius, vario)
-}
-
