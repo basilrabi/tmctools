@@ -260,4 +260,4 @@ You must **include the null points** in this numbering scheme.
 
 `neighbour2` is the triangle number opposite `vertex1`
 
-`neighbour3` is the triangle number opposite `vertex 2`
+`neighbour3` is the triangle number opposite `vertex2`

@@ -66,7 +66,7 @@ std::string Triangle::asText()
 std::string Triangle::ewkt( const std::string& srid )
 {
   std::string text;
-  text = srid + ";POLYGON" + asText();
+  text = "SRID=" + srid + ";POLYGON" + asText();
   return text;
 }
 

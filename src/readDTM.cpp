@@ -33,13 +33,13 @@ Rcpp::DataFrame readDTM( std::string dtmFile, std::string srid = "" )
   Triangle triangle;
   bool hasReadAxisRecord = false;
   double x, y, z;
-  int i, p1, p2, p3;
   std::regex pointPattern( ".*\\d+\\s*,\\s*(\\d+\\.?\\d*)\\s*,\\s*(\\d+\\.?\\d*)\\s*,\\s*(-?\\d+\\.?\\d*).*\\s*" );
   std::regex trianglePattern( ".*\\d+\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*\\d+\\s*,\\s*\\d+\\s*,\\s*\\d+.*\\s*" );
   std::smatch capturedPoint;
   std::string str;
   std::vector<DirVector> points;
   std::vector<Triangle> triangles;
+  unsigned int i, p1, p2, p3;
 
   if ( !fileExists( dtmFile ) )
     Rcpp::stop( dtmFile + " does not exist!" );
@@ -121,7 +121,8 @@ Rcpp::DataFrame readDTM( std::string dtmFile, std::string srid = "" )
 
   Rcpp::DataFrame out = Rcpp::DataFrame::create(
     Rcpp::Named( "polygon" ) = polygon,
-    Rcpp::Named( "edge_length" ) = edgeLength
+    Rcpp::Named( "edge_length" ) = edgeLength,
+    Rcpp::Named( "stringsAsFactors" ) = false
   );
 
   return out;
