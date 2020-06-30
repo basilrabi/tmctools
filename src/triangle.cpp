@@ -2,16 +2,16 @@
 
 Triangle::Triangle()
 {
-  a = DirVector();
-  b = DirVector();
-  c = DirVector();
+  a = nullptr;
+  b = nullptr;
+  c = nullptr;
 }
 
-Triangle::Triangle( DirVector x, DirVector y, DirVector z )
+Triangle::Triangle( DirVector& x, DirVector& y, DirVector& z )
 {
-  a = x;
-  b = y;
-  c = z;
+  a = &x;
+  b = &y;
+  c = &z;
 }
 
 Triangle& Triangle::operator=( const Triangle& tri )
@@ -22,19 +22,19 @@ Triangle& Triangle::operator=( const Triangle& tri )
 
 double Triangle::lengthA()
 {
-  DirVector distance = b - c;
+  DirVector distance = *b - *c;
   return distance.magnitude();
 }
 
 double Triangle::lengthB()
 {
-  DirVector distance = a - c;
+  DirVector distance = *a - *c;
   return distance.magnitude();
 }
 
 double Triangle::lengthC()
 {
-  DirVector distance = a - b;
+  DirVector distance = *a - *b;
   return distance.magnitude();
 }
 
@@ -55,10 +55,10 @@ std::string Triangle::asText()
 {
   std::string text;
   text = "((" +
-    a.point() + "," +
-    b.point() + "," +
-    c.point() + "," +
-    a.point() + "))";
+    a->point() + "," +
+    b->point() + "," +
+    c->point() + "," +
+    a->point() + "))";
 
   return text;
 }

@@ -9,11 +9,11 @@ class Triangle
 public:
 
   // Vertices of the triangle
-  DirVector a, b, c;
+  DirVector *a, *b, *c;
 
   // Constructor
   Triangle();
-  Triangle( DirVector, DirVector, DirVector );
+  Triangle( DirVector&, DirVector&, DirVector& );
 
   // Desctructor
   ~Triangle(){}
