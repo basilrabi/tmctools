@@ -2,6 +2,7 @@
 
 export(drape)
 export(idAssetGroup)
+export(readDTM)
 importFrom(Rcpp,sourceCpp)
 importFrom(dplyr,left_join)
 importFrom(magrittr,"%>%")

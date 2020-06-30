@@ -92,3 +92,21 @@ idAssetGroup <- function(x) {
     .Call('_tmctools_idAssetGroup', PACKAGE = 'tmctools', x)
 }
 
+#' Read Surpac DTM file
+#'
+#' Reads a valid DTM file. It is assumed that both the DTM and String files
+#'   are present in the same directory and have the same file name. Outputs
+#'   a data.frane with each row representing a triangle of the DTM.
+#'
+#' @param dtmFile file name
+#' @param srid spatial reference identifier
+#' @return a data.frame with the following columns:
+#'   \describe{
+#'     \item{polygon}{polygon in ewkt or wkt format}
+#'     \item{edge_length}{length of the longest edge}
+#'   }
+#' @export
+readDTM <- function(dtmFile, srid = "") {
+    .Call('_tmctools_readDTM', PACKAGE = 'tmctools', dtmFile, srid)
+}
+

@@ -16,9 +16,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// readDTM
+Rcpp::DataFrame readDTM(std::string dtmFile, std::string srid);
+RcppExport SEXP _tmctools_readDTM(SEXP dtmFileSEXP, SEXP sridSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type dtmFile(dtmFileSEXP);
+    Rcpp::traits::input_parameter< std::string >::type srid(sridSEXP);
+    rcpp_result_gen = Rcpp::wrap(readDTM(dtmFile, srid));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_tmctools_idAssetGroup", (DL_FUNC) &_tmctools_idAssetGroup, 1},
+    {"_tmctools_readDTM", (DL_FUNC) &_tmctools_readDTM, 2},
     {NULL, NULL, 0}
 };
 

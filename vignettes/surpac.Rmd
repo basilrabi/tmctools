@@ -1,0 +1,263 @@
+---
+title: "String and DTM Files"
+author: "Surpac Software International Pty Ltd"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{String and DTM Files}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+String Files (.str)
+===================
+
+String files are used to store all coordinate data which is processed by functions which process string data.
+The string files are free format ASCII text files which use commas `,` as delimiters between fields in a record.
+With the exclusion of the 2 header records and the end of file record, each record represents a point.
+
+Since the file is comma delimited free format, the number of spaces between fields is unimportant.
+Spaces only have significance in the text data which may be found in the description fields.
+
+A sample of a string file is shown below with a detailed description of the various aspects of the string following.
+
+```
+smp , 8-Feb-94, ,Sample string file,
+0, 6740.000, 2440.000, 152.541, 6830.000, 2440.000, 152.541
+1, 6749.120, 2443.660, 155.249,
+1, 6747.520, 2440.600, 155.184,
+1, 6746.430, 2431.750, 155.173,
+1, 6747.600, 2428.570, 155.174,
+1, 6751.690, 2421.920, 155.245,
+1, 6755.850, 2420.000, 155.398, point2, second description field, third
+1, 6762.340, 2418.620, 155.593,
+1, 6774.820, 2417.380, 155.708, point3
+1, 6823.880, 2417.740, 155.566,
+1, 6822.650, 2438.580, 156.611,
+1, 6819.250, 2458.520, 157.692,
+1, 6803.570, 2458.810, 156.966,
+1, 6777.960, 2458.670, 156.229, point1
+1, 6771.680, 2457.770, 156.034,
+1, 6765.550, 2455.930, 155.823,
+1, 6759.210, 2452.750, 155.598,
+1, 6753.240, 2448.610, 155.391,
+1, 6749.120, 2443.660, 155.249,
+0, 0.000, 0.000, 0.000,
+2, 6819.250, 2458.520, 157.692,
+2, 6805.610, 2457.260, 156.590,
+2, 6798.670, 2456.670, 155.920,
+2, 6792.240, 2455.950, 155.630,
+2, 6785.940, 2455.220, 155.330,
+2, 6779.900, 2454.760, 154.590,
+2, 6772.950, 2453.290, 153.640,
+2, 6767.390, 2451.950, 153.090,
+2, 6761.960, 2449.300, 152.890,
+2, 6758.680, 2445.580, 152.090,
+2, 6756.050, 2441.950, 151.790,
+2, 6755.430, 2436.100, 151.490,
+2, 6756.080, 2432.440, 151.390,
+2, 6757.690, 2429.180, 151.190,
+2, 6759.260, 2427.460, 150.990,
+0, 0.000, 0.000, 0.000,
+2, 6819.730, 2454.830, 157.580,
+2, 6806.680, 2454.040, 156.580,
+2, 6800.610, 2453.520, 156.290,
+2, 6796.490, 2453.160, 155.930,
+2, 6792.610, 2452.790, 155.620,
+2, 6789.910, 2452.560, 155.330,
+2, 6777.240, 2451.010, 154.090,
+2, 6772.130, 2449.370, 153.290,
+2, 6767.100, 2446.870, 152.890,
+2, 6763.580, 2444.830, 152.490,
+2, 6760.960, 2442.810, 152.090,
+2, 6759.460, 2439.610, 151.730,
+2, 6759.180, 2436.730, 151.490,
+2, 6759.620, 2434.500, 151.390,
+2, 6760.900, 2432.110, 151.200,
+0, 0.000, 0.000, 0.000,
+93, 6747.600, 2428.570, 155.174,
+93, 6755.430, 2436.100, 151.490,
+93, 6747.520, 2440.600, 155.184,
+0, 0.000, 0.000, 0.000,
+0, 0.000, 0.000, 0.000, END
+```
+
+Header record
+-------------
+
+The header record of the string file contains four fields as described below:
+
+```
+smp , 8-Feb-94, ,Sample string file,
+```
+
+| Field | Description |
+| ----- | ----------- |
+| Location | Contains the location of the file. This field does not necessarily have to contain any data. If it is blank it will have no impact on processing the string file. |
+| Date | Contains the date on which the file was last modified. This field does not necessarily have to contain any data. If it is blank it will have no impact on processing the string file. |
+| Purpose | Contains a description of the contents of the file. This field is often modified by various string file processing functions to indicate the functions which have been applied to the file. The field does not necessarily have to contain any data. If it is blank it will have no impact on processing the string file. |
+| Memo file | This field is not used at present. |
+
+Axis Record
+-----------
+
+This is used to store the coordinates of each end of a line which is commonly referred to as the axis line.
+This line is used by some functions when extracting sections through a sting file.
+
+```
+0, 6740.000, 2440.000, 152.541, 6830.000, 2440.000, 152.541
+string, y1, x1, z1, y2, x2, z2
+```
+
+| Field  | Description                                   |
+| ------ | --------------------------------------------- |
+| string | Always zero for the axis record               |
+| y1     | Y coordinate for the start of the axis record |
+| x1     | X coordinate for the start of the axis record |
+| z1     | Z coordinate for the start of the axis record |
+| y2     | Y coordinate for the end of the axis record   |
+| x2     | X coordinate for the end of the axis record   |
+| z2     | Z coordinate for the end of the axis record   |
+
+String record
+-------------
+
+The majority of records in a string file are string records.
+The string record contains the string number, the coordinates of the point and up to 100 point attributes commonly referred to as the description fields and usually referred to as D1, D2, D3 etc.
+Each individual description field may be 32 characters long and the total of all the description fields, including commas may be 512 characters long.
+
+```
+1, 6755.850, 2420.000, 155.398, point2, second description field,third
+string, y, x, z, d1, d2, d3, ...
+```
+
+| Field  | Description                                             |
+| ------ | ------------------------------------------------------- |
+| string | The string number. Any valid number between 1 and 32000 |
+| Y      | Y coordinate of the point                               |
+| X      | X coordinate of the point                               |
+| Z      | Z coordinate of the point                               |
+| D1     | The first point description field                       |
+| D2     | The second point description field                      |
+| D3     | The third point description field                       |
+| ⋮           | ⋮                                                                                                             |
+| D100   | The one hundredth point description field               |
+
+Null record, End of file record
+-------------------------------
+
+The null record is similar to a string record but its distinguishing feature is that the string number is always zero. 
+The null record is used to indicate either the end of a segment or the end of a string.
+
+The end of file record is similar to the null record with the exception that `END` is in the description field.
+No data will be read from the file after the end of file record.
+
+```
+0, 0.000, 0.000, 0.000,     <--- null record
+0, 0.000, 0.000, 0.000, END <--- end of file record
+```
+
+Digital Terrain Model File (.dtm)
+=================================
+
+The data stored in a DTM file generally represents either a surface, *i.e.* topography, or a 3 dimensional model such as an orebody or geological structure.
+The DTM file defines the connections between points which exist in a string file.
+The connections define triangular faces which can represent the features described previously.
+
+The `.dtm` file by itself is of no use.
+It must have a corresponding string file in which the coordinates of the points are defined.
+Below are a string file and a DTM file which together describe an extremely simple model.
+The pertinent features of each are also described.
+The files are `box1.str` and `box1.dtm`.
+
+The DTM file references the string file in two ways.
+
+```
+box ,23-Feb-94, ,
+0, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000
+1, 0.000, 0.000, 0.000,
+1, 100.000, 0.000, 0.000,
+1, 100.000, 100.000, 0.000,
+1, 0.000, 100.000, 0.000,
+1, 0.000, 0.000, 0.000,
+0, 0.000, 0.000, 0.000,
+2, 0.000, 0.000, 100.000,
+2, 100.000, 0.000, 100.000,
+2, 100.000, 100.000, 100.000,
+2, 0.000, 100.000, 100.000,
+2, 0.000, 0.000, 100.000,
+0, 0.000, 0.000, 0.000,
+0, 0.000, 0.000, 0.000, END
+```
+
+The first place the string file is referenced is in the header record.
+This tells the system the name of the string file to use when a DTM file is processed.
+
+The second place in which the string file is referenced are the point numbers which define the triangles of the DTM.
+
+```
+box1.str,0680000000;algorithm=standard;fields=x,y
+0, 0.000, 0.000, 0.000, END
+OBJECT, 1,
+TRISOLATION, 1, neighbours=yes,closed=yes,direction=solid
+1, 1, 8, 7, 2, 11, 8,
+2, 1, 2, 8, 9, 3, 1,
+3, 2, 9, 8, 4, 12, 2,
+4, 2, 3, 9, 10, 5, 3,
+5, 3, 4, 9, 10, 6, 4,
+6, 4, 10, 9, 7, 12, 5,
+7, 4, 1, 10, 9, 8, 6,
+8, 1, 7, 10, 1, 11, 7,
+9, 2, 1, 4, 2, 7, 10,
+10, 2, 4, 3, 9, 5, 4,
+11, 10, 7, 8, 8, 1, 12,
+12, 9, 10, 8, 6, 11, 3,
+END
+```
+
+The DTM file consists of a number of distinct parts, some of which must exist and some of which are optional.
+These are described below.
+
+DTM file header record
+----------------------
+
+The DTM file header record consists of a number of fields only one of which must exist.
+
+```
+box1.str,0680000000;algorithm=standard;fields=x,y
+string file, checksum
+```
+
+| Field | Description |
+| ----- | ----------- |
+| string file | The name of the string file to which is required by the DTM to obtain the coordinates of the triangle vertices. If the string file does not exist then the DTM file is useless. |
+| checksum | The checksum field consists of a number of parts. The checksum is used as a method of ensuring the validity of the string file DTM file relationship. If for example a DTM is created and then some time later some points are removed or changed in the string file then the DTM file is no longer valid. The checksum provides a method to ensure that if this circumstance occurs then a warning message will be displayed and the DTM file will not be processed. <br> <br> The checksum need not be present and if you intend to import DTM data from some other source using your own data conversion program then you should not include the checksum. <br> <br> The checksum value `0680000000` is computed from the coordinates which are stored in the string file at the time the string file is saved. During later processing, the checksum value is recomputed and compared to the value from the DTM file header record. If a difference is found then the string file is considered to be inconsistent with the DTM file and processing cannot continue. <br> <br> The checksum algorithm `algorithm=standard` defines the method to be used for computing the checksum algorithm. At present `standard` is the only permissible value. <br> <br> The checksum fields `fields=x,y` define the fields of the string file which will be used in the computation of the checksum value. |
+
+
+Object and trisolation records
+------------------------------
+
+These records define the identifiers which are used to refer to the DTM/Solid models contained in the DTM file.
+The records consist of the keyword, either `OBJECT` or `TRISOLATION` (both of which must exist), the object/trisolation number and a description field which may contain a number of optional values identified using a `name=value` construct.
+
+These optional values are assigned by various processing modules and if you plan to convert data from some other source to a DTM file then leave the optional data blank.
+
+Triangle record
+---------------
+
+The triangle record defines the points from the string file which are used to create the triangles.
+The relationship between the two files in this respect is very simple.
+Just start at the first point in the file, point 1, and for each point in the file add one to obtain the point number. 
+You must **include the null points** in this numbering scheme.
+
+| Field | Description |
+| ----- | ----------- |
+| triangle | The triangle number. Note that triangle numbers always start at one in each trisolation. |
+| vertex1 <br> vertex2 <br> vertex3 | The point numbers (from the string file) which form the 3 vertices of the triangle. |
+| neighbour1 <br> neighbour2 <br> neighbour3 | The triangle numbers in the trisolation which are neighbours of this triangle. If a triangle has no neighbour on a side then the value of the neighbouring triangle is zero. There is a special relationship between the triangle vertices and the triangle neighbours, see below. |
+
+`neighbour1` is the triangle number opposite `vertex3`
+
+`neighbour2` is the triangle number opposite `vertex1`
+
+`neighbour3` is the triangle number opposite `vertex 2`
