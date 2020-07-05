@@ -1,3 +1,5 @@
+#include <math.h>
+#include <string>
 #include "dirVector.h"
 
 DirVector::DirVector() { i = 0; j = 0;  k = 0; }

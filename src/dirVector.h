@@ -1,9 +1,6 @@
 #ifndef DIRVECTOR_H
 #define DIRVECTOR_H
 
-#include <math.h>
-#include <string>
-
 // A 3-dimensional vector which may be used to also represent a 3-dimensional
 // point
 class DirVector

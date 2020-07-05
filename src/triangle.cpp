@@ -1,3 +1,4 @@
+#include <string>
 #include "triangle.h"
 
 Triangle::Triangle()
