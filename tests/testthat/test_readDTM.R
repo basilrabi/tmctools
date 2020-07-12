@@ -1,11 +1,8 @@
 library(tmctools)
 
-str <- system.file("testdata", "box.str", package = "tmctools")
-dtm <- system.file("testdata", "box.dtm", package = "tmctools")
-file.copy(str, "test.str")
-file.copy(dtm, "test.dtm")
-testDF <- readDTM("test.dtm")
-testEWKT <- readDTM("test.dtm", srid = "3125")
+dtm_fle <- system.file("testdata", "box.dtm", package = "tmctools")
+testDF <- readDTM(dtm_fle)
+testEWKT <- readDTM(dtm_fle, srid = "3125")
 
 test_that("readDTM works", {
   expect_equal(round(testDF$edge_length, digits = 2), rep(141.42, times = 12))
@@ -42,5 +39,21 @@ test_that("readDTM works", {
   )
 })
 
-file.remove("test.str", "test.dtm")
+dtm_fle <- system.file("testdata", "eng.dtm", package = "tmctools")
+testDF <- readDTM(dtm_fle)
+testEWKT <- readDTM(dtm_fle, srid = "3125")
+
+test_that("readDTM works", {
+  expect_equal(round(testDF$edge_length, digits = 2), 381.39)
+  expect_equal(
+    testDF$polygon,
+    "POLYGON Z ((586904.927000 1054364.450000 19.778000,586638.644000 1054111.659000 24.311000,586641.856000 1054088.365000 24.919000,586904.927000 1054364.450000 19.778000))"
+  )
+  expect_equal(round(testEWKT$edge_length, digits = 2), 381.39)
+  expect_equal(
+    testEWKT$polygon,
+    "SRID=3125;POLYGON((586904.927000 1054364.450000 19.778000,586638.644000 1054111.659000 24.311000,586641.856000 1054088.365000 24.919000,586904.927000 1054364.450000 19.778000))"
+  )
+})
+
 rm(list = ls())

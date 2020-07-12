@@ -1,0 +1,6 @@
+box1.str,0680000000;algorithm=standard;fields=x,y
+0, 0.000, 0.000, 0.000, END
+OBJECT, 1,
+TRISOLATION, 1, neighbours=yes,closed=yes,direction=solid
+1, 1, 2, 3, 0, 0, 0,
+END
