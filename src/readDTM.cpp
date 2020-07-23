@@ -3,14 +3,8 @@
 #include <regex>
 #include <sstream>
 #include <vector>
-#include "dirVector.h"
 #include "triangle.h"
-
-bool fileExists( const std::string& name )
-{
-  std::ifstream file( name.c_str() );
-  return file.good();
-}
+#include "utils.h"
 
 //' Read Surpac DTM file
 //'
@@ -29,11 +23,7 @@ bool fileExists( const std::string& name )
 // [[Rcpp::export]]
 Rcpp::DataFrame readDTM( std::string dtmFile, std::string srid = "" )
 {
-  DirVector point;
   Triangle triangle;
-  bool hasReadAxisRecord = false;
-  double x, y, z;
-  std::regex pointPattern( "^\\d+\\s*,\\s*(\\d+\\.?\\d*)\\s*,\\s*(\\d+\\.?\\d*)\\s*,\\s*(-?\\d+\\.?\\d*).*\\s*" );
   std::regex trianglePattern( "^\\d+\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*\\d+\\s*,\\s*\\d+\\s*,\\s*\\d+.*\\s*" );
   std::smatch capturedPoint;
   std::string str;
@@ -45,33 +35,7 @@ Rcpp::DataFrame readDTM( std::string dtmFile, std::string srid = "" )
     Rcpp::stop( dtmFile + " does not exist!" );
 
   std::string stringFile = dtmFile.substr( 0, dtmFile.size() - 3 ) + "str";
-
-  if ( !fileExists( stringFile ) )
-    Rcpp::stop( stringFile + " does not exist!" );
-
-  Rcpp::Rcout << "Reading string file...\n";
-  std::ifstream fileString( stringFile );
-  while ( std::getline( fileString, str ) )
-  {
-    if ( std::regex_match( str, capturedPoint, pointPattern ) )
-    {
-      if ( hasReadAxisRecord )
-      {
-        std::stringstream xx( capturedPoint.str( 2 ) );
-        std::stringstream yy( capturedPoint.str( 1 ) );
-        std::stringstream zz( capturedPoint.str( 3 ) );
-        xx >> x;
-        yy >> y;
-        zz >> z;
-        point = DirVector( x, y, z );
-        points.push_back( point );
-      }
-      else
-      {
-        hasReadAxisRecord = true;
-      }
-    }
-  }
+  points = readSTR( stringFile );
 
   Rcpp::Rcout << "Reading dtm file...\n";
   i = 0;
