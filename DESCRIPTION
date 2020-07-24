@@ -2,7 +2,7 @@ Package: tmctools
 Type: Package
 Title: Various Tools for TMC
 Version: 0.1.0.9000
-Date: 2020-07-12
+Date: 2020-07-24
 Authors@R: c(
   person("Basil Eric", "Rabi",
   email = "basil.rabi@tmc.nickelasia.com",
@@ -17,7 +17,9 @@ Imports:
   Rcpp     (>= 1.0.4.6),
   sf       (>= 0.9-4)
 Suggests:
+  DBI        (>= 1.0.0),
   knitr      (>= 1.29),
+  RPostgres  (>= 1.2.0),
   rstudioapi (>= 0.11),
   testthat   (>= 2.3.2)
 RoxygenNote: 7.1.1

@@ -1,1 +1,2 @@
+PKG_LIBS = -lpqxx -lpq
 CXX_STD = CXX17
