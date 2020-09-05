@@ -24,6 +24,9 @@ public:
   // The length of the longest edge
   double longestEdge();
 
+  // Angle between the z-axis and the polygon normal in radians
+  double slopeAngle();
+
   // Output triangle in extended well-known text
   std::string ewkt( const std::string& srid );
 

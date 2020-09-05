@@ -1,4 +1,6 @@
+#include <cmath>
 #include <string>
+#include "dirVector.h"
 #include "triangle.h"
 
 Triangle::Triangle()
@@ -50,6 +52,18 @@ double Triangle::longestEdge()
     length = lengthC();
 
   return length;
+}
+
+double Triangle::slopeAngle()
+{
+  DirVector sideA = *b - *a;
+  DirVector sideB = *c - *a;
+  DirVector normal = sideA * sideB;
+  DirVector z ( 0, 0, 1 );
+  double angle = angle_between( z, normal );
+  if ( angle > M_PI_2 )
+    angle = M_PI - angle;
+  return angle;
 }
 
 std::string Triangle::asText()
