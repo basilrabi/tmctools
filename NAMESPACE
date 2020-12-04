@@ -3,6 +3,7 @@
 export(drape)
 export(idAssetGroup)
 export(readDTM)
+export(readPlyText)
 export(writeDTM)
 importFrom(Rcpp,sourceCpp)
 importFrom(dplyr,left_join)

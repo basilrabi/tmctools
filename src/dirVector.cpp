@@ -1,4 +1,6 @@
+#include <iomanip>
 #include <math.h>
+#include <sstream>
 #include <string>
 #include "dirVector.h"
 
@@ -33,9 +35,11 @@ double DirVector::magnitude()
 
 std::string DirVector::point()
 {
-  return ( std::to_string( i ) + " "
-             + std::to_string( j ) + " "
-             + std::to_string( k ) );
+  std::stringstream ii, jj, kk;
+  ii << std::fixed << std::setprecision( 3 ) << i;
+  jj << std::fixed << std::setprecision( 3 ) << j;
+  kk << std::fixed << std::setprecision( 3 ) << k;
+  return ( ii.str() + " " + jj.str() + " " + kk.str() );
 }
 
 // Dot product of two vectors

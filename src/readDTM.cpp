@@ -1,5 +1,3 @@
-#include <Rcpp.h>
-#include <vector>
 #include "utils.h"
 
 //' Read Surpac DTM file
@@ -29,30 +27,7 @@ Rcpp::DataFrame readDTM( std::string dtmFile, std::string srid = "" )
   std::string stringFile = dtmFile.substr( 0, dtmFile.size() - 3 ) + "str";
   points = readSTR( stringFile );
   triangles = pointToTri( points, dtmFile );
-  Rcpp::StringVector polygon ( triangles.size() );
-  Rcpp::NumericVector edgeLength ( triangles.size() );
-  Rcpp::NumericVector slopeAngle ( triangles.size() );
-
-  for ( unsigned int i = 0; i < triangles.size(); i++ )
-  {
-    // Check every n-lines for user interruption.
-    if ( i % 1000 == 0 )
-      Rcpp::checkUserInterrupt();
-
-    if ( srid != "" )
-      polygon[i] = triangles[i].ewkt( srid );
-    else
-      polygon[i] = triangles[i].wkt();
-    edgeLength[i] = triangles[i].longestEdge();
-    slopeAngle[i] = triangles[i].slopeAngle();
-  }
-
-  Rcpp::DataFrame out = Rcpp::DataFrame::create(
-    Rcpp::Named( "polygon" ) = polygon,
-    Rcpp::Named( "edge_length" ) = edgeLength,
-    Rcpp::Named( "slope_angle" ) = slopeAngle,
-    Rcpp::Named( "stringsAsFactors" ) = false
-  );
+  Rcpp::DataFrame out = triangleToDataFrame( triangles, srid );
 
   return out;
 }
