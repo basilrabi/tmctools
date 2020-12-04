@@ -15,7 +15,7 @@
 //'   }
 //' @export
 // [[Rcpp::export]]
-Rcpp::DataFrame readPlyText( std::string plyFile )
+Rcpp::DataFrame readPlyText( const std::string& plyFile )
 {
   DirVector point;
   Triangle triangle;
@@ -35,7 +35,6 @@ Rcpp::DataFrame readPlyText( std::string plyFile )
   std::ifstream fileString( plyFile );
   while ( std::getline( fileString, str ) )
   {
-    Rcpp::Rcout << str << "\n";
     if ( std::regex_match( str, capturedPoint, pointPattern ) )
     {
       std::stringstream xx( capturedPoint.str( 1 ) );

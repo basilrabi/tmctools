@@ -29,13 +29,24 @@ BEGIN_RCPP
 END_RCPP
 }
 // readPlyText
-Rcpp::DataFrame readPlyText(std::string plyFile);
+Rcpp::DataFrame readPlyText(const std::string& plyFile);
 RcppExport SEXP _tmctools_readPlyText(SEXP plyFileSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type plyFile(plyFileSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type plyFile(plyFileSEXP);
     rcpp_result_gen = Rcpp::wrap(readPlyText(plyFile));
+    return rcpp_result_gen;
+END_RCPP
+}
+// readPlyVTK
+int readPlyVTK(const std::string& plyFile);
+RcppExport SEXP _tmctools_readPlyVTK(SEXP plyFileSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type plyFile(plyFileSEXP);
+    rcpp_result_gen = Rcpp::wrap(readPlyVTK(plyFile));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -62,6 +73,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tmctools_idAssetGroup", (DL_FUNC) &_tmctools_idAssetGroup, 1},
     {"_tmctools_readDTM", (DL_FUNC) &_tmctools_readDTM, 2},
     {"_tmctools_readPlyText", (DL_FUNC) &_tmctools_readPlyText, 1},
+    {"_tmctools_readPlyVTK", (DL_FUNC) &_tmctools_readPlyVTK, 1},
     {"_tmctools_writeDTM", (DL_FUNC) &_tmctools_writeDTM, 8},
     {NULL, NULL, 0}
 };

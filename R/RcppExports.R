@@ -133,6 +133,10 @@ readPlyText <- function(plyFile) {
     .Call('_tmctools_readPlyText', PACKAGE = 'tmctools', plyFile)
 }
 
+readPlyVTK <- function(plyFile) {
+    .Call('_tmctools_readPlyVTK', PACKAGE = 'tmctools', plyFile)
+}
+
 #' Write Surpac DTM file
 #'
 #' Reads a valid DTM file and writes it into PostGIS. It is assumed that the

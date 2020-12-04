@@ -1,2 +1,2 @@
-PKG_LIBS = -lpqxx -lpq
+PKG_LIBS = -lpqxx -lpq -lvtkCommonCore -lvtkCommonDataModel -lvtkFiltersCore -lvtkFiltersSources -lvtkIOPLY
 CXX_STD = CXX17
