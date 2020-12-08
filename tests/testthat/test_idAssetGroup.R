@@ -100,6 +100,7 @@ test_that("idAssetGroup() works", {
   expect_equal(idAssetGroup("WTL 96")              , "WTL")
   expect_equal(idAssetGroup("WLT 96")              , "WTL")
   expect_equal(idAssetGroup("WX 96")               , "WX")
+  expect_equal(idAssetGroup("YBBM 28")             , "YBM")
   expect_equal(idAssetGroup("YBM 96")              , "YBM")
   expect_equal(idAssetGroup("ASSAY CRUSHER")       , "ZZZ")
   expect_equal(idAssetGroup("BADMINTON")           , "ZZZ")

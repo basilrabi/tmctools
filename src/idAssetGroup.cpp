@@ -473,7 +473,7 @@ StringVector idAssetGroup( StringVector x )
       equip[i] = "WX";
 
     else if ( b == glc_YBM ||
-              std::regex_match( testChar, std::regex( ".*YBM.*" ) ) )
+              std::regex_match( testChar, std::regex( ".*YBB?M.*" ) ) )
       equip[i] = "YBM";
 
     else if ( std::regex_match( testChar, std::regex( ".*VOLVO\\s*DT.*" ) ) )
