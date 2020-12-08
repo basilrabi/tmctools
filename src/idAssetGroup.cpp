@@ -96,7 +96,10 @@ bool isSubset( std::string x, std::string y )
 //'   \item Contractors
 //'     \describe{
 //'     \item{4K}{4K Development Corporation}
+//'     \item{CKDI}{Cagdianao Konstruct Development Incorporated}
 //'     \item{HPK}{HPK Construction}
+//'     \item{MIZPEH}{}
+//'     \item{MTEL}{}
 //'     \item{NBI}{Nickelbase Incorporated}
 //'     \item{PACE}{PrinceAce Corporation}
 //'     \item{POLARIS}{Polaris Construction & General Services}
@@ -108,6 +111,7 @@ bool isSubset( std::string x, std::string y )
 //'     }
 //'   \item Equipment
 //'     \describe{
+//'     \item{AC}{air compressor}
 //'     \item{ADT}{articulated dump truck}
 //'     \item{ATV}{all-terrain vehicle}
 //'     \item{CM}{concrete mixer}
@@ -122,6 +126,7 @@ bool isSubset( std::string x, std::string y )
 //'     \item{GS}{power generator set}
 //'     \item{GT}{garbage truck}
 //'     \item{HDT}{HOWO dump truck}
+//'     \item{LCT}{landing craft tank}
 //'     \item{LM}{lawn mower}
 //'     \item{MC}{motorcycle}
 //'     \item{MDT}{mini dump truck}
@@ -161,6 +166,7 @@ bool isSubset( std::string x, std::string y )
 //'     \describe{
 //'     \item{LGU}{local government unit}
 //'     \item{MKTG}{marketing}
+//'     \item{NCIP}{National Commission on Indigenous Peoples}
 //'     \item{SECURITY}{}
 //'     }
 //'   \item Unknown
@@ -182,6 +188,7 @@ StringVector idAssetGroup( StringVector x )
   std::string testChar;
 
   // declare getLetterCount constants to avoid repeating in the loop
+  String glc_AC        = getLetterCount( "AC" );
   String glc_ADT       = getLetterCount( "ADT" );
   String glc_ATV       = getLetterCount( "ATV" );
   String glc_MC        = getLetterCount( "CM" );
@@ -255,6 +262,9 @@ StringVector idAssetGroup( StringVector x )
     else if ( std::regex_match( testChar, std::regex( ".*4K.*" ) ) )
       equip[i] = "4K";
 
+    else if ( b == glc_AC )
+      equip[i] = "AC";
+
     else if ( std::regex_match( testChar, std::regex( ".*PACE.*" ) ) ||
               std::regex_match( testChar, std::regex( ".*PRI?N?CE *ACE.*" ) ) )
       equip[i] = "PACE";
@@ -269,8 +279,14 @@ StringVector idAssetGroup( StringVector x )
     else if ( std::regex_match( testChar, std::regex( "(^|(.*\\s+))ADMIN.*" ) ) )
       equip[i] = "ADMIN";
 
+    else if ( std::regex_match( testChar, std::regex( ".*NCIP.*" ) ) )
+      equip[i] = "NCIP";
+
     else if ( std::regex_match( testChar, std::regex( ".*CIK?P.*" ) ) )
       equip[i] = "CIP";
+
+    else if ( std::regex_match( testChar, std::regex( "^\\s*CKDI.*" ) ) )
+      equip[i] = "CKDI";
 
     else if ( b == glc_MC )
     {
@@ -335,6 +351,9 @@ StringVector idAssetGroup( StringVector x )
     else if ( std::regex_match( testChar, std::regex( ".*HPK.*" ) ) )
       equip[i] = "HPK";
 
+    else if ( std::regex_match( testChar, std::regex( "^\\s*LCT.*" ) ) )
+      equip[i] = "LCT";
+
     else if ( b == glc_LM )
     {
 
@@ -351,6 +370,9 @@ StringVector idAssetGroup( StringVector x )
     else if ( std::regex_match( testChar, std::regex( ".*MANLIFT.*" ) ) )
       equip[i] = "ML";
 
+    else if ( std::regex_match( testChar, std::regex( ".*MIZPEH.*" ) ) )
+      equip[i] = "MIZPEH";
+
     else if ( b == glc_MDT ||
               std::regex_match( testChar, std::regex( ".*MD+T\\b.*" ) ) )
       equip[i] = "MDT";
@@ -360,13 +382,17 @@ StringVector idAssetGroup( StringVector x )
       equip[i] = "MKTG";
 
     else if ( std::regex_match( testChar, std::regex( "^CRUSHER.*" ) ) ||
-              std::regex_match( testChar, std::regex( "^M.*CRU?SHE?E?R.*" ) ) )
+              std::regex_match( testChar, std::regex( "^M.*CRU?SHE?E?R.*" ) ) ||
+              std::regex_match( testChar, std::regex( ".*MOBILE\\s*CRUSH?ER.*" ) ) )
       equip[i] = "MOC";
 
     else if ( std::regex_match( testChar, std::regex( ".*SCREE?N(E|I)?R?.*" ) ) ||
               ( b == glc_MOS1 ) ||
               ( b == glc_MOS2 ) )
       equip[i] = "MOS";
+
+    else if ( std::regex_match( testChar, std::regex( ".*MTEL.*" ) ) )
+      equip[i] = "MTEL";
 
     else if ( b == glc_MT ||
               std::regex_match( testChar, std::regex( "^MT\\s*\\d+.*" ) ) )

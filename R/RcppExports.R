@@ -12,7 +12,10 @@
 #'   \item Contractors
 #'     \describe{
 #'     \item{4K}{4K Development Corporation}
+#'     \item{CKDI}{Cagdianao Konstruct Development Incorporated}
 #'     \item{HPK}{HPK Construction}
+#'     \item{MIZPEH}{}
+#'     \item{MTEL}{}
 #'     \item{NBI}{Nickelbase Incorporated}
 #'     \item{PACE}{PrinceAce Corporation}
 #'     \item{POLARIS}{Polaris Construction & General Services}
@@ -24,6 +27,7 @@
 #'     }
 #'   \item Equipment
 #'     \describe{
+#'     \item{AC}{air compressor}
 #'     \item{ADT}{articulated dump truck}
 #'     \item{ATV}{all-terrain vehicle}
 #'     \item{CM}{concrete mixer}
@@ -38,6 +42,7 @@
 #'     \item{GS}{power generator set}
 #'     \item{GT}{garbage truck}
 #'     \item{HDT}{HOWO dump truck}
+#'     \item{LCT}{landing craft tank}
 #'     \item{LM}{lawn mower}
 #'     \item{MC}{motorcycle}
 #'     \item{MDT}{mini dump truck}
@@ -77,6 +82,7 @@
 #'     \describe{
 #'     \item{LGU}{local government unit}
 #'     \item{MKTG}{marketing}
+#'     \item{NCIP}{National Commission on Indigenous Peoples}
 #'     \item{SECURITY}{}
 #'     }
 #'   \item Unknown
