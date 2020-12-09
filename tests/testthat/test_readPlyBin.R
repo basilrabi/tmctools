@@ -1,7 +1,9 @@
 library(tmctools)
 
 ply <- system.file("testdata", "tribin.ply", package = "tmctools")
-testDF <- readPlyBin(ply)
+newFile <- "t e s t.ply"
+file.copy(ply, newFile)
+testDF <- readPlyBin(newFile)
 
 test_that("readPlyBin works", {
   expect_equal(round(testDF$edge_length[1:3], digits = 3),
@@ -13,4 +15,5 @@ test_that("readPlyBin works", {
       "POLYGON Z ((587054.683 1052862.375 317.396,587053.027 1052864.014 317.608,587053.804 1052864.897 317.748,587054.683 1052862.375 317.396))")
   )
 })
+file.remove(newFile)
 rm(list = ls())

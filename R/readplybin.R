@@ -13,8 +13,8 @@ plyBinToText <- function(inPly, outPly= "text.ply") {
     warning(outPly, "exists and will be renamed.")
     file.rename(outPly, paste0(outPly, "_old"))
   }
-  system(paste("pdal translate -i", inPly,
-               "-o pdal.ply --writers.ply.precision=3"))
+  system(paste0("pdal translate -i \"", inPly,
+                "\" -o pdal.ply --writers.ply.precision=3"))
   nPoints <- readPlyVTK(inPly)
   system(paste("tail -n", nPoints, "pdal.ply >> text.ply"))
   system("cat vtk.ply >> text.ply")
