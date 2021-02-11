@@ -1,11 +1,11 @@
-#include <iomanip>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <sstream>
 #include <vtk/vtkPLYReader.h>
 #include <vtk/vtkPolyData.h>
 #include <vtk/vtkSmartPointer.h>
 #include <vtk/vtkTriangleFilter.h>
+#include "utils.h"
 
 // Reads face data of PLY file and writes into text and returns the number of
 // vertices.
@@ -31,18 +31,7 @@ int readPlyVTK( const std::string& plyFile )
     ply << "\n";
   }
   ply.close();
-  ply.open( "text.ply" );
-  ply << "ply\n"
-      << "format ascii 1.0\n"
-      << "comment TMC generated PLY File\n"
-      << "element vertex " << mesh->GetNumberOfPoints() << "\n"
-      << "property double x\n"
-      << "property double y\n"
-      << "property double z\n"
-      << "element face " << mesh->GetNumberOfCells() << "\n"
-      << "property list uchar int vertex_indices\n"
-      << "end_header\n";
-  ply.close();
+  writePlyHeader( "text.ply", mesh->GetNumberOfPoints(), mesh->GetNumberOfCells() );
   return mesh->GetNumberOfPoints();
 }
 

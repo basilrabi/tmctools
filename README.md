@@ -3,8 +3,9 @@ tmctools
 
 Miscellaneous tools for processing data in Taganito Mine
 
-## Build requirements
+## Build and run-time requirements
 
-- libpqxx-devel
 - PDAL
+- libpqxx-devel
+- postgresql
 - vtk-devel

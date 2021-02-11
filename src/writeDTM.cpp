@@ -47,8 +47,7 @@ int writeDTM( std::string dtmFile,
               std::string port = "5432",
               std::string srid = "3125" )
 {
-  std::string connectionParameters = "postgresql://" +
-    user + "@" + hostname + ":" + port + "/" + dbname + "?application_name=tmctools";
+  std::string connectionParameters = "postgresql://" + user + "@" + hostname + ":" + port + "/" + dbname + "?application_name=tmctools";
   std::string sql;
   std::vector<DirVector> points;
   std::vector<Triangle> triangles;

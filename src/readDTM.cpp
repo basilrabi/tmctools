@@ -4,7 +4,7 @@
 //'
 //' Reads a valid DTM file. It is assumed that both the DTM and String files
 //'   are present in the same directory and have the same file name. Outputs
-//'   a data.frane with each row representing a triangle of the DTM.
+//'   a data.frame with each row representing a triangle of the DTM.
 //'
 //' @param dtmFile file name
 //' @param srid spatial reference identifier

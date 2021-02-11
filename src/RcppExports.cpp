@@ -5,6 +5,23 @@
 
 using namespace Rcpp;
 
+// exportPly
+Rcpp::String exportPly(const std::string& user, const std::string& hostname, const std::string& dbname, const std::string& schema, const std::string& tableName, const std::string& srid, const std::string& port);
+RcppExport SEXP _tmctools_exportPly(SEXP userSEXP, SEXP hostnameSEXP, SEXP dbnameSEXP, SEXP schemaSEXP, SEXP tableNameSEXP, SEXP sridSEXP, SEXP portSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type user(userSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type hostname(hostnameSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type dbname(dbnameSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type schema(schemaSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type tableName(tableNameSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type srid(sridSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type port(portSEXP);
+    rcpp_result_gen = Rcpp::wrap(exportPly(user, hostname, dbname, schema, tableName, srid, port));
+    return rcpp_result_gen;
+END_RCPP
+}
 // idAssetGroup
 StringVector idAssetGroup(StringVector x);
 RcppExport SEXP _tmctools_idAssetGroup(SEXP xSEXP) {
@@ -70,6 +87,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_tmctools_exportPly", (DL_FUNC) &_tmctools_exportPly, 7},
     {"_tmctools_idAssetGroup", (DL_FUNC) &_tmctools_idAssetGroup, 1},
     {"_tmctools_readDTM", (DL_FUNC) &_tmctools_readDTM, 2},
     {"_tmctools_readPlyText", (DL_FUNC) &_tmctools_readPlyText, 1},
