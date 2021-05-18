@@ -6,10 +6,12 @@
 #include "triangle.h"
 #include "utils.h"
 
-struct float3 { float x, y, z; };
+struct float1 { float x, y, z; };
+struct float2 { double x, y, z; };
 struct int1 { int16_t x, y, z; };
 struct int2 { uint16_t x, y, z; };
 struct int3 { int32_t x, y, z; };
+struct int4 { uint32_t x, y, z; };
 
 //' Translate Binary PLY File
 //'
@@ -80,7 +82,10 @@ void plyBinToText( const std::string& inPly,
   }
   else if ( faces->t == tinyply::Type::UINT32 )
   {
-    std::memcpy( triangle.data(), faces->buffer.get(), numFacesBytes );
+    std::vector<int4> faces4( faces->count );
+    std::memcpy( faces4.data(), faces->buffer.get(), numFacesBytes );
+    for ( i = 0; i < faces->count; i++ )
+      triangle[i] = TriangleIndex( faces4[i].x, faces4[i].y, faces4[i].z );
   }
   else
   {
@@ -92,14 +97,17 @@ void plyBinToText( const std::string& inPly,
   std::vector<DirVector> corners( vertices->count );
   if ( vertices->t == tinyply::Type::FLOAT32 )
   {
-    std::vector<float3> verts( vertices->count );
-    std::memcpy( verts.data(), vertices->buffer.get(), numVerticesBytes );
+    std::vector<float1> verts1( vertices->count );
+    std::memcpy( verts1.data(), vertices->buffer.get(), numVerticesBytes );
     for ( i = 0; i < vertices->count; i++ )
-      corners[i] = DirVector( verts[i].x, verts[i].y, verts[i].z );
+      corners[i] = DirVector( verts1[i].x, verts1[i].y, verts1[i].z );
   }
   else if ( vertices->t == tinyply::Type::FLOAT64 )
   {
-    std::memcpy( corners.data(), vertices->buffer.get(), numVerticesBytes );
+    std::vector<float2> verts2( vertices->count );
+    std::memcpy( verts2.data(), vertices->buffer.get(), numVerticesBytes );
+    for ( i = 0; i < vertices->count; i++ )
+      corners[i] = DirVector( verts2[i].x, verts2[i].y, verts2[i].z );
   }
   else
   {
