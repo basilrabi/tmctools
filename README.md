@@ -5,7 +5,6 @@ Miscellaneous tools for processing data in Taganito Mine
 
 ## Build and run-time requirements
 
-- PDAL
+- gcc >= 11.1.1
 - libpqxx-devel
 - postgresql
-- vtk-devel

@@ -134,7 +134,7 @@ std::string TriangleIndex::asPlyText() const
   return text;
 }
 
-std::string TriangleIndex::asText( std::vector<DirVector> points ) const
+std::string TriangleIndex::asText( const std::vector<DirVector>& points ) const
 {
   std::string text;
 
@@ -150,7 +150,7 @@ std::string TriangleIndex::asText( std::vector<DirVector> points ) const
   return text;
 }
 
-std::string TriangleIndex::wkt( std::vector<DirVector> points ) const
+std::string TriangleIndex::wkt( const std::vector<DirVector>& points ) const
 {
   std::string text;
 

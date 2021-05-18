@@ -75,10 +75,10 @@ public:
   std::string asPlyText() const;
 
   // Output triangle in text
-  std::string asText( std::vector<DirVector> points ) const;
+  std::string asText( const std::vector<DirVector>& points ) const;
 
   // Output triangle in well-known text
-  std::string wkt( std::vector<DirVector> points ) const;
+  std::string wkt( const std::vector<DirVector>& points ) const;
 };
 
 #endif
