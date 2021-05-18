@@ -2,6 +2,7 @@
 #define UTILS_H
 
 #include <Rcpp.h>
+#include <fstream>
 #include <string>
 #include <vector>
 #include "dirVector.h"
@@ -37,22 +38,26 @@ unsigned int nrow( const std::string& connectionParameters,
                    const std::string& table );
 
 // Write a ply header into a file
-void writePlyHeader( const std::string& plyFile,
+void writePlyHeader( std::ofstream& plyFile,
                      const unsigned int& npoints,
                      const unsigned int& nfaces );
 
+void writePlyHeaderFromDB( const std::string& plyFile,
+                           const unsigned int& npoints,
+                           const unsigned int& nfaces );
+
 // Append faces to a ply file using a PostGIS table of point set
-void writePlyFace( const std::string& plyFile,
-                   const std::string& connectionParameters,
-                   const std::string& schemaPointSet,
-                   const std::string& tablePointSet,
-                   const std::string& schemaPoint,
-                   const std::string& tablePoint );
+void writePlyFaceFromDB( const std::string& plyFile,
+                         const std::string& connectionParameters,
+                         const std::string& schemaPointSet,
+                         const std::string& tablePointSet,
+                         const std::string& schemaPoint,
+                         const std::string& tablePoint );
 
 // Append vertices to a ply file using a PostGIS table of points
-void writePlyVertex( const std::string& plyFile,
-                     const std::string& connectionParameters,
-                     const std::string& schema,
-                     const std::string& table );
+void writePlyVertexFromDB( const std::string& plyFile,
+                           const std::string& connectionParameters,
+                           const std::string& schema,
+                           const std::string& table );
 
 #endif

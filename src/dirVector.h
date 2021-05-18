@@ -26,10 +26,10 @@ public:
   DirVector& operator= ( const DirVector& dir );
 
   // Magnitude of vector
-  double magnitude();
+  double magnitude() const;
 
   // Output vector in space delimited string
-  std::string point();
+  std::string point() const;
 
 };
 

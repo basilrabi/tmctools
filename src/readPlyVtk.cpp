@@ -31,7 +31,10 @@ int readPlyVTK( const std::string& plyFile )
     ply << "\n";
   }
   ply.close();
-  writePlyHeader( "text.ply", mesh->GetNumberOfPoints(), mesh->GetNumberOfCells() );
+  std::ofstream plyHeader;
+  plyHeader.open( "text.ply" );
+  writePlyHeader( plyHeader, mesh->GetNumberOfPoints(), mesh->GetNumberOfCells() );
+  plyHeader.close();
   return mesh->GetNumberOfPoints();
 }
 

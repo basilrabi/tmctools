@@ -85,19 +85,19 @@ Rcpp::String exportPly( const std::string& user,
   sql = "VACUUM ANALYZE " + prefix + "_point";
   psql( hostname, user, dbname, sql );
 
-  writePlyHeader( prefix + ".ply",
-                  nrow( connectionParam, "public", prefix + "_point" ),
-                  nrow( connectionParam, schema, tableName ) );
-  writePlyVertex( prefix + ".ply",
-                  connectionParam,
-                  "public",
-                  prefix + "_point" );
-  writePlyFace( prefix + ".ply",
-                connectionParam,
-                "public",
-                prefix + "_pointset",
-                "public",
-                prefix + "_point" );
+  writePlyHeaderFromDB( prefix + ".ply",
+                        nrow( connectionParam, "public", prefix + "_point" ),
+                        nrow( connectionParam, schema, tableName ) );
+  writePlyVertexFromDB( prefix + ".ply",
+                        connectionParam,
+                        "public",
+                        prefix + "_point" );
+  writePlyFaceFromDB( prefix + ".ply",
+                      connectionParam,
+                      "public",
+                      prefix + "_pointset",
+                      "public",
+                      prefix + "_point" );
 
   sendQuery( connectionParam, "DROP TABLE " + prefix + "_point" );
   sendQuery( connectionParam, "DROP TABLE " + prefix + "_pointset" );

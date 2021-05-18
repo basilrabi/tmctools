@@ -1,5 +1,4 @@
 #include <ctime>
-#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <pqxx/pqxx>
@@ -168,31 +167,38 @@ unsigned int nrow( const std::string& connectionParameters,
   }
 }
 
-void writePlyHeader( const std::string& plyFile,
+void writePlyHeader( std::ofstream& plyFile,
                      const unsigned int& npoints,
                      const unsigned int& nfaces )
 {
+  plyFile << "ply\n"
+          << "format ascii 1.0\n"
+          << "comment TMC generated PLY File\n"
+          << "element vertex " << npoints << "\n"
+          << "property double x\n"
+          << "property double y\n"
+          << "property double z\n"
+          << "element face " << nfaces << "\n"
+          << "property list uchar int vertex_indices\n"
+          << "end_header\n";
+}
+
+void writePlyHeaderFromDB( const std::string& plyFile,
+                           const unsigned int& npoints,
+                           const unsigned int& nfaces )
+{
   std::ofstream ply;
   ply.open( plyFile );
-  ply << "ply\n"
-      << "format ascii 1.0\n"
-      << "comment TMC generated PLY File\n"
-      << "element vertex " << npoints << "\n"
-      << "property double x\n"
-      << "property double y\n"
-      << "property double z\n"
-      << "element face " << nfaces << "\n"
-      << "property list uchar int vertex_indices\n"
-      << "end_header\n";
+  writePlyHeader( ply, npoints, nfaces );
   ply.close();
 }
 
-void writePlyFace( const std::string& plyFile,
-                   const std::string& connectionParameters,
-                   const std::string& schemaPointSet,
-                   const std::string& tablePointSet,
-                   const std::string& schemaPoint,
-                   const std::string& tablePoint )
+void writePlyFaceFromDB( const std::string& plyFile,
+                         const std::string& connectionParameters,
+                         const std::string& schemaPointSet,
+                         const std::string& tablePointSet,
+                         const std::string& schemaPoint,
+                         const std::string& tablePoint )
 {
   pqxx::connection c{connectionParameters};
   pqxx::work txn{c};
@@ -226,10 +232,10 @@ void writePlyFace( const std::string& plyFile,
   ply.close();
 }
 
-void writePlyVertex( const std::string& plyFile,
-                     const std::string& connectionParameters,
-                     const std::string& schema,
-                     const std::string& table )
+void writePlyVertexFromDB( const std::string& plyFile,
+                           const std::string& connectionParameters,
+                           const std::string& schema,
+                           const std::string& table )
 {
   pqxx::connection c{connectionParameters};
   pqxx::work txn{c};

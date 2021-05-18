@@ -28,12 +28,12 @@ DirVector& DirVector::operator=( const DirVector& dir )
   return *this;
 }
 
-double DirVector::magnitude()
+double DirVector::magnitude() const
 {
   return sqrt( pow( i, 2 ) + pow( j, 2 ) + pow( k, 2) );
 }
 
-std::string DirVector::point()
+std::string DirVector::point() const
 {
   std::stringstream ii, jj, kk;
   ii << std::fixed << std::setprecision( 3 ) << i;

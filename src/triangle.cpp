@@ -23,25 +23,25 @@ Triangle& Triangle::operator=( const Triangle& tri )
   return *this;
 }
 
-double Triangle::lengthA()
+double Triangle::lengthA() const
 {
   DirVector distance = *b - *c;
   return distance.magnitude();
 }
 
-double Triangle::lengthB()
+double Triangle::lengthB() const
 {
   DirVector distance = *a - *c;
   return distance.magnitude();
 }
 
-double Triangle::lengthC()
+double Triangle::lengthC() const
 {
   DirVector distance = *a - *b;
   return distance.magnitude();
 }
 
-double Triangle::longestEdge()
+double Triangle::longestEdge() const
 {
   double length = lengthA();
 
@@ -54,7 +54,7 @@ double Triangle::longestEdge()
   return length;
 }
 
-double Triangle::slopeAngle()
+double Triangle::slopeAngle() const
 {
   DirVector sideA = *b - *a;
   DirVector sideB = *c - *a;
@@ -66,7 +66,7 @@ double Triangle::slopeAngle()
   return angle;
 }
 
-std::string Triangle::asText()
+std::string Triangle::asText() const
 {
   std::string text;
   text = "((" +
@@ -78,16 +78,85 @@ std::string Triangle::asText()
   return text;
 }
 
-std::string Triangle::ewkt( const std::string& srid )
+std::string Triangle::ewkt( const std::string& srid ) const
 {
   std::string text;
   text = "SRID=" + srid + ";POLYGON" + asText();
   return text;
 }
 
-std::string Triangle::wkt()
+std::string Triangle::wkt() const
 {
   std::string text;
   text = "POLYGON Z " + asText();
+  return text;
+}
+
+
+
+TriangleIndex::TriangleIndex()
+{
+  a = 0;
+  b = 0;
+  c = 0;
+}
+
+TriangleIndex::TriangleIndex( const uint32_t& x, const uint32_t& y, const uint32_t& z)
+{
+  a = x;
+  b = y;
+  c = z;
+}
+
+TriangleIndex& TriangleIndex::operator=( const TriangleIndex& tri )
+{
+  a = tri.a; b = tri.b; c = tri.c;
+  return *this;
+}
+
+bool TriangleIndex::hasPoints() const
+{
+  return ( a + b + c > 0 ) && ( a != b ) && ( b != c );
+}
+
+std::string TriangleIndex::asPlyText() const
+{
+  std::string text;
+
+  if ( !( hasPoints() ) )
+    return text;
+
+  text = "3 " +
+    std::to_string( a ) + " " +
+    std::to_string( b ) + " " +
+    std::to_string( c );
+
+  return text;
+}
+
+std::string TriangleIndex::asText( std::vector<DirVector> points ) const
+{
+  std::string text;
+
+  if ( !( hasPoints() ) )
+    return text;
+
+  text = "((" +
+    points[a].point() + "," +
+    points[b].point() + "," +
+    points[c].point() + "," +
+    points[a].point() + "))";
+
+  return text;
+}
+
+std::string TriangleIndex::wkt( std::vector<DirVector> points ) const
+{
+  std::string text;
+
+  if ( !( hasPoints() ) )
+    return text;
+
+  text = "POLYGON Z " + this->asText( points );
   return text;
 }

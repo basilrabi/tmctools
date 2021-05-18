@@ -33,6 +33,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// plyBinToText2
+void plyBinToText2(const std::string& inPly, const std::string& outPly);
+RcppExport SEXP _tmctools_plyBinToText2(SEXP inPlySEXP, SEXP outPlySEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type inPly(inPlySEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type outPly(outPlySEXP);
+    plyBinToText2(inPly, outPly);
+    return R_NilValue;
+END_RCPP
+}
 // readDTM
 Rcpp::DataFrame readDTM(std::string dtmFile, std::string srid);
 RcppExport SEXP _tmctools_readDTM(SEXP dtmFileSEXP, SEXP sridSEXP) {
@@ -89,6 +100,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_tmctools_exportPly", (DL_FUNC) &_tmctools_exportPly, 7},
     {"_tmctools_idAssetGroup", (DL_FUNC) &_tmctools_idAssetGroup, 1},
+    {"_tmctools_plyBinToText2", (DL_FUNC) &_tmctools_plyBinToText2, 2},
     {"_tmctools_readDTM", (DL_FUNC) &_tmctools_readDTM, 2},
     {"_tmctools_readPlyText", (DL_FUNC) &_tmctools_readPlyText, 1},
     {"_tmctools_readPlyVTK", (DL_FUNC) &_tmctools_readPlyVTK, 1},

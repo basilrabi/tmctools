@@ -117,6 +117,18 @@ idAssetGroup <- function(x) {
     .Call('_tmctools_idAssetGroup', PACKAGE = 'tmctools', x)
 }
 
+#' Translate Binary PLY File
+#'
+#' Translates a binary PLY file to ASCII format.
+#'
+#' @param inPly name of ply file to be translated
+#' @param outPly name of output ply file
+#' @return void
+#' @export
+plyBinToText2 <- function(inPly, outPly = "text.ply") {
+    invisible(.Call('_tmctools_plyBinToText2', PACKAGE = 'tmctools', inPly, outPly))
+}
+
 #' Read Surpac DTM file
 #'
 #' Reads a valid DTM file. It is assumed that both the DTM and String files
