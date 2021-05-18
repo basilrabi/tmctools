@@ -1,28 +1,3 @@
-#' Translate Binary PLY File
-#'
-#' Translates a binary PLY file to ASCII format.
-#'
-#' @param inPly name of ply file to be translated
-#' @param outPly name of output ply file
-#' @return NULL
-#' @export
-plyBinToText <- function(inPly, outPly= "text.ply") {
-  if (!file.exists(inPly))
-    stop(inPly, "does not exist!")
-  if (file.exists(outPly)) {
-    warning(outPly, "exists and will be renamed.")
-    file.rename(outPly, paste0(outPly, "_old"))
-  }
-  system(paste0("pdal translate -i \"", inPly,
-                "\" -o pdal.ply --writers.ply.precision=3"))
-  nPoints <- readPlyVTK(inPly)
-  system(paste("tail -n", nPoints, "pdal.ply >> text.ply"))
-  system("cat vtk.ply >> text.ply")
-  file.rename("text.ply", outPly)
-  file.remove("pdal.ply", "vtk.ply")
-  return(invisible(NULL))
-}
-
 #' Read Binary PLY File
 #'
 #' Reads the ply file created in surpac.

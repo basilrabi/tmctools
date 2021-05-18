@@ -20,8 +20,8 @@ struct int3 { int32_t x, y, z; };
 //' @return void
 //' @export
 // [[Rcpp::export]]
-void plyBinToText2( const std::string& inPly,
-                    const std::string& outPly = "text.ply" )
+void plyBinToText( const std::string& inPly,
+                   const std::string& outPly = "text.ply" )
 {
   std::ofstream plyASCII;
   std::shared_ptr<tinyply::PlyData> vertices, faces;

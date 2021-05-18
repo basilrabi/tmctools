@@ -125,8 +125,8 @@ idAssetGroup <- function(x) {
 #' @param outPly name of output ply file
 #' @return void
 #' @export
-plyBinToText2 <- function(inPly, outPly = "text.ply") {
-    invisible(.Call('_tmctools_plyBinToText2', PACKAGE = 'tmctools', inPly, outPly))
+plyBinToText <- function(inPly, outPly = "text.ply") {
+    invisible(.Call('_tmctools_plyBinToText', PACKAGE = 'tmctools', inPly, outPly))
 }
 
 #' Read Surpac DTM file
@@ -162,10 +162,6 @@ readDTM <- function(dtmFile, srid = "") {
 #' @export
 readPlyText <- function(plyFile) {
     .Call('_tmctools_readPlyText', PACKAGE = 'tmctools', plyFile)
-}
-
-readPlyVTK <- function(plyFile) {
-    .Call('_tmctools_readPlyVTK', PACKAGE = 'tmctools', plyFile)
 }
 
 #' Write Surpac DTM file
