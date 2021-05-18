@@ -8,6 +8,13 @@
 #include "dirVector.h"
 #include "triangle.h"
 
+struct float1 { float x, y, z; };
+struct float2 { double x, y, z; };
+struct int1 { int16_t x, y, z; };
+struct int2 { uint16_t x, y, z; };
+struct int3 { int32_t x, y, z; };
+struct int4 { uint32_t x, y, z; };
+
 // Convert triangles to dataframe with columns:
 //  1. polygon     : polygon in ewkt or wkt format
 //  2. edge_length : length of the longest edge
@@ -36,6 +43,11 @@ std::vector<Triangle> pointToTri ( std::vector<DirVector>& points,
 unsigned int nrow( const std::string& connectionParameters,
                    const std::string& schema,
                    const std::string& table );
+
+// Read the binary PLY file and store the vertices and faces in vectors.
+void readPly( const std::string& inPly,
+              std::vector<DirVector>& outVertices,
+              std::vector<TriangleIndex>& outFaces );
 
 // Write a ply header into a file
 void writePlyHeader( std::ofstream& plyFile,

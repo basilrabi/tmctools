@@ -1,3 +1,4 @@
+#include <cstring>
 #include <ctime>
 #include <iomanip>
 #include <iostream>
@@ -5,6 +6,7 @@
 #include <regex>
 #include <sstream>
 #include <unistd.h>
+#include "tinyply.h"
 #include "utils.h"
 
 std::smatch capturedPoint;
@@ -164,6 +166,98 @@ unsigned int nrow( const std::string& connectionParameters,
   {
     Rcpp::stop( e.what() );
     return 0;
+  }
+}
+
+void readPly( const std::string& inPly,
+              std::vector<DirVector>& outVertices,
+              std::vector<TriangleIndex>& outFaces )
+{
+  std::ofstream plyASCII;
+  std::shared_ptr<tinyply::PlyData> vertices, faces;
+  std::unique_ptr<std::istream> file_stream;
+  unsigned int i;
+
+  try
+  {
+    file_stream.reset( new std::ifstream( inPly, std::ios::binary ) );
+    if ( !file_stream || file_stream->fail() )
+      throw std::runtime_error( "file_stream failed to open " + inPly );
+
+    tinyply::PlyFile ply;
+    ply.parse_header( *file_stream );
+
+    try
+    {
+      faces = ply.request_properties_from_element( "face", { "vertex_indices" }, 3 );
+      vertices = ply.request_properties_from_element( "vertex", { "x", "y", "z" } );
+    }
+    catch ( const std::exception & e )
+    {
+      std::cerr << "Caught exception: " << e.what() << std::endl;
+    }
+    ply.read( *file_stream );
+
+  }
+  catch ( const std::exception & e )
+  {
+    std::cerr << "Caught exception: " << e.what() << std::endl;
+  }
+
+  // Copy faces.
+  const size_t numFacesBytes = faces->buffer.size_bytes();
+  if ( faces->t == tinyply::Type::INT16 )
+  {
+    std::vector<int1> faces1( faces->count );
+    std::memcpy( faces1.data(), faces->buffer.get(), numFacesBytes );
+    for ( i = 0; i < faces->count; i++ )
+      outFaces.push_back( TriangleIndex( faces1[i].x, faces1[i].y, faces1[i].z ) );
+  }
+  else if ( faces->t == tinyply::Type::UINT16 )
+  {
+    std::vector<int2> faces2( faces->count );
+    std::memcpy( faces2.data(), faces->buffer.get(), numFacesBytes );
+    for ( i = 0; i < faces->count; i++ )
+      outFaces.push_back( TriangleIndex( faces2[i].x, faces2[i].y, faces2[i].z ) );
+  }
+  else if ( faces->t == tinyply::Type::INT32 )
+  {
+    std::vector<int3> faces3( faces->count );
+    std::memcpy( faces3.data(), faces->buffer.get(), numFacesBytes );
+    for ( i = 0; i < faces->count; i++ )
+      outFaces.push_back( TriangleIndex( faces3[i].x, faces3[i].y, faces3[i].z ) );
+  }
+  else if ( faces->t == tinyply::Type::UINT32 )
+  {
+    std::vector<int4> faces4( faces->count );
+    std::memcpy( faces4.data(), faces->buffer.get(), numFacesBytes );
+    for ( i = 0; i < faces->count; i++ )
+      outFaces.push_back( TriangleIndex( faces4[i].x, faces4[i].y, faces4[i].z ) );
+  }
+  else
+  {
+    Rcpp::stop( "Unknown triangle type." );
+  }
+
+  // Copy vertices.
+  const size_t numVerticesBytes = vertices->buffer.size_bytes();
+  if ( vertices->t == tinyply::Type::FLOAT32 )
+  {
+    std::vector<float1> verts1( vertices->count );
+    std::memcpy( verts1.data(), vertices->buffer.get(), numVerticesBytes );
+    for ( i = 0; i < vertices->count; i++ )
+      outVertices.push_back( DirVector( verts1[i].x, verts1[i].y, verts1[i].z ) );
+  }
+  else if ( vertices->t == tinyply::Type::FLOAT64 )
+  {
+    std::vector<float2> verts2( vertices->count );
+    std::memcpy( verts2.data(), vertices->buffer.get(), numVerticesBytes );
+    for ( i = 0; i < vertices->count; i++ )
+      outVertices.push_back( DirVector( verts2[i].x, verts2[i].y, verts2[i].z ) );
+  }
+  else
+  {
+    Rcpp::stop( "Unknown vertex type." );
   }
 }
 
