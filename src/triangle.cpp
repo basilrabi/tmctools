@@ -1,3 +1,6 @@
+#include <iomanip>
+#include <iostream>
+#include <sstream>
 #include "utils.h"
 
 Triangle::Triangle()
@@ -147,6 +150,13 @@ std::string TriangleIndex::asText( const std::vector<DirVector>& points ) const
     points[a].point() + "))";
 
   return text;
+}
+
+std::string TriangleIndex::slopeAngleStr( const std::vector<DirVector>& points ) const
+{
+  std::stringstream slope;
+  slope << std::fixed << std::setprecision( 16 ) << slopeAngle( points );
+  return slope.str();
 }
 
 std::string TriangleIndex::wkt( const std::vector<DirVector>& points ) const

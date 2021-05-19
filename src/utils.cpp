@@ -55,13 +55,13 @@ bool sendQuery ( const std::string& connectionParameters,
   {
     txn.exec( query );
     txn.commit();
+    return true;
   }
   catch ( std::exception const &e )
   {
     Rcpp::stop( e.what() );
     return false;
   }
-  return true;
 }
 
 double slopeAngleBase( const DirVector& a, const DirVector& b)
@@ -193,7 +193,7 @@ void readPly( const std::string& inPly,
   {
     file_stream.reset( new std::ifstream( inPly, std::ios::binary ) );
     if ( !file_stream || file_stream->fail() )
-      throw std::runtime_error( "file_stream failed to open " + inPly );
+      Rcpp::stop( "Failed to open " + inPly );
 
     tinyply::PlyFile ply;
     ply.parse_header( *file_stream );
@@ -205,14 +205,14 @@ void readPly( const std::string& inPly,
     }
     catch ( const std::exception & e )
     {
-      std::cerr << "Caught exception: " << e.what() << std::endl;
+      Rcpp::stop( e.what() );
     }
     ply.read( *file_stream );
 
   }
   catch ( const std::exception & e )
   {
-    std::cerr << "Caught exception: " << e.what() << std::endl;
+    Rcpp::stop( e.what() );
   }
 
   // Copy faces.

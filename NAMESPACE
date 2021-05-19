@@ -3,6 +3,7 @@
 export(drape)
 export(exportPly)
 export(idAssetGroup)
+export(plyBinToDB)
 export(plyBinToText)
 export(psql)
 export(readDTM)

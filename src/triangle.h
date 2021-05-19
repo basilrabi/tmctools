@@ -80,6 +80,9 @@ public:
   // Output triangle in text
   std::string asText( const std::vector<DirVector>& points ) const;
 
+  // Angle between the z-axis and the polygon normal in radians
+  std::string slopeAngleStr( const std::vector<DirVector>& points ) const;
+
   // Output triangle in well-known text
   std::string wkt( const std::vector<DirVector>& points ) const;
 };

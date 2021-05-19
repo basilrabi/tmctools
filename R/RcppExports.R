@@ -117,6 +117,28 @@ idAssetGroup <- function(x) {
     .Call('_tmctools_idAssetGroup', PACKAGE = 'tmctools', x)
 }
 
+#' Write binary PLY to database
+#'
+#' Reads the binary PLY file and writes it to a PostGIS database via streaming.
+#' The table will have the columns: \code{geom geometry(PolygonZ, srid)} and
+#' \code{slope_angle double precision}.
+#'
+#'
+#' @param inPly name of ply file to be translated
+#' @param user PostGIS user
+#' @param hostname PostGIS server host name or IP address
+#' @param dbname database to write into
+#' @param tableName table to write into. This will be overwritten if it exists!
+#' @param schema schema to write into
+#' @param port port number to connect to at the server host, or socket file
+#'   name extension for Unix-domain connections
+#' @param srid spatial reference identifier
+#' @return void
+#' @export
+plyBinToDB <- function(inPly, user, hostname, dbname, tableName, schema = "public", port = "5432", srid = "3125") {
+    invisible(.Call('_tmctools_plyBinToDB', PACKAGE = 'tmctools', inPly, user, hostname, dbname, tableName, schema, port, srid))
+}
+
 #' Translate Binary PLY File
 #'
 #' Translates a binary PLY file to ASCII format.

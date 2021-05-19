@@ -33,6 +33,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// plyBinToDB
+void plyBinToDB(const std::string& inPly, const std::string& user, const std::string& hostname, const std::string& dbname, const std::string& tableName, const std::string& schema, const std::string& port, const std::string& srid);
+RcppExport SEXP _tmctools_plyBinToDB(SEXP inPlySEXP, SEXP userSEXP, SEXP hostnameSEXP, SEXP dbnameSEXP, SEXP tableNameSEXP, SEXP schemaSEXP, SEXP portSEXP, SEXP sridSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::string& >::type inPly(inPlySEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type user(userSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type hostname(hostnameSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type dbname(dbnameSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type tableName(tableNameSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type schema(schemaSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type port(portSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type srid(sridSEXP);
+    plyBinToDB(inPly, user, hostname, dbname, tableName, schema, port, srid);
+    return R_NilValue;
+END_RCPP
+}
 // plyBinToText
 void plyBinToText(const std::string& inPly, const std::string& outPly);
 RcppExport SEXP _tmctools_plyBinToText(SEXP inPlySEXP, SEXP outPlySEXP) {
@@ -89,6 +106,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_tmctools_exportPly", (DL_FUNC) &_tmctools_exportPly, 7},
     {"_tmctools_idAssetGroup", (DL_FUNC) &_tmctools_idAssetGroup, 1},
+    {"_tmctools_plyBinToDB", (DL_FUNC) &_tmctools_plyBinToDB, 8},
     {"_tmctools_plyBinToText", (DL_FUNC) &_tmctools_plyBinToText, 2},
     {"_tmctools_readDTM", (DL_FUNC) &_tmctools_readDTM, 2},
     {"_tmctools_readPlyText", (DL_FUNC) &_tmctools_readPlyText, 1},
