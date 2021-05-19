@@ -1,7 +1,4 @@
-#include <cmath>
-#include <string>
-#include "dirVector.h"
-#include "triangle.h"
+#include "utils.h"
 
 Triangle::Triangle()
 {
@@ -58,12 +55,7 @@ double Triangle::slopeAngle() const
 {
   DirVector sideA = *b - *a;
   DirVector sideB = *c - *a;
-  DirVector normal = sideA * sideB;
-  DirVector z ( 0, 0, 1 );
-  double angle = angle_between( z, normal );
-  if ( angle > M_PI_2 )
-    angle = M_PI - angle;
-  return angle;
+  return slopeAngleBase( sideA, sideB );
 }
 
 std::string Triangle::asText() const
@@ -117,6 +109,13 @@ TriangleIndex& TriangleIndex::operator=( const TriangleIndex& tri )
 bool TriangleIndex::hasPoints() const
 {
   return ( a + b + c > 0 ) && ( a != b ) && ( b != c );
+}
+
+double TriangleIndex::slopeAngle( const std::vector<DirVector>& points ) const
+{
+  DirVector sideA = points[b] - points[a];
+  DirVector sideB = points[c] - points[a];
+  return slopeAngleBase( sideA, sideB );
 }
 
 std::string TriangleIndex::asPlyText() const

@@ -1,6 +1,8 @@
 #ifndef DIRVECTOR_H
 #define DIRVECTOR_H
 
+#include <string>
+
 // A 3-dimensional vector which may be used to also represent a 3-dimensional
 // point
 class DirVector
@@ -14,10 +16,10 @@ public:
   DirVector( double, double, double );
 
   // Vector subtraction operator
-  DirVector operator- (const DirVector&);
+  DirVector operator- (const DirVector&) const;
 
   // Cross-product operator
-  DirVector operator* (const DirVector&);
+  DirVector operator* (const DirVector&) const;
 
   // Desctructor
   ~DirVector(){}

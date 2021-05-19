@@ -29,6 +29,10 @@ bool fileExists( const std::string& name );
 bool sendQuery ( const std::string& connectionParameters,
                  const std::string& query );
 
+// Computes the slope of the triangle plane with respect to the z-axis given
+// two sides of a triangle.
+double slopeAngleBase( const DirVector& a, const DirVector& b);
+
 // Generate a random string at a certain length.
 std::string randomString( const unsigned int& len );
 

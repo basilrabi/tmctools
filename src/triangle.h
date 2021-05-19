@@ -71,6 +71,9 @@ public:
   // Are points assigned?
   bool hasPoints() const;
 
+  // Angle between the z-axis and the polygon normal in radians
+  double slopeAngle( const std::vector<DirVector>& points ) const;
+
   // Output triangle in text in PLY file
   std::string asPlyText() const;
 

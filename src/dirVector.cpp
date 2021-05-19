@@ -8,12 +8,12 @@ DirVector::DirVector() { i = 0; j = 0;  k = 0; }
 
 DirVector::DirVector( double x, double y, double z ) { i = x; j = y;  k = z; }
 
-DirVector DirVector::operator-( const DirVector& dir )
+DirVector DirVector::operator-( const DirVector& dir ) const
 {
   return DirVector( i - dir.i, j - dir.j, k - dir.k );
 }
 
-DirVector DirVector::operator*( const DirVector& dir )
+DirVector DirVector::operator*( const DirVector& dir ) const
 {
   DirVector temp;
   temp.i = ( j * dir.k ) - ( dir.j * k );

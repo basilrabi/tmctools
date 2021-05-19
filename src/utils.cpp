@@ -1,3 +1,4 @@
+#include <cmath>
 #include <cstring>
 #include <ctime>
 #include <iomanip>
@@ -61,6 +62,16 @@ bool sendQuery ( const std::string& connectionParameters,
     return false;
   }
   return true;
+}
+
+double slopeAngleBase( const DirVector& a, const DirVector& b)
+{
+  DirVector normal = a * b;
+  DirVector z ( 0, 0, 1 );
+  double angle = angle_between( z, normal );
+  if ( angle > M_PI_2 )
+    angle = M_PI - angle;
+  return angle;
 }
 
 std::string randomString( const unsigned int& len )
