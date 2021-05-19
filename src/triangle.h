@@ -71,6 +71,18 @@ public:
   // Are points assigned?
   bool hasPoints() const;
 
+  // length of edge opposite to vertex a
+  double lengthA( const std::vector<DirVector>& points ) const;
+
+  // length of edge opposite to vertex b
+  double lengthB( const std::vector<DirVector>& points ) const;
+
+  // length of edge opposite to vertex c
+  double lengthC( const std::vector<DirVector>& points ) const;
+
+  // The length of the longest edge
+  double longestEdge( const std::vector<DirVector>& points ) const;
+
   // Angle between the z-axis and the polygon normal in radians
   double slopeAngle( const std::vector<DirVector>& points ) const;
 
@@ -82,6 +94,9 @@ public:
 
   // Angle between the z-axis and the polygon normal in radians
   std::string slopeAngleStr( const std::vector<DirVector>& points ) const;
+
+  // Output triangle in extended well-known text
+  std::string ewkt( const std::vector<DirVector>& points, const std::string& srid ) const;
 
   // Output triangle in well-known text
   std::string wkt( const std::vector<DirVector>& points ) const;

@@ -40,6 +40,34 @@ Rcpp::DataFrame triangleToDataFrame( std::vector<Triangle>& triangles,
   return out;
 }
 
+Rcpp::DataFrame triangleToDataFrame( std::vector<TriangleIndex>& triangles,
+                                     std::vector<DirVector>& vertices,
+                                     const std::string& srid )
+{
+  Rcpp::StringVector polygon ( triangles.size() );
+  Rcpp::NumericVector edgeLength ( triangles.size() );
+  Rcpp::NumericVector slopeAngle ( triangles.size() );
+
+  for ( unsigned int i = 0; i < triangles.size(); i++ )
+  {
+    if ( srid != "" )
+      polygon[i] = triangles[i].ewkt( vertices, srid );
+    else
+      polygon[i] = triangles[i].wkt( vertices );
+    edgeLength[i] = triangles[i].longestEdge( vertices );
+    slopeAngle[i] = triangles[i].slopeAngle( vertices );
+  }
+
+  Rcpp::DataFrame out = Rcpp::DataFrame::create(
+    Rcpp::Named( "polygon" ) = polygon,
+    Rcpp::Named( "edge_length" ) = edgeLength,
+    Rcpp::Named( "slope_angle" ) = slopeAngle,
+    Rcpp::Named( "stringsAsFactors" ) = false
+  );
+
+  return out;
+}
+
 bool fileExists( const std::string& name )
 {
   std::ifstream file( name.c_str() );

@@ -11,8 +11,8 @@ plyBinToDB(inPly = ply, user = db_user, hostname = db_host, dbname = db_name, ta
 plyBinToText(inPly = ply)
 dbPly <- exportPly(user = db_user, hostname = db_host, dbname = db_name, schema = "public", tableName = db_table)
 
-plyA <- readPlyText("text.ply")
-plyB <- readPlyText(dbPly)
+plyA <- readPly("text.ply")
+plyB <- readPly(dbPly)
 
 test_that("plyBinToDB() works", {
   expect_equal(all(plyA$polygon == plyB$polygon), TRUE)

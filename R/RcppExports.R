@@ -172,7 +172,7 @@ readDTM <- function(dtmFile, srid = "") {
 
 #' Read PLY File
 #'
-#' Reads the ply file created in \link{updateInsituSurface}.
+#' Reads the ply an covert it to a data frame.
 #'
 #' @param plyFile file name
 #' @return a data.frame with the following columns:
@@ -182,8 +182,8 @@ readDTM <- function(dtmFile, srid = "") {
 #'     \item{slope_angle}{angle in radians between z-axis and the polygon normal}
 #'   }
 #' @export
-readPlyText <- function(plyFile) {
-    .Call('_tmctools_readPlyText', PACKAGE = 'tmctools', plyFile)
+readPly <- function(plyFile) {
+    .Call('_tmctools_readPly', PACKAGE = 'tmctools', plyFile)
 }
 
 #' Write Surpac DTM file

@@ -21,6 +21,9 @@ struct int4 { uint32_t x, y, z; };
 //  3. slope_angle : angle in radians between z-axis and the polygon normal
 Rcpp::DataFrame triangleToDataFrame( std::vector<Triangle>& triangles,
                                      const std::string& srid );
+Rcpp::DataFrame triangleToDataFrame( std::vector<TriangleIndex>& triangles,
+                                     std::vector<DirVector>& vertices,
+                                     const std::string& srid );
 
 // Does the file exist?
 bool fileExists( const std::string& name );

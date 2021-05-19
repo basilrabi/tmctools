@@ -114,6 +114,37 @@ bool TriangleIndex::hasPoints() const
   return ( a + b + c > 0 ) && ( a != b ) && ( b != c );
 }
 
+double TriangleIndex::lengthA( const std::vector<DirVector>& points ) const
+{
+  DirVector distance = points[b] - points[c];
+  return distance.magnitude();
+}
+
+double TriangleIndex::lengthB( const std::vector<DirVector>& points ) const
+{
+  DirVector distance = points[a] - points[c];
+  return distance.magnitude();
+}
+
+double TriangleIndex::lengthC( const std::vector<DirVector>& points ) const
+{
+  DirVector distance = points[a] - points[b];
+  return distance.magnitude();
+}
+
+double TriangleIndex::longestEdge( const std::vector<DirVector>& points ) const
+{
+  double length = lengthA( points );
+
+  if ( length < lengthB( points ) )
+    length = lengthB( points );
+
+  if ( length < lengthC( points ) )
+    length = lengthC( points );
+
+  return length;
+}
+
 double TriangleIndex::slopeAngle( const std::vector<DirVector>& points ) const
 {
   DirVector sideA = points[b] - points[a];
@@ -152,6 +183,13 @@ std::string TriangleIndex::asText( const std::vector<DirVector>& points ) const
   return text;
 }
 
+std::string TriangleIndex::ewkt( const std::vector<DirVector>& points, const std::string& srid ) const
+{
+  std::string text;
+  text = "SRID=" + srid + ";POLYGON" + asText( points );
+  return text;
+}
+
 std::string TriangleIndex::slopeAngleStr( const std::vector<DirVector>& points ) const
 {
   std::stringstream slope;
@@ -166,6 +204,6 @@ std::string TriangleIndex::wkt( const std::vector<DirVector>& points ) const
   if ( !( hasPoints() ) )
     return text;
 
-  text = "POLYGON Z " + this->asText( points );
+  text = "POLYGON Z " + asText( points );
   return text;
 }

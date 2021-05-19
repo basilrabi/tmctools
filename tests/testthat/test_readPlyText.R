@@ -1,7 +1,7 @@
 library(tmctools)
 
 ply <- system.file("testdata", "tritext.ply", package = "tmctools")
-testDF <- readPlyText(ply)
+testDF <- readPly(ply)
 
 test_that("readPlyText works", {
   expect_equal(round(testDF$edge_length, digits = 3), c(210.013,

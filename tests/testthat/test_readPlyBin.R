@@ -3,7 +3,7 @@ library(tmctools)
 ply <- system.file("testdata", "tribin.ply", package = "tmctools")
 newFile <- "t e s t.ply"
 file.copy(ply, newFile)
-testDF <- readPlyBin(newFile)
+testDF <- readPly(newFile)
 
 test_that("readPlyBin works", {
   expect_equal(round(testDF$edge_length[1:3], digits = 3),

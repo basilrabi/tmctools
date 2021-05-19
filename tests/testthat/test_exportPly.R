@@ -13,7 +13,7 @@ con <- DBI::dbConnect(RPostgres::Postgres(),
                       user = db_user)
 
 ply <- system.file("testdata", "tritext.ply", package = "tmctools")
-plyDF <- readPlyText(ply)
+plyDF <- readPly(ply)
 plyDF$id <- 1:nrow(plyDF)
 
 RPostgres::dbWriteTable(con, "testply", plyDF, overwrite = TRUE)
@@ -29,7 +29,7 @@ psql(db_host, db_user, db_name, "ALTER TABLE testply ADD PRIMARY KEY (id)")
 
 test <- tmctools::exportPly("rtest", "localhost", "rtest", "public", "testply")
 psql(db_host, db_user, db_name, "DROP TABLE testply")
-testDF <- readPlyText(test)
+testDF <- readPly(test)
 file.remove(test)
 
 test_that("exportPly() works", {
