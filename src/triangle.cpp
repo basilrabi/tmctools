@@ -91,65 +91,46 @@ std::string Triangle::wkt() const
 
 TriangleIndex::TriangleIndex()
 {
-  a = 0;
-  b = 0;
-  c = 0;
+  a = nullptr;
+  b = nullptr;
+  c = nullptr;
+  ai = 0;
+  bi = 0;
+  ci = 0;
 }
 
 TriangleIndex::TriangleIndex( const uint32_t& x, const uint32_t& y, const uint32_t& z)
 {
-  a = x;
-  b = y;
-  c = z;
+  a = nullptr;
+  b = nullptr;
+  c = nullptr;
+  ai = x;
+  bi = y;
+  ci = z;
 }
 
 TriangleIndex& TriangleIndex::operator=( const TriangleIndex& tri )
 {
-  a = tri.a; b = tri.b; c = tri.c;
+  a = tri.a;
+  b = tri.b;
+  c = tri.c;
+  ai = tri.ai;
+  bi = tri.bi;
+  ci = tri.ci;
   return *this;
+}
+
+bool TriangleIndex::hasIndex() const
+{
+  return ( ai + bi + ci > 0 ) && ( ai != bi ) && ( bi != ci );
 }
 
 bool TriangleIndex::hasPoints() const
 {
-  return ( a + b + c > 0 ) && ( a != b ) && ( b != c );
-}
-
-double TriangleIndex::lengthA( const std::vector<DirVector>& points ) const
-{
-  DirVector distance = points[b] - points[c];
-  return distance.magnitude();
-}
-
-double TriangleIndex::lengthB( const std::vector<DirVector>& points ) const
-{
-  DirVector distance = points[a] - points[c];
-  return distance.magnitude();
-}
-
-double TriangleIndex::lengthC( const std::vector<DirVector>& points ) const
-{
-  DirVector distance = points[a] - points[b];
-  return distance.magnitude();
-}
-
-double TriangleIndex::longestEdge( const std::vector<DirVector>& points ) const
-{
-  double length = lengthA( points );
-
-  if ( length < lengthB( points ) )
-    length = lengthB( points );
-
-  if ( length < lengthC( points ) )
-    length = lengthC( points );
-
-  return length;
-}
-
-double TriangleIndex::slopeAngle( const std::vector<DirVector>& points ) const
-{
-  DirVector sideA = points[b] - points[a];
-  DirVector sideB = points[c] - points[a];
-  return slopeAngleBase( sideA, sideB );
+  return hasIndex() &&
+    ( a != nullptr ) &&
+    ( b != nullptr ) &&
+    ( c != nullptr );
 }
 
 std::string TriangleIndex::asPlyText() const
@@ -160,50 +141,23 @@ std::string TriangleIndex::asPlyText() const
     return text;
 
   text = "3 " +
-    std::to_string( a ) + " " +
-    std::to_string( b ) + " " +
-    std::to_string( c );
+    std::to_string( ai ) + " " +
+    std::to_string( bi ) + " " +
+    std::to_string( ci );
 
   return text;
 }
 
-std::string TriangleIndex::asText( const std::vector<DirVector>& points ) const
-{
-  std::string text;
-
-  if ( !( hasPoints() ) )
-    return text;
-
-  text = "((" +
-    points[a].point() + "," +
-    points[b].point() + "," +
-    points[c].point() + "," +
-    points[a].point() + "))";
-
-  return text;
-}
-
-std::string TriangleIndex::ewkt( const std::vector<DirVector>& points, const std::string& srid ) const
-{
-  std::string text;
-  text = "SRID=" + srid + ";POLYGON" + asText( points );
-  return text;
-}
-
-std::string TriangleIndex::slopeAngleStr( const std::vector<DirVector>& points ) const
+std::string TriangleIndex::slopeAngleStr() const
 {
   std::stringstream slope;
-  slope << std::fixed << std::setprecision( 16 ) << slopeAngle( points );
+  slope << std::fixed << std::setprecision( 16 ) << slopeAngle();
   return slope.str();
 }
 
-std::string TriangleIndex::wkt( const std::vector<DirVector>& points ) const
+void TriangleIndex::assignPoints( std::vector<DirVector>& vertices )
 {
-  std::string text;
-
-  if ( !( hasPoints() ) )
-    return text;
-
-  text = "POLYGON Z " + asText( points );
-  return text;
+  a = &( vertices.at( ai ) );
+  b = &( vertices.at( bi ) );
+  c = &( vertices.at( ci ) );
 }

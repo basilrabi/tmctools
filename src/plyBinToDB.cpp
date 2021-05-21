@@ -67,9 +67,7 @@ void plyBinToDB( const std::string& inPly,
     pqxx::stream_to stream{txn, "plyupload" + prefix,
                            std::vector<std::string>{"geom_text", "slope_angle"}};
     for ( TriangleIndex const &triangle: faces )
-    {
-      stream << std::make_tuple( triangle.wkt( vertices ), triangle.slopeAngleStr( vertices ) );
-    }
+      stream << std::make_tuple( triangle.wkt(), triangle.slopeAngleStr() );
     stream.complete();
     txn.commit();
 

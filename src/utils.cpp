@@ -51,11 +51,11 @@ Rcpp::DataFrame triangleToDataFrame( std::vector<TriangleIndex>& triangles,
   for ( unsigned int i = 0; i < triangles.size(); i++ )
   {
     if ( srid != "" )
-      polygon[i] = triangles[i].ewkt( vertices, srid );
+      polygon[i] = triangles[i].ewkt( srid );
     else
-      polygon[i] = triangles[i].wkt( vertices );
-    edgeLength[i] = triangles[i].longestEdge( vertices );
-    slopeAngle[i] = triangles[i].slopeAngle( vertices );
+      polygon[i] = triangles[i].wkt();
+    edgeLength[i] = triangles[i].longestEdge();
+    slopeAngle[i] = triangles[i].slopeAngle();
   }
 
   Rcpp::DataFrame out = Rcpp::DataFrame::create(
@@ -298,6 +298,10 @@ void readPly( const std::string& inPly,
   {
     Rcpp::stop( "Unknown vertex type." );
   }
+
+  // Link vertice
+  for ( TriangleIndex &triangle: outFaces )
+    triangle.assignPoints( outVertices );
 }
 
 void writePlyHeader( std::ofstream& plyFile,
