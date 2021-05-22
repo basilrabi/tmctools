@@ -9,6 +9,7 @@ Authors@R: c(
   role  = c("cre", "aut")))
 Description: Tools used for processing some data in Taganito Mine.
 License: file LICENSE
+URL: https://github.com/basilrabi/tmctools
 Encoding: UTF-8
 Depends: R (>= 4.0.0)
 Imports:
