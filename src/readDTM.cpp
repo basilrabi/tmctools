@@ -10,9 +10,10 @@
 //' @param srid spatial reference identifier
 //' @return a data.frame with the following columns:
 //'   \describe{
-//'     \item{polygon}{polygon in ewkt or wkt format}
+//'     \item{area_2d}{2D area of the polygon}
 //'     \item{edge_length}{length of the longest edge}
 //'     \item{slope_angle}{angle in radians between z-axis and the polygon normal}
+//'     \item{polygon}{polygon in ewkt or wkt format}
 //'   }
 //' @export
 // [[Rcpp::export]]

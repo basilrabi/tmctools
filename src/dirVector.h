@@ -27,6 +27,9 @@ public:
   // Copy Constructor
   DirVector& operator= ( const DirVector& dir );
 
+  // Returns a vector with zero k
+  DirVector _2d() const;
+
   // Magnitude of vector
   double magnitude() const;
 

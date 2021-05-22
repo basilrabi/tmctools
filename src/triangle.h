@@ -22,6 +22,9 @@ public:
   // Copy Constructor
   Triangle& operator= ( const Triangle& tri );
 
+  // area in 2d
+  double area2d() const;
+
   // length of edge opposite to vertex a
   double lengthA() const;
 

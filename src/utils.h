@@ -16,14 +16,41 @@ struct int3 { int32_t x, y, z; };
 struct int4 { uint32_t x, y, z; };
 
 // Convert triangles to dataframe with columns:
-//  1. polygon     : polygon in ewkt or wkt format
+//  1. area_2d     : 2D area of the triangle
 //  2. edge_length : length of the longest edge
 //  3. slope_angle : angle in radians between z-axis and the polygon normal
-Rcpp::DataFrame triangleToDataFrame( std::vector<Triangle>& triangles,
-                                     const std::string& srid );
-Rcpp::DataFrame triangleToDataFrame( std::vector<TriangleIndex>& triangles,
-                                     std::vector<DirVector>& vertices,
-                                     const std::string& srid );
+//  4. polygon     : polygon in ewkt or wkt format
+template <class T>
+Rcpp::DataFrame triangleToDataFrame( std::vector<T>& triangles,
+                                     const std::string& srid )
+{
+  Rcpp::NumericVector area2d ( triangles.size() );
+  Rcpp::NumericVector edgeLength ( triangles.size() );
+  Rcpp::NumericVector slopeAngle ( triangles.size() );
+  Rcpp::StringVector polygon ( triangles.size() );
+
+  for ( unsigned int i = 0; i < triangles.size(); i++ )
+  {
+    area2d[i] = triangles[i].area2d();
+    slopeAngle[i] = triangles[i].slopeAngle();
+    edgeLength[i] = triangles[i].longestEdge();
+    slopeAngle[i] = triangles[i].slopeAngle();
+    if ( srid != "" )
+      polygon[i] = triangles[i].ewkt( srid );
+    else
+      polygon[i] = triangles[i].wkt();
+  }
+
+  Rcpp::DataFrame out = Rcpp::DataFrame::create(
+    Rcpp::Named( "area_2d" ) = area2d,
+    Rcpp::Named( "edge_length" ) = edgeLength,
+    Rcpp::Named( "slope_angle" ) = slopeAngle,
+    Rcpp::Named( "polygon" ) = polygon,
+    Rcpp::Named( "stringsAsFactors" ) = false
+  );
+
+  return out;
+}
 
 // Does the file exist?
 bool fileExists( const std::string& name );

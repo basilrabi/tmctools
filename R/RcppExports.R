@@ -161,9 +161,10 @@ plyBinToText <- function(inPly, outPly = "text.ply") {
 #' @param srid spatial reference identifier
 #' @return a data.frame with the following columns:
 #'   \describe{
-#'     \item{polygon}{polygon in ewkt or wkt format}
+#'     \item{area_2d}{2D area of the polygon}
 #'     \item{edge_length}{length of the longest edge}
 #'     \item{slope_angle}{angle in radians between z-axis and the polygon normal}
+#'     \item{polygon}{polygon in ewkt or wkt format}
 #'   }
 #' @export
 readDTM <- function(dtmFile, srid = "") {
@@ -175,15 +176,17 @@ readDTM <- function(dtmFile, srid = "") {
 #' Reads the ply an covert it to a data frame.
 #'
 #' @param plyFile file name
+#' @param srid spatial reference identifier of the geometry if output is ewkt
 #' @return a data.frame with the following columns:
 #'   \describe{
-#'     \item{polygon}{polygon in ewkt or wkt format}
+#'     \item{area_2d}{2D area of the polygon}
 #'     \item{edge_length}{length of the longest edge}
 #'     \item{slope_angle}{angle in radians between z-axis and the polygon normal}
+#'     \item{polygon}{polygon in ewkt or wkt format}
 #'   }
 #' @export
-readPly <- function(plyFile) {
-    .Call('_tmctools_readPly', PACKAGE = 'tmctools', plyFile)
+readPly <- function(plyFile, srid = "") {
+    .Call('_tmctools_readPly', PACKAGE = 'tmctools', plyFile, srid)
 }
 
 #' Write Surpac DTM file

@@ -74,13 +74,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // readPly
-Rcpp::DataFrame readPly(const std::string& plyFile);
-RcppExport SEXP _tmctools_readPly(SEXP plyFileSEXP) {
+Rcpp::DataFrame readPly(const std::string& plyFile, const std::string& srid);
+RcppExport SEXP _tmctools_readPly(SEXP plyFileSEXP, SEXP sridSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::string& >::type plyFile(plyFileSEXP);
-    rcpp_result_gen = Rcpp::wrap(readPly(plyFile));
+    Rcpp::traits::input_parameter< const std::string& >::type srid(sridSEXP);
+    rcpp_result_gen = Rcpp::wrap(readPly(plyFile, srid));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -109,7 +110,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tmctools_plyBinToDB", (DL_FUNC) &_tmctools_plyBinToDB, 8},
     {"_tmctools_plyBinToText", (DL_FUNC) &_tmctools_plyBinToText, 2},
     {"_tmctools_readDTM", (DL_FUNC) &_tmctools_readDTM, 2},
-    {"_tmctools_readPly", (DL_FUNC) &_tmctools_readPly, 1},
+    {"_tmctools_readPly", (DL_FUNC) &_tmctools_readPly, 2},
     {"_tmctools_writeDTM", (DL_FUNC) &_tmctools_writeDTM, 8},
     {NULL, NULL, 0}
 };

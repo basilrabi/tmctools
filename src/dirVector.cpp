@@ -28,6 +28,11 @@ DirVector& DirVector::operator=( const DirVector& dir )
   return *this;
 }
 
+DirVector DirVector::_2d() const
+{
+  return DirVector( i, j, 0 );
+}
+
 double DirVector::magnitude() const
 {
   return sqrt( pow( i, 2 ) + pow( j, 2 ) + pow( k, 2) );

@@ -23,6 +23,16 @@ Triangle& Triangle::operator=( const Triangle& tri )
   return *this;
 }
 
+double Triangle::area2d() const
+{
+  double half{0.5};
+  DirVector sa, sb, sc;
+  sa = b->_2d() - a->_2d();
+  sb = c->_2d() - a->_2d();
+  sc = sa * sb;
+  return half * sc.magnitude();
+}
+
 double Triangle::lengthA() const
 {
   DirVector distance = *b - *c;
