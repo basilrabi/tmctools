@@ -1,3 +1,4 @@
+#include <cmath>
 #include <iomanip>
 #include <math.h>
 #include <sstream>
@@ -35,7 +36,7 @@ DirVector DirVector::_2d() const
 
 double DirVector::magnitude() const
 {
-  return sqrt( pow( i, 2 ) + pow( j, 2 ) + pow( k, 2) );
+  return std::hypot( i, j, k );
 }
 
 std::string DirVector::point() const

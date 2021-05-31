@@ -8,6 +8,13 @@
 \description{
 Tools used for processing some data in Taganito Mine.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/basilrabi/tmctools}
+}
+
+}
 \author{
 \strong{Maintainer}: Basil Eric Rabi \email{basil.rabi@tmc.nickelasia.com}
 
