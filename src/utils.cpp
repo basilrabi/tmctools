@@ -302,7 +302,7 @@ void writePlyFaceFromDB( const std::string& plyFile,
     "WHERE lat_a.tid = lat_b.tid" +
     "  AND lat_a.tid = lat_c.tid" +
     "  AND lat_a.pid = 1" +
-    "  AND lat_b.pid = 2 "+
+    "  AND lat_b.pid = 2"+
     "  AND lat_c.pid = 3";
 
   std::ofstream ply;

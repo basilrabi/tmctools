@@ -46,7 +46,7 @@ void plyBinToDB( const std::string& inPly,
   sendQuery( connectionParam, sql );
   sql = "DROP TABLE IF EXISTS ply_vertices_geom_" + prefix;
   sendQuery( connectionParam, sql );
-  sql = "DROP TABLE IF EXISTS ply_faces" + prefix;
+  sql = "DROP TABLE IF EXISTS ply_faces_" + prefix;
   sendQuery( connectionParam, sql );
   sql = "DROP TABLE IF EXISTS " + schema + "." + tableName;
   sendQuery( connectionParam, sql );
@@ -65,11 +65,11 @@ void plyBinToDB( const std::string& inPly,
     ")";
   sendQuery( connectionParam, sql );
   sql =
-    "CREATE TABLE ply_faces" + prefix + "(" +
+    "CREATE TABLE ply_faces_" + prefix + "(" +
     "  id integer PRIMARY KEY," +
-    "  pa integer NOT NULL," +
-    "  pb integer NOT NULL," +
-    "  pc integer NOT NULL" +
+    "  p_a integer NOT NULL," +
+    "  p_b integer NOT NULL," +
+    "  p_c integer NOT NULL" +
     ")";
   sendQuery( connectionParam, sql );
   sql =
@@ -92,8 +92,8 @@ void plyBinToDB( const std::string& inPly,
   stream_v.complete();
   pqxx::stream_to stream_f{
     txn,
-    "ply_faces" + prefix,
-    std::vector<std::string>{"id", "pa", "pb", "pc"}
+    "ply_faces_" + prefix,
+    std::vector<std::string>{"id", "p_a", "p_b", "p_c"}
   };
   for ( i = 1; i <= faces.size(); i++ )
   {
@@ -121,17 +121,17 @@ void plyBinToDB( const std::string& inPly,
     "INSERT INTO " + schema + "." + tableName + "(id, geom) " +
     "SELECT" +
     " faces.id," +
-    " ST_MakePolygon(ST_MakeLine(ARRAY[pa.geom, pb.geom, pc.geom, pa.geom]))" +
-    "FROM ply_faces" + prefix + " faces," +
-    "  ply_vertices_geom_" + prefix + " pa," +
-    "  ply_vertices_geom_" + prefix + " pb," +
-    "  ply_vertices_geom_" + prefix + " pc " +
-    "WHERE faces.pa = pa.id AND faces.pb = pb.id AND faces.pc = pc.id";
+    " ST_MakePolygon(ST_MakeLine(ARRAY[p_a.geom, p_b.geom, p_c.geom, p_a.geom]))" +
+    "FROM ply_faces_" + prefix + " faces," +
+    "  ply_vertices_geom_" + prefix + " p_a," +
+    "  ply_vertices_geom_" + prefix + " p_b," +
+    "  ply_vertices_geom_" + prefix + " p_c " +
+    "WHERE faces.p_a = p_a.id AND faces.p_b = p_b.id AND faces.p_c = p_c.id";
   sendQuery( connectionParam, sql );
   sql = "DROP TABLE IF EXISTS ply_vertices_text_" + prefix;
   sendQuery( connectionParam, sql );
   sql = "DROP TABLE IF EXISTS ply_vertices_geom_" + prefix;
   sendQuery( connectionParam, sql );
-  sql = "DROP TABLE IF EXISTS ply_faces" + prefix;
+  sql = "DROP TABLE IF EXISTS ply_faces_" + prefix;
   sendQuery( connectionParam, sql );
 }
