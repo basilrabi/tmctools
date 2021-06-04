@@ -78,10 +78,11 @@ unsigned int nrow( const std::string& connectionParameters,
                    const std::string& schema,
                    const std::string& table );
 
-// Read the binary PLY file and store the vertices and faces in vectors.
-void readPly( const std::string& inPly,
-              std::vector<DirVector>& outVertices,
-              std::vector<TriangleIndex>& outFaces );
+// Read the PLY file and store the vertices and faces in vectors.
+void readPlyFile( const std::string& inPly,
+                  std::vector<DirVector>& outVertices,
+                  std::vector<TriangleIndex>& outFaces,
+                  bool assignTriangle );
 
 // Write a ply header into a file
 void writePlyHeader( std::ofstream& plyFile,

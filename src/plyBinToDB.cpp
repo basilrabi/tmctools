@@ -31,53 +31,107 @@ void plyBinToDB( const std::string& inPly,
                  const std::string& port = "5432",
                  const std::string& srid = "3125" )
 {
-  bool qa, qb;
+  Rcpp::Environment tmctools = Rcpp::Environment::namespace_env( "tmctools" );
+  Rcpp::Function psql = tmctools["psql"];
+  long unsigned int i;
   std::string connectionParam = "postgresql://" + user + "@" + hostname + ":" + port + "/" + dbname + "?application_name=tmctools";
   std::string prefix = randomString( 5 );
   std::string sql;
   std::vector<DirVector> vertices;
   std::vector<TriangleIndex> faces;
-  readPly( inPly, vertices, faces );
+  readPlyFile( inPly, vertices, faces, false );
 
   // TODO: Attempt to write to other schema in the future pqxx versions.
-  sql = "DROP TABLE IF EXISTS plyupload" + prefix;
+  sql = "DROP TABLE IF EXISTS ply_vertices_text_" + prefix;
+  sendQuery( connectionParam, sql );
+  sql = "DROP TABLE IF EXISTS ply_vertices_geom_" + prefix;
+  sendQuery( connectionParam, sql );
+  sql = "DROP TABLE IF EXISTS ply_faces" + prefix;
   sendQuery( connectionParam, sql );
   sql = "DROP TABLE IF EXISTS " + schema + "." + tableName;
-  qa = sendQuery( connectionParam, sql );
+  sendQuery( connectionParam, sql );
 
+  // Prepare the temporary table containers.
   sql =
-    "CREATE TABLE plyupload" + prefix + "(" +
-    "  geom_text text NOT NULL," +
-    "  slope_angle double precision NOT NULL" +
+    "CREATE TABLE ply_vertices_text_" + prefix + "(" +
+    "  id integer PRIMARY KEY," +
+    "  geom_text text NOT NULL" +
     ")";
-  qb = sendQuery( connectionParam, sql );
-
+  sendQuery( connectionParam, sql );
+  sql =
+    "CREATE TABLE ply_vertices_geom_" + prefix + "(" +
+    "  id integer PRIMARY KEY," +
+    "  geom geometry(PointZ, " + srid + ") NOT NULL" +
+    ")";
+  sendQuery( connectionParam, sql );
+  sql =
+    "CREATE TABLE ply_faces" + prefix + "(" +
+    "  id integer PRIMARY KEY," +
+    "  pa integer NOT NULL," +
+    "  pb integer NOT NULL," +
+    "  pc integer NOT NULL" +
+    ")";
+  sendQuery( connectionParam, sql );
   sql =
     "CREATE TABLE " + schema + "." + tableName + "(" +
-    "  id SERIAL PRIMARY KEY," +
-    "  geom geometry(PolygonZ, " + srid + ")," +
-    "  slope_angle double precision NOT NULL" +
+    "  id integer PRIMARY KEY," +
+    "  geom geometry(PolygonZ, " + srid + ") NOT NULL" +
     ")";
-  qb = sendQuery( connectionParam, sql );
+  sendQuery( connectionParam, sql );
 
-  if ( qa && qb )
+  // Upload mesh data.
+  pqxx::connection c{connectionParam};
+  pqxx::work txn{c};
+  pqxx::stream_to stream_v{
+    txn,
+    "ply_vertices_text_" + prefix,
+    std::vector<std::string>{"id", "geom_text"}
+  };
+  for ( i = 1; i <= vertices.size(); i++ )
+    stream_v << std::make_tuple( std::to_string( i ), vertices[i - 1].point() );
+  stream_v.complete();
+  pqxx::stream_to stream_f{
+    txn,
+    "ply_faces" + prefix,
+    std::vector<std::string>{"id", "pa", "pb", "pc"}
+  };
+  for ( i = 1; i <= faces.size(); i++ )
   {
-    pqxx::connection c{connectionParam};
-    pqxx::work txn{c};
-    pqxx::stream_to stream{txn, "plyupload" + prefix,
-                           std::vector<std::string>{"geom_text", "slope_angle"}};
-    for ( TriangleIndex const &triangle: faces )
-      stream << std::make_tuple( triangle.wkt(), triangle.slopeAngleStr() );
-    stream.complete();
-    txn.commit();
-
-    sql =
-      "INSERT INTO " + schema + "." + tableName + "(geom, slope_angle)" +
-      "SELECT ST_GeomFromText(geom_text, " + srid + ")," +
-      "       slope_angle " +
-      "FROM plyupload" + prefix;
-    sendQuery( connectionParam, sql );
-    sql = "DROP TABLE IF EXISTS plyupload" + prefix;
-    sendQuery( connectionParam, sql );
+    stream_f << std::make_tuple(
+        std::to_string( i ),
+        std::to_string( faces[i - 1].ai + 1 ),
+        std::to_string( faces[i - 1].bi + 1 ),
+        std::to_string( faces[i - 1].ci + 1 )
+    );
   }
+  stream_f.complete();
+  txn.commit();
+
+  // Create polygon soup.
+  sql =
+    "INSERT INTO ply_vertices_geom_" + prefix + "(id, geom) " +
+    "SELECT" +
+    "  id," +
+    "  ST_GeomFromText('POINTZ(' || geom_text || ')', " + srid + ") " +
+    "FROM ply_vertices_text_" + prefix;
+  sendQuery( connectionParam, sql );
+  sql = "VACUUM ANALYZE ply_vertices_geom_" + prefix;
+  psql( hostname, user, dbname, sql );
+  sql =
+    "INSERT INTO " + schema + "." + tableName + "(id, geom) " +
+    "SELECT" +
+    " faces.id," +
+    " ST_MakePolygon(ST_MakeLine(ARRAY[pa.geom, pb.geom, pc.geom, pa.geom]))" +
+    "FROM ply_faces" + prefix + " faces," +
+    "  ply_vertices_geom_" + prefix + " pa," +
+    "  ply_vertices_geom_" + prefix + " pb," +
+    "  ply_vertices_geom_" + prefix + " pc " +
+    "WHERE faces.pa = pa.id AND faces.pb = pb.id AND faces.pc = pc.id";
+  sendQuery( connectionParam, sql );
+  sql = "DROP TABLE IF EXISTS ply_vertices_text_" + prefix;
+  sendQuery( connectionParam, sql );
+  sql = "DROP TABLE IF EXISTS ply_vertices_geom_" + prefix;
+  sendQuery( connectionParam, sql );
+  sql = "DROP TABLE IF EXISTS ply_faces" + prefix;
+  sendQuery( connectionParam, sql );
 }

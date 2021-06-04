@@ -15,7 +15,7 @@ void plyBinToText( const std::string& inPly,
 {
   std::vector<DirVector> vertices;
   std::vector<TriangleIndex> faces;
-  readPly( inPly, vertices, faces );
+  readPlyFile( inPly, vertices, faces, true );
   std::ofstream plyASCII;
   plyASCII.open( outPly );
   writePlyHeader( plyASCII, vertices.size(), faces.size() );

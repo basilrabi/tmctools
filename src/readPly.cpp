@@ -22,7 +22,7 @@ Rcpp::DataFrame readPly( const std::string& plyFile, const std::string& srid = "
 {
   std::vector<DirVector> vertices;
   std::vector<TriangleIndex> triangles;
-  readPly( plyFile, vertices, triangles );
+  readPlyFile( plyFile, vertices, triangles, true );
   Rcpp::DataFrame out = triangleToDataFrame( triangles, srid );
   return out;
 }

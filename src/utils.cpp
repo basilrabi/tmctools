@@ -153,9 +153,10 @@ unsigned int nrow( const std::string& connectionParameters,
   }
 }
 
-void readPly( const std::string& inPly,
-              std::vector<DirVector>& outVertices,
-              std::vector<TriangleIndex>& outFaces )
+void readPlyFile( const std::string& inPly,
+                  std::vector<DirVector>& outVertices,
+                  std::vector<TriangleIndex>& outFaces,
+                  bool assignTriangle )
 {
   std::ofstream plyASCII;
   std::shared_ptr<tinyply::PlyData> vertices, faces;
@@ -244,9 +245,11 @@ void readPly( const std::string& inPly,
     Rcpp::stop( "Unknown vertex type." );
   }
 
-  // Link vertice
-  for ( TriangleIndex &triangle: outFaces )
-    triangle.assignPoints( outVertices );
+  if ( assignTriangle )
+  {
+    for ( TriangleIndex &triangle: outFaces )
+      triangle.assignPoints( outVertices );
+  }
 }
 
 void writePlyHeader( std::ofstream& plyFile,
