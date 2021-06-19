@@ -404,8 +404,8 @@ StringVector idAssetGroup( StringVector x )
     else if ( b == glc_MWL )
       equip[i] = "MWL";
 
-    else if ( std::regex_match( testChar, std::regex( ".*NBC.*" ) ) ||
-              std::regex_match( testChar, std::regex( "^NB?C?\\s+.*" ) ) )
+    else if ( std::regex_match( testChar, std::regex( ".*NB(C|I).*" ) ) ||
+              std::regex_match( testChar, std::regex( "^NB?(C|I)?\\s+.*" ) ) )
       equip[i] = "NBI";
 
     else if ( std::regex_match( testChar, std::regex( ".*PATROL\\s*BOAT.*" ) ) )

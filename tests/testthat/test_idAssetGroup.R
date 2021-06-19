@@ -70,6 +70,7 @@ test_that("idAssetGroup() works", {
   expect_equal(idAssetGroup("MWL 5")               , "MWL")
   expect_equal(idAssetGroup("NB DT 5")             , "NBI")
   expect_equal(idAssetGroup("NBC DT 5")            , "NBI")
+  expect_equal(idAssetGroup("NBI NDT-005")         , "NBI")
   expect_equal(idAssetGroup("NC DT 5")             , "NBI")
   expect_equal(idAssetGroup("COMREL NCIP VEHICLE") , "NCIP")
   expect_equal(idAssetGroup("PACE XX")             , "PACE")
