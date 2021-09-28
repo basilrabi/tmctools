@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // exportPly
 Rcpp::String exportPly(const std::string& user, const std::string& hostname, const std::string& dbname, const std::string& schema, const std::string& tableName, const std::string& srid, const std::string& port);
 RcppExport SEXP _tmctools_exportPly(SEXP userSEXP, SEXP hostnameSEXP, SEXP dbnameSEXP, SEXP schemaSEXP, SEXP tableNameSEXP, SEXP sridSEXP, SEXP portSEXP) {

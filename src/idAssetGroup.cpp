@@ -342,7 +342,7 @@ StringVector idAssetGroup( StringVector x )
     else if ( b == glc_GS ||
               std::regex_match( testChar, std::regex( ".*GEN\\s*SET.*" ) ) ||
               std::regex_match( testChar, std::regex( ".*GENERATOR.*" ) ) ||
-              std::regex_match( testChar, std::regex( "^GS\\s+\\d+.*" ) ) )
+              std::regex_match( testChar, std::regex( "^GS(\\s+|-)\\d+.*" ) ) )
       equip[i] = "GS";
 
     else if ( b == glc_GT )
@@ -383,7 +383,7 @@ StringVector idAssetGroup( StringVector x )
 
     else if ( std::regex_match( testChar, std::regex( "^CRUSHER.*" ) ) ||
               std::regex_match( testChar, std::regex( "^M.*CRU?SHE?E?R.*" ) ) ||
-              std::regex_match( testChar, std::regex( ".*MOBILE\\s*CRUSH?ER.*" ) ) )
+              std::regex_match( testChar, std::regex( ".*MOBILE\\s*CRUSH?E?R.*" ) ) )
       equip[i] = "MOC";
 
     else if ( std::regex_match( testChar, std::regex( ".*SCREE?N(E|I)?R?.*" ) ) ||
@@ -398,7 +398,8 @@ StringVector idAssetGroup( StringVector x )
               std::regex_match( testChar, std::regex( "^MT\\s*\\d+.*" ) ) )
       equip[i] = "MT";
 
-    else if ( b == glc_MTX )
+    else if ( b == glc_MTX ||
+              std::regex_match( testChar, std::regex( ".*MTX-\\d+.*" ) ) )
       equip[i] = "MTX";
 
     else if ( b == glc_MWL )
@@ -505,7 +506,8 @@ StringVector idAssetGroup( StringVector x )
     else if ( std::regex_match( testChar, std::regex( ".*VOLVO\\s*DT.*" ) ) )
       equip[i] = "DT";
 
-    else if ( std::regex_match( testChar, std::regex( "^MC\\s*\\d+.*" ) ) )
+    else if ( std::regex_match( testChar, std::regex( "^MC\\s*\\d+.*" ) ) ||
+              std::regex_match( testChar, std::regex( ".*MOTORCYCLE.*" ) ) )
       equip[i] = "MC";
 
     else if ( b == glc_ATV )
