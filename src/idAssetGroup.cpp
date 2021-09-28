@@ -383,7 +383,7 @@ StringVector idAssetGroup( StringVector x )
 
     else if ( std::regex_match( testChar, std::regex( "^CRUSHER.*" ) ) ||
               std::regex_match( testChar, std::regex( "^M.*CRU?SHE?E?R.*" ) ) ||
-              std::regex_match( testChar, std::regex( ".*MOBILE\\s*CRUSH?E?R.*" ) ) )
+              std::regex_match( testChar, std::regex( ".*MOBILE\\s*CRUSH?E?R?.*" ) ) )
       equip[i] = "MOC";
 
     else if ( std::regex_match( testChar, std::regex( ".*SCREE?N(E|I)?R?.*" ) ) ||
@@ -438,7 +438,8 @@ StringVector idAssetGroup( StringVector x )
     else if ( std::regex_match( testChar, std::regex( ".*SKAFF.*" ) ) )
       equip[i] = "SKAFF";
 
-    else if ( b == glc_SP )
+    else if ( b == glc_SP ||
+              std::regex_match( testChar, std::regex( "^SP-\\d+\\s+.*" ) ) )
       equip[i] = "SP";
 
     else if ( b == glc_ST )
