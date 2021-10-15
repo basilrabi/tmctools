@@ -41,31 +41,30 @@ void plyBinToDB( const std::string& inPly,
   std::vector<TriangleIndex> faces;
   readPlyFile( inPly, vertices, faces, false );
 
-  // TODO: Attempt to write to other schema in the future pqxx versions.
-  sql = "DROP TABLE IF EXISTS ply_vertices_text_" + prefix;
+  sql = "DROP TABLE IF EXISTS " + schema + ".ply_vertices_text_" + prefix;
   sendQuery( connectionParam, sql );
-  sql = "DROP TABLE IF EXISTS ply_vertices_geom_" + prefix;
+  sql = "DROP TABLE IF EXISTS " + schema + ".ply_vertices_geom_" + prefix;
   sendQuery( connectionParam, sql );
-  sql = "DROP TABLE IF EXISTS ply_faces_" + prefix;
+  sql = "DROP TABLE IF EXISTS " + schema + ".ply_faces_" + prefix;
   sendQuery( connectionParam, sql );
   sql = "DROP TABLE IF EXISTS " + schema + "." + tableName;
   sendQuery( connectionParam, sql );
 
   // Prepare the temporary table containers.
   sql =
-    "CREATE TABLE ply_vertices_text_" + prefix + "(" +
+    "CREATE TABLE " + schema + ".ply_vertices_text_" + prefix + "(" +
     "  id integer PRIMARY KEY," +
     "  geom_text text NOT NULL" +
     ")";
   sendQuery( connectionParam, sql );
   sql =
-    "CREATE TABLE ply_vertices_geom_" + prefix + "(" +
+    "CREATE TABLE " + schema + ".ply_vertices_geom_" + prefix + "(" +
     "  id integer PRIMARY KEY," +
     "  geom geometry(PointZ, " + srid + ") NOT NULL" +
     ")";
   sendQuery( connectionParam, sql );
   sql =
-    "CREATE TABLE ply_faces_" + prefix + "(" +
+    "CREATE TABLE " + schema + ".ply_faces_" + prefix + "(" +
     "  id integer PRIMARY KEY," +
     "  p_a integer NOT NULL," +
     "  p_b integer NOT NULL," +
@@ -82,19 +81,19 @@ void plyBinToDB( const std::string& inPly,
   // Upload mesh data.
   pqxx::connection c{connectionParam};
   pqxx::work txn{c};
-  pqxx::stream_to stream_v{
-    txn,
-    "ply_vertices_text_" + prefix,
-    std::vector<std::string>{"id", "geom_text"}
-  };
+  pqxx::stream_to stream_v(pqxx::stream_to::table(
+      txn,
+      pqxx::table_path{schema, "ply_vertices_text_" + prefix},
+      pqxx::table_path{"id", "geom_text"}
+  ));
   for ( i = 1; i <= vertices.size(); i++ )
     stream_v << std::make_tuple( std::to_string( i ), vertices[i - 1].point() );
   stream_v.complete();
-  pqxx::stream_to stream_f{
+  pqxx::stream_to stream_f(pqxx::stream_to::table(
     txn,
-    "ply_faces_" + prefix,
-    std::vector<std::string>{"id", "p_a", "p_b", "p_c"}
-  };
+    pqxx::table_path{schema, "ply_faces_" + prefix},
+    pqxx::table_path{"id", "p_a", "p_b", "p_c"}
+  ));
   for ( i = 1; i <= faces.size(); i++ )
   {
     stream_f << std::make_tuple(
@@ -109,29 +108,29 @@ void plyBinToDB( const std::string& inPly,
 
   // Create polygon soup.
   sql =
-    "INSERT INTO ply_vertices_geom_" + prefix + "(id, geom) " +
+    "INSERT INTO " + schema + ".ply_vertices_geom_" + prefix + "(id, geom) " +
     "SELECT" +
     "  id," +
     "  ST_GeomFromText('POINTZ(' || geom_text || ')', " + srid + ") " +
-    "FROM ply_vertices_text_" + prefix;
+    "FROM " + schema + ".ply_vertices_text_" + prefix;
   sendQuery( connectionParam, sql );
-  sql = "VACUUM ANALYZE ply_vertices_geom_" + prefix;
+  sql = "VACUUM ANALYZE " + schema + ".ply_vertices_geom_" + prefix;
   psql( hostname, user, dbname, sql );
   sql =
     "INSERT INTO " + schema + "." + tableName + "(id, geom) " +
     "SELECT" +
     " faces.id," +
     " ST_MakePolygon(ST_MakeLine(ARRAY[p_a.geom, p_b.geom, p_c.geom, p_a.geom]))" +
-    "FROM ply_faces_" + prefix + " faces," +
-    "  ply_vertices_geom_" + prefix + " p_a," +
-    "  ply_vertices_geom_" + prefix + " p_b," +
-    "  ply_vertices_geom_" + prefix + " p_c " +
+    "FROM " + schema + ".ply_faces_" + prefix + " faces," +
+    " " + schema + ".ply_vertices_geom_" + prefix + " p_a," +
+    " " + schema + ".ply_vertices_geom_" + prefix + " p_b," +
+    " " + schema + ".ply_vertices_geom_" + prefix + " p_c " +
     "WHERE faces.p_a = p_a.id AND faces.p_b = p_b.id AND faces.p_c = p_c.id";
   sendQuery( connectionParam, sql );
-  sql = "DROP TABLE IF EXISTS ply_vertices_text_" + prefix;
+  sql = "DROP TABLE IF EXISTS " + schema + ".ply_vertices_text_" + prefix;
   sendQuery( connectionParam, sql );
-  sql = "DROP TABLE IF EXISTS ply_vertices_geom_" + prefix;
+  sql = "DROP TABLE IF EXISTS " + schema + ".ply_vertices_geom_" + prefix;
   sendQuery( connectionParam, sql );
-  sql = "DROP TABLE IF EXISTS ply_faces_" + prefix;
+  sql = "DROP TABLE IF EXISTS " + schema + ".ply_faces_" + prefix;
   sendQuery( connectionParam, sql );
 }
