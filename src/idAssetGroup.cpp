@@ -89,7 +89,8 @@ bool isSubset( std::string x, std::string y )
 //'
 //' Identifies the asset group of a given equipment (or entity) which is the
 //'   recipient of the item withdrawn from warehouse.
-//'   This data can be seen from warehouse issuance slips.
+//'   This data can be seen from warehouse issuance slips prior to
+//'   implementation of SAP.
 //'
 //'   Below are the identified groups:
 //'   \itemize{
@@ -112,7 +113,7 @@ bool isSubset( std::string x, std::string y )
 //'   \item Equipment
 //'     \describe{
 //'     \item{AC}{air compressor}
-//'     \item{ADT}{articulated dump truck}
+//'     \item{AD}{articulated dump truck}
 //'     \item{ATV}{all-terrain vehicle}
 //'     \item{CM}{concrete mixer}
 //'     \item{CT}{bulldozer}
@@ -126,33 +127,31 @@ bool isSubset( std::string x, std::string y )
 //'     \item{GS}{power generator set}
 //'     \item{GT}{garbage truck}
 //'     \item{HDT}{HOWO dump truck}
-//'     \item{LCT}{landing craft tank}
+//'     \item{LC}{landing craft tank}
 //'     \item{LM}{lawn mower}
-//'     \item{MC}{motorcycle}
+//'     \item{MC}{mobile crusher}
 //'     \item{MDT}{mini dump truck}
 //'     \item{ML}{man lift}
-//'     \item{MOC}{mobile crusher}
-//'     \item{MOS}{mobile screener}
+//'     \item{MR}{motorcycle}
+//'     \item{MS}{mobile screener}
 //'     \item{MT}{maintenance truck}
-//'     \item{MTX}{mini tracked excavator}
-//'     \item{MWL}{mini wheeled pay loader}
+//'     \item{MX}{mini tracked excavator}
+//'     \item{MW}{mini wheeled pay loader}
 //'     \item{PATROLBOAT}{}
 //'     \item{PB}{pump boat}
-//'     \item{PMT}{prime mover truck}
+//'     \item{PM}{prime mover truck}
 //'     \item{RG}{road grader}
 //'     \item{SB}{service bus}
-//'     \item{SP}{service pickup}
 //'     \item{ST}{service truck}
-//'     \item{TL}{tracked pay loader}
-//'     \item{TWL}{tower light}
+//'     \item{SV}{service car}
+//'     \item{TL}{tower light}
 //'     \item{TX}{tracked excavator}
-//'     \item{VC}{vibrating compactor}
+//'     \item{VR}{vibrating compactor}
 //'     \item{WC}{wheeled crane}
 //'     \item{WL}{wheeled pay loader}
 //'     \item{WM}{welding machine}
 //'     \item{WP}{water pump}
-//'     \item{WT}{water tank}
-//'     \item{WTL}{water lorry}
+//'     \item{WT}{water truck}
 //'     \item{WX}{wheeled excavator}
 //'     \item{YBM}{Yoshida Boring Machine}
 //'     }
@@ -235,7 +234,6 @@ StringVector idAssetGroup( StringVector x )
   String glc_WM        = getLetterCount( "WM" );
   String glc_WP1       = getLetterCount( "WP" );
   String glc_WP2       = getLetterCount( "WTLWP" );
-  String glc_WT        = getLetterCount( "WT" );
   String glc_WTL       = getLetterCount( "WTL" );
   String glc_WX        = getLetterCount( "WX" );
   String glc_YBM       = getLetterCount( "YBM" );
@@ -292,7 +290,7 @@ StringVector idAssetGroup( StringVector x )
     {
 
       if ( std::regex_match( testChar, std::regex( ".*MC.*" ) ) )
-        equip[i] = "MC";
+        equip[i] = "MR";
 
       else
         equip[i] = "CM";
@@ -352,7 +350,7 @@ StringVector idAssetGroup( StringVector x )
       equip[i] = "HPK";
 
     else if ( std::regex_match( testChar, std::regex( "^\\s*LCT.*" ) ) )
-      equip[i] = "LCT";
+      equip[i] = "LC";
 
     else if ( b == glc_LM )
     {
@@ -384,12 +382,12 @@ StringVector idAssetGroup( StringVector x )
     else if ( std::regex_match( testChar, std::regex( "^CRUSHER.*" ) ) ||
               std::regex_match( testChar, std::regex( "^M.*CRU?SHE?E?R.*" ) ) ||
               std::regex_match( testChar, std::regex( ".*MOBILE\\s*CRUSH?E?R?.*" ) ) )
-      equip[i] = "MOC";
+      equip[i] = "MC";
 
     else if ( std::regex_match( testChar, std::regex( ".*SCREE?N(E|I)?R?.*" ) ) ||
               ( b == glc_MOS1 ) ||
               ( b == glc_MOS2 ) )
-      equip[i] = "MOS";
+      equip[i] = "MS";
 
     else if ( std::regex_match( testChar, std::regex( ".*MTEL.*" ) ) )
       equip[i] = "MTEL";
@@ -400,10 +398,10 @@ StringVector idAssetGroup( StringVector x )
 
     else if ( b == glc_MTX ||
               std::regex_match( testChar, std::regex( ".*MTX-\\d+.*" ) ) )
-      equip[i] = "MTX";
+      equip[i] = "MX";
 
     else if ( b == glc_MWL )
-      equip[i] = "MWL";
+      equip[i] = "MW";
 
     else if ( std::regex_match( testChar, std::regex( ".*NB(C|I).*" ) ) ||
               std::regex_match( testChar, std::regex( "^NB?(C|I)?\\s+.*" ) ) )
@@ -420,7 +418,7 @@ StringVector idAssetGroup( StringVector x )
       equip[i] = "PB";
 
     else if ( b == glc_PMT )
-      equip[i] = "PMT";
+      equip[i] = "PM";
 
     else if ( b == glc_RG )
       equip[i] = "RG";
@@ -440,7 +438,7 @@ StringVector idAssetGroup( StringVector x )
 
     else if ( b == glc_SP ||
               std::regex_match( testChar, std::regex( "^SP-\\d+\\s+.*" ) ) )
-      equip[i] = "SP";
+      equip[i] = "SV";
 
     else if ( b == glc_ST )
       equip[i] = "ST";
@@ -458,7 +456,7 @@ StringVector idAssetGroup( StringVector x )
       equip[i] = "TX";
 
     else if ( b == glc_VC2 || b == glc_VC1 )
-      equip[i] = "VC";
+      equip[i] = "VR";
 
     else if ( b == glc_WC ||
               std::regex_match( testChar, std::regex( ".*CRANE.*" ) ) )
@@ -484,17 +482,14 @@ StringVector idAssetGroup( StringVector x )
 
       if ( std::regex_match( testChar, std::regex( ".*WTL.*" ) ) ||
            std::regex_match( testChar, std::regex( ".*WLT.*" ) ) )
-        equip[i] = "WTL";
+        equip[i] = "WT";
 
       else if ( std::regex_match( testChar, std::regex( ".*TWL.*" ) ) )
-        equip[i] = "TWL";
+        equip[i] = "TL";
 
       else
         equip[i] = "ZZZ";
     }
-
-    else if ( b == glc_WT )
-      equip[i] = "WT";
 
     else if ( std::regex_match( testChar, std::regex( ".*WX.*" ) ) ||
               b == glc_WX )
@@ -509,13 +504,13 @@ StringVector idAssetGroup( StringVector x )
 
     else if ( std::regex_match( testChar, std::regex( "^MC\\s*\\d+.*" ) ) ||
               std::regex_match( testChar, std::regex( ".*MOTORCYCLE.*" ) ) )
-      equip[i] = "MC";
+      equip[i] = "MR";
 
     else if ( b == glc_ATV )
       equip[i] = "ATV";
 
     else if ( b == glc_ADT )
-      equip[i] = "ADT";
+      equip[i] = "AD";
 
     // Exotic cases
 

@@ -24,7 +24,8 @@ exportPly <- function(user, hostname, dbname, schema, tableName, srid = "3125", 
 #'
 #' Identifies the asset group of a given equipment (or entity) which is the
 #'   recipient of the item withdrawn from warehouse.
-#'   This data can be seen from warehouse issuance slips.
+#'   This data can be seen from warehouse issuance slips prior to
+#'   implementation of SAP.
 #'
 #'   Below are the identified groups:
 #'   \itemize{
@@ -47,7 +48,7 @@ exportPly <- function(user, hostname, dbname, schema, tableName, srid = "3125", 
 #'   \item Equipment
 #'     \describe{
 #'     \item{AC}{air compressor}
-#'     \item{ADT}{articulated dump truck}
+#'     \item{AD}{articulated dump truck}
 #'     \item{ATV}{all-terrain vehicle}
 #'     \item{CM}{concrete mixer}
 #'     \item{CT}{bulldozer}
@@ -61,33 +62,31 @@ exportPly <- function(user, hostname, dbname, schema, tableName, srid = "3125", 
 #'     \item{GS}{power generator set}
 #'     \item{GT}{garbage truck}
 #'     \item{HDT}{HOWO dump truck}
-#'     \item{LCT}{landing craft tank}
+#'     \item{LC}{landing craft tank}
 #'     \item{LM}{lawn mower}
-#'     \item{MC}{motorcycle}
+#'     \item{MC}{mobile crusher}
 #'     \item{MDT}{mini dump truck}
 #'     \item{ML}{man lift}
-#'     \item{MOC}{mobile crusher}
-#'     \item{MOS}{mobile screener}
+#'     \item{MR}{motorcycle}
+#'     \item{MS}{mobile screener}
 #'     \item{MT}{maintenance truck}
-#'     \item{MTX}{mini tracked excavator}
-#'     \item{MWL}{mini wheeled pay loader}
+#'     \item{MX}{mini tracked excavator}
+#'     \item{MW}{mini wheeled pay loader}
 #'     \item{PATROLBOAT}{}
 #'     \item{PB}{pump boat}
-#'     \item{PMT}{prime mover truck}
+#'     \item{PM}{prime mover truck}
 #'     \item{RG}{road grader}
 #'     \item{SB}{service bus}
-#'     \item{SP}{service pickup}
 #'     \item{ST}{service truck}
-#'     \item{TL}{tracked pay loader}
-#'     \item{TWL}{tower light}
+#'     \item{SV}{service car}
+#'     \item{TL}{tower light}
 #'     \item{TX}{tracked excavator}
-#'     \item{VC}{vibrating compactor}
+#'     \item{VR}{vibrating compactor}
 #'     \item{WC}{wheeled crane}
 #'     \item{WL}{wheeled pay loader}
 #'     \item{WM}{welding machine}
 #'     \item{WP}{water pump}
-#'     \item{WT}{water tank}
-#'     \item{WTL}{water lorry}
+#'     \item{WT}{water truck}
 #'     \item{WX}{wheeled excavator}
 #'     \item{YBM}{Yoshida Boring Machine}
 #'     }
