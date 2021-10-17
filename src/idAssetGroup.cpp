@@ -512,6 +512,9 @@ StringVector idAssetGroup( StringVector x )
     else if ( b == glc_ADT )
       equip[i] = "AD";
 
+    else if ( std::regex_match( testChar, std::regex( "^DT\\s*-?\\s*\\d+.*" ) ) )
+      equip[i] = "DT";
+
     // Exotic cases
 
     else if ( testChar == "219" )

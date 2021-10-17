@@ -20,6 +20,7 @@ test_that("idAssetGroup() works", {
   expect_equal(idAssetGroup("ALL VOLVO DT'S")          , "DT")
   expect_equal(idAssetGroup("DST 195")                 , "DT")
   expect_equal(idAssetGroup("DT 101")                  , "DT")
+  expect_equal(idAssetGroup("DT-107 (SAMLPLE STAND)")  , "DT")
   expect_equal(idAssetGroup("EQ 101")                  , "EQ")
   expect_equal(idAssetGroup("FASCRAFT 1")              , "FASTCRAFT")
   expect_equal(idAssetGroup("FAST CRAFT")              , "FASTCRAFT")
