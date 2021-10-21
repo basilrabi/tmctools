@@ -114,23 +114,24 @@ bool isSubset( std::string x, std::string y )
 //'     \describe{
 //'     \item{AC}{air compressor}
 //'     \item{AD}{articulated dump truck}
-//'     \item{ATV}{all-terrain vehicle}
+//'     \item{AT}{all-terrain vehicle}
 //'     \item{CM}{concrete mixer}
 //'     \item{CT}{bulldozer}
+//'     \item{DM}{Drill Machine}
 //'     \item{DT}{dump truck}
-//'     \item{FASTCRAFT}{}
-//'     \item{FL}{fuel lorry}
-//'     \item{FORKLIFT}{}
+//'     \item{FC}{fast craft}
+//'     \item{FL}{forklift}
+//'     \item{FT}{fuel truck}
+//'     \item{FM}{farm tractors}
+//'     \item{FR}{fire truck}
 //'     \item{FS}{flying squid}
-//'     \item{FT}{fire truck}
-//'     \item{FTR}{farm tractors}
 //'     \item{GS}{power generator set}
 //'     \item{GT}{garbage truck}
 //'     \item{HDT}{HOWO dump truck}
 //'     \item{LC}{landing craft tank}
 //'     \item{LM}{lawn mower}
 //'     \item{MC}{mobile crusher}
-//'     \item{MDT}{mini dump truck}
+//'     \item{MD}{mini dump truck}
 //'     \item{ML}{man lift}
 //'     \item{MR}{motorcycle}
 //'     \item{MS}{mobile screener}
@@ -147,13 +148,12 @@ bool isSubset( std::string x, std::string y )
 //'     \item{TL}{tower light}
 //'     \item{TX}{tracked excavator}
 //'     \item{VR}{vibrating compactor}
-//'     \item{WC}{wheeled crane}
 //'     \item{WL}{wheeled pay loader}
 //'     \item{WM}{welding machine}
 //'     \item{WP}{water pump}
+//'     \item{WR}{wheeled crane}
 //'     \item{WT}{water truck}
 //'     \item{WX}{wheeled excavator}
-//'     \item{YBM}{Yoshida Boring Machine}
 //'     }
 //'   \item Fixed assets
 //'     \describe{
@@ -319,23 +319,23 @@ StringVector idAssetGroup( StringVector x )
       equip[i] = "EQ";
 
     else if ( std::regex_match( testChar, std::regex( ".*FAST?\\s?CRAFT.*" ) ) )
-      equip[i] = "FASTCRAFT";
+      equip[i] = "FC";
 
     else if ( b == glc_FL )
-      equip[i] = "FL";
+      equip[i] = "FT";
 
     else if ( b == glc_FORKLIFT1 || b == glc_FORKLIFT2 || b == glc_FORKLIFT3 )
-      equip[i] = "FORKLIFT";
+      equip[i] = "FL";
 
     else if ( std::regex_match( testChar, std::regex( "^F\\s*S.*" ) ) ||
               std::regex_match( testChar, std::regex( ".*SQUID.*" ) ) )
       equip[i] = "FS";
 
     else if ( b == glc_FT )
-      equip[i] = "FT";
+      equip[i] = "FR";
 
     else if ( b == glc_FTR )
-      equip[i] = "FTR";
+      equip[i] = "FM";
 
     else if ( b == glc_GS ||
               std::regex_match( testChar, std::regex( ".*GEN\\s*SET.*" ) ) ||
@@ -373,7 +373,7 @@ StringVector idAssetGroup( StringVector x )
 
     else if ( b == glc_MDT ||
               std::regex_match( testChar, std::regex( ".*MD+T\\b.*" ) ) )
-      equip[i] = "MDT";
+      equip[i] = "MD";
 
     else if ( std::regex_match( testChar, std::regex( ".*MA?R?KE?TI?N?G.*" ) ) ||
               std::regex_match( testChar, std::regex( ".*MKGT.*" ) ) )
@@ -460,7 +460,7 @@ StringVector idAssetGroup( StringVector x )
 
     else if ( b == glc_WC ||
               std::regex_match( testChar, std::regex( ".*CRANE.*" ) ) )
-      equip[i] = "WC";
+      equip[i] = "WR";
 
     else if ( b == glc_WM &&
               std::regex_match( testChar, std::regex( ".*WM.*" ) ) )
@@ -497,7 +497,7 @@ StringVector idAssetGroup( StringVector x )
 
     else if ( b == glc_YBM ||
               std::regex_match( testChar, std::regex( ".*YBB?M.*" ) ) )
-      equip[i] = "YBM";
+      equip[i] = "DM";
 
     else if ( std::regex_match( testChar, std::regex( ".*VOLVO\\s*DT.*" ) ) )
       equip[i] = "DT";
@@ -507,7 +507,7 @@ StringVector idAssetGroup( StringVector x )
       equip[i] = "MR";
 
     else if ( b == glc_ATV )
-      equip[i] = "ATV";
+      equip[i] = "AT";
 
     else if ( b == glc_ADT )
       equip[i] = "AD";
