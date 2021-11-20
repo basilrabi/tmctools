@@ -41,23 +41,24 @@ Below are the identified groups:
     \describe{
     \item{AC}{air compressor}
     \item{AD}{articulated dump truck}
-    \item{ATV}{all-terrain vehicle}
+    \item{AT}{all-terrain vehicle}
     \item{CM}{concrete mixer}
     \item{CT}{bulldozer}
+    \item{DM}{Drill Machine}
     \item{DT}{dump truck}
-    \item{FASTCRAFT}{}
-    \item{FL}{fuel lorry}
-    \item{FORKLIFT}{}
+    \item{FC}{fast craft}
+    \item{FL}{forklift}
+    \item{FT}{fuel truck}
+    \item{FM}{farm tractors}
+    \item{FR}{fire truck}
     \item{FS}{flying squid}
-    \item{FT}{fire truck}
-    \item{FTR}{farm tractors}
     \item{GS}{power generator set}
     \item{GT}{garbage truck}
     \item{HDT}{HOWO dump truck}
     \item{LC}{landing craft tank}
     \item{LM}{lawn mower}
     \item{MC}{mobile crusher}
-    \item{MDT}{mini dump truck}
+    \item{MD}{mini dump truck}
     \item{ML}{man lift}
     \item{MR}{motorcycle}
     \item{MS}{mobile screener}
@@ -74,13 +75,12 @@ Below are the identified groups:
     \item{TL}{tower light}
     \item{TX}{tracked excavator}
     \item{VR}{vibrating compactor}
-    \item{WC}{wheeled crane}
     \item{WL}{wheeled pay loader}
     \item{WM}{welding machine}
     \item{WP}{water pump}
+    \item{WR}{wheeled crane}
     \item{WT}{water truck}
     \item{WX}{wheeled excavator}
-    \item{YBM}{Yoshida Boring Machine}
     }
   \item Fixed assets
     \describe{

@@ -13,7 +13,7 @@ psql <- function(db_host, db_user, db_name, query, ignore.stdout = TRUE) {
   cmd <- paste0("psql -h ", db_host,
                 " -U ", db_user,
                 " -d ", db_name,
-                " -c \"", query, "\"")
+                " -c '", query, "'")
   if (system(cmd, ignore.stdout = ignore.stdout) != 0)
     stop("PSQL command error.")
 
