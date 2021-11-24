@@ -4,7 +4,14 @@
 \alias{psql}
 \title{Execute psql Query}
 \usage{
-psql(db_host, db_user, db_name, query, ignore.stdout = TRUE)
+psql(
+  db_host,
+  db_user,
+  db_name,
+  query,
+  ignore.stdout = TRUE,
+  use_single_quoute = TRUE
+)
 }
 \arguments{
 \item{db_host}{PostGIS server host name or IP address}
@@ -16,6 +23,9 @@ psql(db_host, db_user, db_name, query, ignore.stdout = TRUE)
 \item{query}{a single query to be executed}
 
 \item{ignore.stdout}{see \link{system}}
+
+\item{use_single_quoute}{use single quotes to enclose query string. If false,
+double quotes are used instead.}
 }
 \value{
 NULL if success
