@@ -11,7 +11,8 @@ exportPly(
   schema,
   db_table,
   srid = "3125",
-  port = "5432"
+  port = "5432",
+  digits = 3L
 )
 }
 \arguments{
@@ -29,6 +30,8 @@ exportPly(
 
 \item{port}{port number to connect to at the server host, or socket file
 name extension for Unix-domain connections}
+
+\item{digits}{precision in number of decimal digits}
 }
 \value{
 file name of exported ply file

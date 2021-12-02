@@ -320,7 +320,8 @@ void writePlyFaceFromDB( const std::string& ply,
 void writePlyVertexFromDB( const std::string& ply,
                            const std::string& connection_parameters,
                            const std::string& schema,
-                           const std::string& table )
+                           const std::string& table,
+                           const unsigned int& digits )
 {
   pqxx::connection c{connection_parameters};
   pqxx::work txn{c};
@@ -334,9 +335,9 @@ void writePlyVertexFromDB( const std::string& ply,
   ply_stream.open( ply, std::ios_base::app );
   for ( auto [x, y, z] : txn.stream<double, double, double>( query ) )
   {
-    xx << std::fixed << std::setprecision( 3 ) << x;
-    yy << std::fixed << std::setprecision( 3 ) << y;
-    zz << std::fixed << std::setprecision( 3 ) << z;
+    xx << std::fixed << std::setprecision( digits ) << x;
+    yy << std::fixed << std::setprecision( digits ) << y;
+    zz << std::fixed << std::setprecision( digits ) << z;
     ply_stream << xx.str() << " " << yy.str() << " " << zz.str() << "\n";
     xx.str( "" );
     yy.str( "" );

@@ -105,6 +105,7 @@ void writePlyFaceFromDB( const std::string& ply,
 void writePlyVertexFromDB( const std::string& ply,
                            const std::string& connection_parameters,
                            const std::string& schema,
-                           const std::string& table );
+                           const std::string& table,
+                           const unsigned int& digits );
 
 #endif

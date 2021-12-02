@@ -14,6 +14,7 @@
 //' @param srid spatial reference identifier of the geometry
 //' @param port port number to connect to at the server host, or socket file
 //'   name extension for Unix-domain connections
+//' @param digits precision in number of decimal digits
 //' @return file name of exported ply file
 //' @export
 // [[Rcpp::export]]
@@ -23,7 +24,8 @@ Rcpp::String exportPly( const std::string& db_user,
                         const std::string& schema,
                         const std::string& db_table,
                         const std::string& srid = "3125",
-                        const std::string& port = "5432" )
+                        const std::string& port = "5432",
+                        const unsigned int& digits = 3 )
 {
   Rcpp::Environment tmctools = Rcpp::Environment::namespace_env( "tmctools" );
   Rcpp::Function psql = tmctools["psql"];
@@ -91,7 +93,8 @@ Rcpp::String exportPly( const std::string& db_user,
   writePlyVertexFromDB( prefix + ".ply",
                         connection_parameters,
                         "public",
-                        prefix + "_point" );
+                        prefix + "_point",
+                        digits );
   writePlyFaceFromDB( prefix + ".ply",
                       connection_parameters,
                       "public",

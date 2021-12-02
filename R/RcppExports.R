@@ -14,10 +14,11 @@
 #' @param srid spatial reference identifier of the geometry
 #' @param port port number to connect to at the server host, or socket file
 #'   name extension for Unix-domain connections
+#' @param digits precision in number of decimal digits
 #' @return file name of exported ply file
 #' @export
-exportPly <- function(db_user, db_host, db_name, schema, db_table, srid = "3125", port = "5432") {
-    .Call('_tmctools_exportPly', PACKAGE = 'tmctools', db_user, db_host, db_name, schema, db_table, srid, port)
+exportPly <- function(db_user, db_host, db_name, schema, db_table, srid = "3125", port = "5432", digits = 3L) {
+    .Call('_tmctools_exportPly', PACKAGE = 'tmctools', db_user, db_host, db_name, schema, db_table, srid, port, digits)
 }
 
 #' Identify asset group
