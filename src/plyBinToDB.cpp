@@ -10,11 +10,11 @@
 //' \code{slope_angle double precision}.
 //'
 //'
-//' @param inPly name of ply file to be translated
-//' @param user PostGIS user
-//' @param hostname PostGIS server host name or IP address
-//' @param dbname database to write into
-//' @param tableName table to write into. This will be overwritten if it exists!
+//' @param ply name of ply file to be translated
+//' @param db_user PostGIS user
+//' @param db_host PostGIS server host name or IP address
+//' @param db_name database to write into
+//' @param db_table table to write into. This will be overwritten if it exists!
 //' @param schema schema to write into
 //' @param port port number to connect to at the server host, or socket file
 //'   name extension for Unix-domain connections
@@ -22,11 +22,11 @@
 //' @return void
 //' @export
 // [[Rcpp::export]]
-void plyBinToDB( const std::string& inPly,
-                 const std::string& user,
-                 const std::string& hostname,
-                 const std::string& dbname,
-                 const std::string& tableName,
+void plyBinToDB( const std::string& ply,
+                 const std::string& db_user,
+                 const std::string& db_host,
+                 const std::string& db_name,
+                 const std::string& db_table,
                  const std::string& schema = "public",
                  const std::string& port = "5432",
                  const std::string& srid = "3125" )
@@ -34,12 +34,12 @@ void plyBinToDB( const std::string& inPly,
   Rcpp::Environment tmctools = Rcpp::Environment::namespace_env( "tmctools" );
   Rcpp::Function psql = tmctools["psql"];
   long unsigned int i;
-  std::string connectionParam = "postgresql://" + user + "@" + hostname + ":" + port + "/" + dbname + "?application_name=tmctools";
+  std::string connectionParam = "postgresql://" + db_user + "@" + db_host + ":" + port + "/" + db_name + "?application_name=tmctools";
   std::string prefix = randomString( 5 );
   std::string sql;
   std::vector<DirVector> vertices;
   std::vector<TriangleIndex> faces;
-  readPlyFile( inPly, vertices, faces, false );
+  readPlyFile( ply, vertices, faces, false );
 
   sql = "DROP TABLE IF EXISTS " + schema + ".ply_vertices_text_" + prefix;
   sendQuery( connectionParam, sql );
@@ -47,7 +47,7 @@ void plyBinToDB( const std::string& inPly,
   sendQuery( connectionParam, sql );
   sql = "DROP TABLE IF EXISTS " + schema + ".ply_faces_" + prefix;
   sendQuery( connectionParam, sql );
-  sql = "DROP TABLE IF EXISTS " + schema + "." + tableName;
+  sql = "DROP TABLE IF EXISTS " + schema + "." + db_table;
   sendQuery( connectionParam, sql );
 
   // Prepare the temporary table containers.
@@ -72,7 +72,7 @@ void plyBinToDB( const std::string& inPly,
     ")";
   sendQuery( connectionParam, sql );
   sql =
-    "CREATE TABLE " + schema + "." + tableName + "(" +
+    "CREATE TABLE " + schema + "." + db_table + "(" +
     "  id integer PRIMARY KEY," +
     "  geom geometry(PolygonZ, " + srid + ") NOT NULL" +
     ")";
@@ -115,9 +115,9 @@ void plyBinToDB( const std::string& inPly,
     "FROM " + schema + ".ply_vertices_text_" + prefix;
   sendQuery( connectionParam, sql );
   sql = "VACUUM ANALYZE " + schema + ".ply_vertices_geom_" + prefix;
-  psql( hostname, user, dbname, sql );
+  psql( db_host, db_user, db_name, sql );
   sql =
-    "INSERT INTO " + schema + "." + tableName + "(id, geom) " +
+    "INSERT INTO " + schema + "." + db_table + "(id, geom) " +
     "SELECT" +
     " faces.id," +
     " ST_MakePolygon(ST_MakeLine(ARRAY[p_a.geom, p_b.geom, p_c.geom, p_a.geom]))" +

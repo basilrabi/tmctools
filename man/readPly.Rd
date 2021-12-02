@@ -4,10 +4,10 @@
 \alias{readPly}
 \title{Read PLY File}
 \usage{
-readPly(plyFile, srid = "")
+readPly(ply, srid = "")
 }
 \arguments{
-\item{plyFile}{file name}
+\item{ply}{file name}
 
 \item{srid}{spatial reference identifier of the geometry if output is ewkt}
 }

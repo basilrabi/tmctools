@@ -25,16 +25,16 @@ Rcpp::DataFrame triangleToDataFrame( std::vector<T>& triangles,
                                      const std::string& srid )
 {
   Rcpp::NumericVector area2d ( triangles.size() );
-  Rcpp::NumericVector edgeLength ( triangles.size() );
-  Rcpp::NumericVector slopeAngle ( triangles.size() );
+  Rcpp::NumericVector edge_length ( triangles.size() );
+  Rcpp::NumericVector slope_angle ( triangles.size() );
   Rcpp::StringVector polygon ( triangles.size() );
 
   for ( unsigned int i = 0; i < triangles.size(); i++ )
   {
     area2d[i] = triangles[i].area2d();
-    slopeAngle[i] = triangles[i].slopeAngle();
-    edgeLength[i] = triangles[i].longestEdge();
-    slopeAngle[i] = triangles[i].slopeAngle();
+    slope_angle[i] = triangles[i].slopeAngle();
+    edge_length[i] = triangles[i].longestEdge();
+    slope_angle[i] = triangles[i].slopeAngle();
     if ( srid != "" )
       polygon[i] = triangles[i].ewkt( srid );
     else
@@ -43,8 +43,8 @@ Rcpp::DataFrame triangleToDataFrame( std::vector<T>& triangles,
 
   Rcpp::DataFrame out = Rcpp::DataFrame::create(
     Rcpp::Named( "area_2d" ) = area2d,
-    Rcpp::Named( "edge_length" ) = edgeLength,
-    Rcpp::Named( "slope_angle" ) = slopeAngle,
+    Rcpp::Named( "edge_length" ) = edge_length,
+    Rcpp::Named( "slope_angle" ) = slope_angle,
     Rcpp::Named( "polygon" ) = polygon,
     Rcpp::Named( "stringsAsFactors" ) = false
   );
@@ -56,7 +56,7 @@ Rcpp::DataFrame triangleToDataFrame( std::vector<T>& triangles,
 bool fileExists( const std::string& name );
 
 // Executes a Postgres query using a connection parameter string
-bool sendQuery ( const std::string& connectionParameters,
+bool sendQuery ( const std::string& connection_parameters,
                  const std::string& query );
 
 // Computes the slope of the triangle plane with respect to the z-axis given
@@ -67,43 +67,43 @@ double slopeAngleBase( const DirVector& a, const DirVector& b);
 std::string randomString( const unsigned int& len );
 
 // Read a string file and output a vector of points.
-std::vector<DirVector> readSTR( const std::string& strFile );
+std::vector<DirVector> readSTR( const std::string& str_file );
 
 // Read a dtm file and create a vector of triangles using a vector of points.
 std::vector<Triangle> pointToTri ( std::vector<DirVector>& points,
-                                   const std::string& dtmFile );
+                                   const std::string& dtm );
 
 // Return the number of rows of a Postgres table
-unsigned int nrow( const std::string& connectionParameters,
+unsigned int nrow( const std::string& connection_parameters,
                    const std::string& schema,
                    const std::string& table );
 
 // Read the PLY file and store the vertices and faces in vectors.
-void readPlyFile( const std::string& inPly,
-                  std::vector<DirVector>& outVertices,
-                  std::vector<TriangleIndex>& outFaces,
-                  bool assignTriangle );
+void readPlyFile( const std::string& in_ply,
+                  std::vector<DirVector>& out_vertices,
+                  std::vector<TriangleIndex>& out_faces,
+                  bool assign_triangle );
 
 // Write a ply header into a file
-void writePlyHeader( std::ofstream& plyFile,
-                     const unsigned int& npoints,
-                     const unsigned int& nfaces );
+void writePlyHeader( std::ofstream& ply,
+                     const unsigned int& n_points,
+                     const unsigned int& n_faces );
 
-void writePlyHeaderFromDB( const std::string& plyFile,
-                           const unsigned int& npoints,
-                           const unsigned int& nfaces );
+void writePlyHeaderFromDB( const std::string& ply,
+                           const unsigned int& n_points,
+                           const unsigned int& n_faces );
 
 // Append faces to a ply file using a PostGIS table of point set
-void writePlyFaceFromDB( const std::string& plyFile,
-                         const std::string& connectionParameters,
-                         const std::string& schemaPointSet,
-                         const std::string& tablePointSet,
-                         const std::string& schemaPoint,
-                         const std::string& tablePoint );
+void writePlyFaceFromDB( const std::string& ply,
+                         const std::string& connection_parameters,
+                         const std::string& point_set_schema,
+                         const std::string& point_set_table,
+                         const std::string& point_schema,
+                         const std::string& point_table );
 
 // Append vertices to a ply file using a PostGIS table of points
-void writePlyVertexFromDB( const std::string& plyFile,
-                           const std::string& connectionParameters,
+void writePlyVertexFromDB( const std::string& ply,
+                           const std::string& connection_parameters,
                            const std::string& schema,
                            const std::string& table );
 

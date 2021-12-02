@@ -26,11 +26,11 @@
 //'   CONSTRAINT table_name_pkey PRIMARY KEY (id)
 //' )}
 //'
-//' @param dtmFile file name
-//' @param user PostGIS user
-//' @param hostname PostGIS server host name or IP address
-//' @param dbname database to write into
-//' @param tableName table to write into
+//' @param dtm file name
+//' @param db_user PostGIS user
+//' @param db_host PostGIS server host name or IP address
+//' @param db_name database to write into
+//' @param db_table table to write into
 //' @param schema schema to write into
 //' @param port port number to connect to at the server host, or socket file
 //'   name extension for Unix-domain connections
@@ -38,30 +38,30 @@
 //' @return number of rows uploaded to the table
 //' @export
 // [[Rcpp::export]]
-int writeDTM( std::string dtmFile,
-              std::string user,
-              std::string hostname,
-              std::string dbname,
-              std::string tableName,
+int writeDTM( std::string dtm,
+              std::string db_user,
+              std::string db_host,
+              std::string db_name,
+              std::string db_table,
               std::string schema = "staging",
               std::string port = "5432",
               std::string srid = "3125" )
 {
-  std::string connectionParameters = "postgresql://" + user + "@" + hostname + ":" + port + "/" + dbname + "?application_name=tmctools";
+  std::string connection_parameters = "postgresql://" + db_user + "@" + db_host + ":" + port + "/" + db_name + "?application_name=tmctools";
   std::string sql;
   std::vector<DirVector> points;
   std::vector<Triangle> triangles;
   std::vector<Triangle>::iterator tri;
   unsigned int out = 0;
 
-  if ( !fileExists( dtmFile ) )
-    Rcpp::stop( dtmFile + " does not exist!" );
+  if ( !fileExists( dtm ) )
+    Rcpp::stop( dtm + " does not exist!" );
 
-  std::string stringFile = dtmFile.substr( 0, dtmFile.size() - 3 ) + "str";
+  std::string stringFile = dtm.substr( 0, dtm.size() - 3 ) + "str";
   points = readSTR( stringFile );
-  triangles = pointToTri( points, dtmFile );
+  triangles = pointToTri( points, dtm );
 
-  pqxx::connection c{connectionParameters};
+  pqxx::connection c{connection_parameters};
   pqxx::work txn{c};
   try
   {
@@ -70,7 +70,7 @@ int writeDTM( std::string dtmFile,
       sql = "INSERT INTO " +
         pqxx::to_string( schema ) +
         "." +
-        pqxx::to_string( tableName ) +
+        pqxx::to_string( db_table ) +
         " (edge_length, geom) VALUES(" +
         pqxx::to_string( tri->longestEdge() ) +
         ", ST_GeomFromEWKT('" +

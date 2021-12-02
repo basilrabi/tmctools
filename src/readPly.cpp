@@ -7,7 +7,7 @@
 //'
 //' Reads the ply an covert it to a data frame.
 //'
-//' @param plyFile file name
+//' @param ply file name
 //' @param srid spatial reference identifier of the geometry if output is ewkt
 //' @return a data.frame with the following columns:
 //'   \describe{
@@ -18,11 +18,11 @@
 //'   }
 //' @export
 // [[Rcpp::export]]
-Rcpp::DataFrame readPly( const std::string& plyFile, const std::string& srid = "" )
+Rcpp::DataFrame readPly( const std::string& ply, const std::string& srid = "" )
 {
   std::vector<DirVector> vertices;
   std::vector<TriangleIndex> triangles;
-  readPlyFile( plyFile, vertices, triangles, true );
+  readPlyFile( ply, vertices, triangles, true );
   Rcpp::DataFrame out = triangleToDataFrame( triangles, srid );
   return out;
 }

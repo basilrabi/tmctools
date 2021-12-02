@@ -66,9 +66,9 @@ double Triangle::longestEdge() const
 
 double Triangle::slopeAngle() const
 {
-  DirVector sideA = *b - *a;
-  DirVector sideB = *c - *a;
-  return slopeAngleBase( sideA, sideB );
+  DirVector side_a = *b - *a;
+  DirVector side_b = *c - *a;
+  return slopeAngleBase( side_a, side_b );
 }
 
 std::string Triangle::asText() const

@@ -4,10 +4,10 @@
 \alias{readDTM}
 \title{Read Surpac DTM file}
 \usage{
-readDTM(dtmFile, srid = "")
+readDTM(dtm, srid = "")
 }
 \arguments{
-\item{dtmFile}{file name}
+\item{dtm}{file name}
 
 \item{srid}{spatial reference identifier}
 }

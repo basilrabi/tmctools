@@ -6,18 +6,18 @@
 #' A polygon soup represented by a PostGIS table with a PolygonZ column 'geom'
 #'   is exported into a Stanford Polygon File (*.ply).
 #'
-#' @param user PostGIS user
-#' @param hostname PostGIS server host name or IP address
-#' @param dbname database containing the polygon soup
+#' @param db_user PostGIS user
+#' @param db_host PostGIS server host name or IP address
+#' @param db_name database containing the polygon soup
 #' @param schema schema containing the polygon soup
-#' @param tableName table containing the polygon soup
+#' @param db_table table containing the polygon soup
 #' @param srid spatial reference identifier of the geometry
 #' @param port port number to connect to at the server host, or socket file
 #'   name extension for Unix-domain connections
 #' @return file name of exported ply file
 #' @export
-exportPly <- function(user, hostname, dbname, schema, tableName, srid = "3125", port = "5432") {
-    .Call('_tmctools_exportPly', PACKAGE = 'tmctools', user, hostname, dbname, schema, tableName, srid, port)
+exportPly <- function(db_user, db_host, db_name, schema, db_table, srid = "3125", port = "5432") {
+    .Call('_tmctools_exportPly', PACKAGE = 'tmctools', db_user, db_host, db_name, schema, db_table, srid, port)
 }
 
 #' Identify asset group
@@ -123,31 +123,31 @@ idAssetGroup <- function(x) {
 #' \code{slope_angle double precision}.
 #'
 #'
-#' @param inPly name of ply file to be translated
-#' @param user PostGIS user
-#' @param hostname PostGIS server host name or IP address
-#' @param dbname database to write into
-#' @param tableName table to write into. This will be overwritten if it exists!
+#' @param ply name of ply file to be translated
+#' @param db_user PostGIS user
+#' @param db_host PostGIS server host name or IP address
+#' @param db_name database to write into
+#' @param db_table table to write into. This will be overwritten if it exists!
 #' @param schema schema to write into
 #' @param port port number to connect to at the server host, or socket file
 #'   name extension for Unix-domain connections
 #' @param srid spatial reference identifier
 #' @return void
 #' @export
-plyBinToDB <- function(inPly, user, hostname, dbname, tableName, schema = "public", port = "5432", srid = "3125") {
-    invisible(.Call('_tmctools_plyBinToDB', PACKAGE = 'tmctools', inPly, user, hostname, dbname, tableName, schema, port, srid))
+plyBinToDB <- function(ply, db_user, db_host, db_name, db_table, schema = "public", port = "5432", srid = "3125") {
+    invisible(.Call('_tmctools_plyBinToDB', PACKAGE = 'tmctools', ply, db_user, db_host, db_name, db_table, schema, port, srid))
 }
 
 #' Translate Binary PLY File
 #'
 #' Translates a binary PLY file to ASCII format.
 #'
-#' @param inPly name of ply file to be translated
-#' @param outPly name of output ply file
+#' @param in_ply name of ply file to be translated
+#' @param out_ply name of output ply file
 #' @return void
 #' @export
-plyBinToText <- function(inPly, outPly = "text.ply") {
-    invisible(.Call('_tmctools_plyBinToText', PACKAGE = 'tmctools', inPly, outPly))
+plyBinToText <- function(in_ply, out_ply = "text.ply") {
+    invisible(.Call('_tmctools_plyBinToText', PACKAGE = 'tmctools', in_ply, out_ply))
 }
 
 #' Read Surpac DTM file
@@ -156,7 +156,7 @@ plyBinToText <- function(inPly, outPly = "text.ply") {
 #'   are present in the same directory and have the same file name. Outputs
 #'   a data.frame with each row representing a triangle of the DTM.
 #'
-#' @param dtmFile file name
+#' @param dtm file name
 #' @param srid spatial reference identifier
 #' @return a data.frame with the following columns:
 #'   \describe{
@@ -166,15 +166,15 @@ plyBinToText <- function(inPly, outPly = "text.ply") {
 #'     \item{polygon}{polygon in ewkt or wkt format}
 #'   }
 #' @export
-readDTM <- function(dtmFile, srid = "") {
-    .Call('_tmctools_readDTM', PACKAGE = 'tmctools', dtmFile, srid)
+readDTM <- function(dtm, srid = "") {
+    .Call('_tmctools_readDTM', PACKAGE = 'tmctools', dtm, srid)
 }
 
 #' Read PLY File
 #'
 #' Reads the ply an covert it to a data frame.
 #'
-#' @param plyFile file name
+#' @param ply file name
 #' @param srid spatial reference identifier of the geometry if output is ewkt
 #' @return a data.frame with the following columns:
 #'   \describe{
@@ -184,8 +184,8 @@ readDTM <- function(dtmFile, srid = "") {
 #'     \item{polygon}{polygon in ewkt or wkt format}
 #'   }
 #' @export
-readPly <- function(plyFile, srid = "") {
-    .Call('_tmctools_readPly', PACKAGE = 'tmctools', plyFile, srid)
+readPly <- function(ply, srid = "") {
+    .Call('_tmctools_readPly', PACKAGE = 'tmctools', ply, srid)
 }
 
 #' Write Surpac DTM file
@@ -211,18 +211,18 @@ readPly <- function(plyFile, srid = "") {
 #'   CONSTRAINT table_name_pkey PRIMARY KEY (id)
 #' )}
 #'
-#' @param dtmFile file name
-#' @param user PostGIS user
-#' @param hostname PostGIS server host name or IP address
-#' @param dbname database to write into
-#' @param tableName table to write into
+#' @param dtm file name
+#' @param db_user PostGIS user
+#' @param db_host PostGIS server host name or IP address
+#' @param db_name database to write into
+#' @param db_table table to write into
 #' @param schema schema to write into
 #' @param port port number to connect to at the server host, or socket file
 #'   name extension for Unix-domain connections
 #' @param srid spatial reference identifier
 #' @return number of rows uploaded to the table
 #' @export
-writeDTM <- function(dtmFile, user, hostname, dbname, tableName, schema = "staging", port = "5432", srid = "3125") {
-    .Call('_tmctools_writeDTM', PACKAGE = 'tmctools', dtmFile, user, hostname, dbname, tableName, schema, port, srid)
+writeDTM <- function(dtm, db_user, db_host, db_name, db_table, schema = "staging", port = "5432", srid = "3125") {
+    .Call('_tmctools_writeDTM', PACKAGE = 'tmctools', dtm, db_user, db_host, db_name, db_table, schema, port, srid)
 }
 

@@ -19,10 +19,10 @@ bool fileExists( const std::string& name )
   return file.good();
 }
 
-bool sendQuery ( const std::string& connectionParameters,
+bool sendQuery ( const std::string& connection_parameters,
                  const std::string& query )
 {
-  pqxx::connection c{connectionParameters};
+  pqxx::connection c{connection_parameters};
   pqxx::work txn{c};
   try
   {
@@ -60,7 +60,7 @@ std::string randomString( const unsigned int& len )
   return tmpString;
 }
 
-std::vector<DirVector> readSTR( const std::string& strFile )
+std::vector<DirVector> readSTR( const std::string& str_file )
 {
   DirVector point;
   bool hasReadAxisRecord = false;
@@ -68,11 +68,11 @@ std::vector<DirVector> readSTR( const std::string& strFile )
   std::regex pointPattern( "^\\d+\\s*,\\s*(\\d+\\.?\\d*)\\s*,\\s*(\\d+\\.?\\d*)\\s*,\\s*(-?\\d+\\.?\\d*).*\\s*" );
   std::vector<DirVector> points;
 
-  if ( !fileExists( strFile ) )
-    Rcpp::stop( strFile + " does not exist!" );
+  if ( !fileExists( str_file ) )
+    Rcpp::stop( str_file + " does not exist!" );
 
   Rcpp::Rcout << "Reading string file...\n";
-  std::ifstream fileString( strFile );
+  std::ifstream fileString( str_file );
   while ( std::getline( fileString, str ) )
   {
     if ( std::regex_match( str, capturedPoint, pointPattern ) )
@@ -99,7 +99,7 @@ std::vector<DirVector> readSTR( const std::string& strFile )
 }
 
 std::vector<Triangle> pointToTri ( std::vector<DirVector>& points,
-                                   const std::string& dtmFile )
+                                   const std::string& dtm )
 {
   Triangle triangle;
   std::regex trianglePattern( "^\\d+\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*\\d+\\s*,\\s*\\d+\\s*,\\s*\\d+.*\\s*" );
@@ -107,8 +107,8 @@ std::vector<Triangle> pointToTri ( std::vector<DirVector>& points,
   unsigned int i = 0, p1, p2, p3;
 
   Rcpp::Rcout << "Reading dtm file...\n";
-  std::ifstream fileDtm( dtmFile );
-  while ( std::getline( fileDtm, str ) )
+  std::ifstream dtm_file( dtm );
+  while ( std::getline( dtm_file, str ) )
   {
     // Check every n-lines for user interruption.
     if ( i == 1000 )
@@ -134,11 +134,11 @@ std::vector<Triangle> pointToTri ( std::vector<DirVector>& points,
   return triangles;
 }
 
-unsigned int nrow( const std::string& connectionParameters,
+unsigned int nrow( const std::string& connection_parameters,
                    const std::string& schema,
                    const std::string& table )
 {
-  pqxx::connection c{connectionParameters};
+  pqxx::connection c{connection_parameters};
   pqxx::work txn{c};
   std::string query = "SELECT COUNT(*) FROM " + schema + "." + table;
   try
@@ -153,21 +153,21 @@ unsigned int nrow( const std::string& connectionParameters,
   }
 }
 
-void readPlyFile( const std::string& inPly,
-                  std::vector<DirVector>& outVertices,
-                  std::vector<TriangleIndex>& outFaces,
-                  bool assignTriangle )
+void readPlyFile( const std::string& in_ply,
+                  std::vector<DirVector>& out_vertices,
+                  std::vector<TriangleIndex>& out_faces,
+                  bool assign_triangle )
 {
-  std::ofstream plyASCII;
+  std::ofstream ply_ascii;
   std::shared_ptr<tinyply::PlyData> vertices, faces;
   std::unique_ptr<std::istream> file_stream;
   unsigned int i;
 
   try
   {
-    file_stream.reset( new std::ifstream( inPly, std::ios::binary ) );
+    file_stream.reset( new std::ifstream( in_ply, std::ios::binary ) );
     if ( !file_stream || file_stream->fail() )
-      Rcpp::stop( "Failed to open " + inPly );
+      Rcpp::stop( "Failed to open " + in_ply );
 
     tinyply::PlyFile ply;
     ply.parse_header( *file_stream );
@@ -190,34 +190,34 @@ void readPlyFile( const std::string& inPly,
   }
 
   // Copy faces.
-  const size_t numFacesBytes = faces->buffer.size_bytes();
+  const size_t num_faces_bytes = faces->buffer.size_bytes();
   if ( faces->t == tinyply::Type::INT16 )
   {
     std::vector<int1> faces1( faces->count );
-    std::memcpy( faces1.data(), faces->buffer.get(), numFacesBytes );
+    std::memcpy( faces1.data(), faces->buffer.get(), num_faces_bytes );
     for ( i = 0; i < faces->count; i++ )
-      outFaces.push_back( TriangleIndex( faces1[i].x, faces1[i].y, faces1[i].z ) );
+      out_faces.push_back( TriangleIndex( faces1[i].x, faces1[i].y, faces1[i].z ) );
   }
   else if ( faces->t == tinyply::Type::UINT16 )
   {
     std::vector<int2> faces2( faces->count );
-    std::memcpy( faces2.data(), faces->buffer.get(), numFacesBytes );
+    std::memcpy( faces2.data(), faces->buffer.get(), num_faces_bytes );
     for ( i = 0; i < faces->count; i++ )
-      outFaces.push_back( TriangleIndex( faces2[i].x, faces2[i].y, faces2[i].z ) );
+      out_faces.push_back( TriangleIndex( faces2[i].x, faces2[i].y, faces2[i].z ) );
   }
   else if ( faces->t == tinyply::Type::INT32 )
   {
     std::vector<int3> faces3( faces->count );
-    std::memcpy( faces3.data(), faces->buffer.get(), numFacesBytes );
+    std::memcpy( faces3.data(), faces->buffer.get(), num_faces_bytes );
     for ( i = 0; i < faces->count; i++ )
-      outFaces.push_back( TriangleIndex( faces3[i].x, faces3[i].y, faces3[i].z ) );
+      out_faces.push_back( TriangleIndex( faces3[i].x, faces3[i].y, faces3[i].z ) );
   }
   else if ( faces->t == tinyply::Type::UINT32 )
   {
     std::vector<int4> faces4( faces->count );
-    std::memcpy( faces4.data(), faces->buffer.get(), numFacesBytes );
+    std::memcpy( faces4.data(), faces->buffer.get(), num_faces_bytes );
     for ( i = 0; i < faces->count; i++ )
-      outFaces.push_back( TriangleIndex( faces4[i].x, faces4[i].y, faces4[i].z ) );
+      out_faces.push_back( TriangleIndex( faces4[i].x, faces4[i].y, faces4[i].z ) );
   }
   else
   {
@@ -225,67 +225,67 @@ void readPlyFile( const std::string& inPly,
   }
 
   // Copy vertices.
-  const size_t numVerticesBytes = vertices->buffer.size_bytes();
+  const size_t num_vertices_bytes = vertices->buffer.size_bytes();
   if ( vertices->t == tinyply::Type::FLOAT32 )
   {
     std::vector<float1> verts1( vertices->count );
-    std::memcpy( verts1.data(), vertices->buffer.get(), numVerticesBytes );
+    std::memcpy( verts1.data(), vertices->buffer.get(), num_vertices_bytes );
     for ( i = 0; i < vertices->count; i++ )
-      outVertices.push_back( DirVector( verts1[i].x, verts1[i].y, verts1[i].z ) );
+      out_vertices.push_back( DirVector( verts1[i].x, verts1[i].y, verts1[i].z ) );
   }
   else if ( vertices->t == tinyply::Type::FLOAT64 )
   {
     std::vector<float2> verts2( vertices->count );
-    std::memcpy( verts2.data(), vertices->buffer.get(), numVerticesBytes );
+    std::memcpy( verts2.data(), vertices->buffer.get(), num_vertices_bytes );
     for ( i = 0; i < vertices->count; i++ )
-      outVertices.push_back( DirVector( verts2[i].x, verts2[i].y, verts2[i].z ) );
+      out_vertices.push_back( DirVector( verts2[i].x, verts2[i].y, verts2[i].z ) );
   }
   else
   {
     Rcpp::stop( "Unknown vertex type." );
   }
 
-  if ( assignTriangle )
+  if ( assign_triangle )
   {
-    for ( TriangleIndex &triangle: outFaces )
-      triangle.assignPoints( outVertices );
+    for ( TriangleIndex &triangle: out_faces )
+      triangle.assignPoints( out_vertices );
   }
 }
 
-void writePlyHeader( std::ofstream& plyFile,
-                     const unsigned int& npoints,
-                     const unsigned int& nfaces )
+void writePlyHeader( std::ofstream& ply,
+                     const unsigned int& n_points,
+                     const unsigned int& n_faces )
 {
-  plyFile << "ply\n"
-          << "format ascii 1.0\n"
-          << "comment TMC generated PLY File\n"
-          << "element vertex " << npoints << "\n"
-          << "property double x\n"
-          << "property double y\n"
-          << "property double z\n"
-          << "element face " << nfaces << "\n"
-          << "property list uchar int vertex_indices\n"
-          << "end_header\n";
+  ply << "ply\n"
+      << "format ascii 1.0\n"
+      << "comment TMC generated PLY File\n"
+      << "element vertex " << n_points << "\n"
+      << "property double x\n"
+      << "property double y\n"
+      << "property double z\n"
+      << "element face " << n_faces << "\n"
+      << "property list uchar int vertex_indices\n"
+      << "end_header\n";
 }
 
-void writePlyHeaderFromDB( const std::string& plyFile,
-                           const unsigned int& npoints,
-                           const unsigned int& nfaces )
+void writePlyHeaderFromDB( const std::string& ply,
+                           const unsigned int& n_points,
+                           const unsigned int& n_faces )
 {
-  std::ofstream ply;
-  ply.open( plyFile );
-  writePlyHeader( ply, npoints, nfaces );
-  ply.close();
+  std::ofstream ply_stream;
+  ply_stream.open( ply );
+  writePlyHeader( ply_stream, n_points, n_faces );
+  ply_stream.close();
 }
 
-void writePlyFaceFromDB( const std::string& plyFile,
-                         const std::string& connectionParameters,
-                         const std::string& schemaPointSet,
-                         const std::string& tablePointSet,
-                         const std::string& schemaPoint,
-                         const std::string& tablePoint )
+void writePlyFaceFromDB( const std::string& ply,
+                         const std::string& connection_parameters,
+                         const std::string& point_set_schema,
+                         const std::string& point_set_table,
+                         const std::string& point_schema,
+                         const std::string& point_table )
 {
-  pqxx::connection c{connectionParameters};
+  pqxx::connection c{connection_parameters};
   pqxx::work txn{c};
   std::string query =
     "WITH cte_a AS ("
@@ -293,8 +293,8 @@ void writePlyFaceFromDB( const std::string& plyFile,
     "    pointset.tid,"
     "    pointset.pid,"
     "    points.id"
-    "  FROM "+ schemaPointSet + "." + tablePointSet + " pointset" +
-    "    INNER JOIN " + schemaPoint + "." + tablePoint + " points" +
+    "  FROM "+ point_set_schema + "." + point_set_table + " pointset" +
+    "    INNER JOIN " + point_schema + "." + point_table + " points" +
     "      ON points.geom = pointset.geom" +
     ") " +
     "SELECT lat_a.id p_a, lat_b.id p_b, lat_c.id p_c " +
@@ -305,24 +305,24 @@ void writePlyFaceFromDB( const std::string& plyFile,
     "  AND lat_b.pid = 2"+
     "  AND lat_c.pid = 3";
 
-  std::ofstream ply;
-  ply.open( plyFile, std::ios_base::app );
+  std::ofstream ply_stream;
+  ply_stream.open( ply, std::ios_base::app );
   for ( auto [p_a, p_b, p_c] : txn.stream<unsigned int, unsigned int, unsigned int>( query ) )
   {
-    ply << "3 "
-        << std::to_string( p_a - 1 ) << " "
-        << std::to_string( p_b - 1 ) << " "
-        << std::to_string( p_c - 1 ) << "\n";
+    ply_stream << "3 "
+               << std::to_string( p_a - 1 ) << " "
+               << std::to_string( p_b - 1 ) << " "
+               << std::to_string( p_c - 1 ) << "\n";
   }
-  ply.close();
+  ply_stream.close();
 }
 
-void writePlyVertexFromDB( const std::string& plyFile,
-                           const std::string& connectionParameters,
+void writePlyVertexFromDB( const std::string& ply,
+                           const std::string& connection_parameters,
                            const std::string& schema,
                            const std::string& table )
 {
-  pqxx::connection c{connectionParameters};
+  pqxx::connection c{connection_parameters};
   pqxx::work txn{c};
   std::string query =
     "SELECT ST_X(geom) x, ST_Y(geom) y, ST_Z(geom) z "
@@ -330,17 +330,17 @@ void writePlyVertexFromDB( const std::string& plyFile,
     "ORDER BY id";
   std::stringstream xx, yy, zz;
 
-    std::ofstream ply;
-    ply.open( plyFile, std::ios_base::app );
+  std::ofstream ply_stream;
+  ply_stream.open( ply, std::ios_base::app );
   for ( auto [x, y, z] : txn.stream<double, double, double>( query ) )
   {
     xx << std::fixed << std::setprecision( 3 ) << x;
     yy << std::fixed << std::setprecision( 3 ) << y;
     zz << std::fixed << std::setprecision( 3 ) << z;
-    ply << xx.str() << " " << yy.str() << " " << zz.str() << "\n";
+    ply_stream << xx.str() << " " << yy.str() << " " << zz.str() << "\n";
     xx.str( "" );
     yy.str( "" );
     zz.str( "" );
   }
-  ply.close();
+  ply_stream.close();
 }

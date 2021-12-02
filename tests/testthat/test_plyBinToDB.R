@@ -8,9 +8,17 @@ db_name <- "rtest"
 db_table <- "testply"
 
 ply <- system.file("testdata", "tribin.ply", package = "tmctools")
-plyBinToDB(inPly = ply, user = db_user, hostname = db_host, dbname = db_name, tableName = db_table)
-plyBinToText(inPly = ply)
-dbPly <- exportPly(user = db_user, hostname = db_host, dbname = db_name, schema = "public", tableName = db_table)
+plyBinToDB(ply = ply,
+           db_user = db_user,
+           db_host = db_host,
+           db_name = db_name,
+           db_table = db_table)
+plyBinToText(in_ply = ply)
+dbPly <- exportPly(db_user = db_user,
+                   db_host = db_host,
+                   db_name = db_name,
+                   schema = "public",
+                   db_table = db_table)
 
 plyA <- readPly("text.ply")
 plyB <- readPly(dbPly)

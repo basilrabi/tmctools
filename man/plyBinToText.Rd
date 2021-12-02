@@ -4,12 +4,12 @@
 \alias{plyBinToText}
 \title{Translate Binary PLY File}
 \usage{
-plyBinToText(inPly, outPly = "text.ply")
+plyBinToText(in_ply, out_ply = "text.ply")
 }
 \arguments{
-\item{inPly}{name of ply file to be translated}
+\item{in_ply}{name of ply file to be translated}
 
-\item{outPly}{name of output ply file}
+\item{out_ply}{name of output ply file}
 }
 \value{
 void

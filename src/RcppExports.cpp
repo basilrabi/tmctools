@@ -11,19 +11,19 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // exportPly
-Rcpp::String exportPly(const std::string& user, const std::string& hostname, const std::string& dbname, const std::string& schema, const std::string& tableName, const std::string& srid, const std::string& port);
-RcppExport SEXP _tmctools_exportPly(SEXP userSEXP, SEXP hostnameSEXP, SEXP dbnameSEXP, SEXP schemaSEXP, SEXP tableNameSEXP, SEXP sridSEXP, SEXP portSEXP) {
+Rcpp::String exportPly(const std::string& db_user, const std::string& db_host, const std::string& db_name, const std::string& schema, const std::string& db_table, const std::string& srid, const std::string& port);
+RcppExport SEXP _tmctools_exportPly(SEXP db_userSEXP, SEXP db_hostSEXP, SEXP db_nameSEXP, SEXP schemaSEXP, SEXP db_tableSEXP, SEXP sridSEXP, SEXP portSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const std::string& >::type user(userSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type hostname(hostnameSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type dbname(dbnameSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type db_user(db_userSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type db_host(db_hostSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type db_name(db_nameSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type schema(schemaSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type tableName(tableNameSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type db_table(db_tableSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type srid(sridSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type port(portSEXP);
-    rcpp_result_gen = Rcpp::wrap(exportPly(user, hostname, dbname, schema, tableName, srid, port));
+    rcpp_result_gen = Rcpp::wrap(exportPly(db_user, db_host, db_name, schema, db_table, srid, port));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -39,72 +39,72 @@ BEGIN_RCPP
 END_RCPP
 }
 // plyBinToDB
-void plyBinToDB(const std::string& inPly, const std::string& user, const std::string& hostname, const std::string& dbname, const std::string& tableName, const std::string& schema, const std::string& port, const std::string& srid);
-RcppExport SEXP _tmctools_plyBinToDB(SEXP inPlySEXP, SEXP userSEXP, SEXP hostnameSEXP, SEXP dbnameSEXP, SEXP tableNameSEXP, SEXP schemaSEXP, SEXP portSEXP, SEXP sridSEXP) {
+void plyBinToDB(const std::string& ply, const std::string& db_user, const std::string& db_host, const std::string& db_name, const std::string& db_table, const std::string& schema, const std::string& port, const std::string& srid);
+RcppExport SEXP _tmctools_plyBinToDB(SEXP plySEXP, SEXP db_userSEXP, SEXP db_hostSEXP, SEXP db_nameSEXP, SEXP db_tableSEXP, SEXP schemaSEXP, SEXP portSEXP, SEXP sridSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const std::string& >::type inPly(inPlySEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type user(userSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type hostname(hostnameSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type dbname(dbnameSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type tableName(tableNameSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type ply(plySEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type db_user(db_userSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type db_host(db_hostSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type db_name(db_nameSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type db_table(db_tableSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type schema(schemaSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type port(portSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type srid(sridSEXP);
-    plyBinToDB(inPly, user, hostname, dbname, tableName, schema, port, srid);
+    plyBinToDB(ply, db_user, db_host, db_name, db_table, schema, port, srid);
     return R_NilValue;
 END_RCPP
 }
 // plyBinToText
-void plyBinToText(const std::string& inPly, const std::string& outPly);
-RcppExport SEXP _tmctools_plyBinToText(SEXP inPlySEXP, SEXP outPlySEXP) {
+void plyBinToText(const std::string& in_ply, const std::string& out_ply);
+RcppExport SEXP _tmctools_plyBinToText(SEXP in_plySEXP, SEXP out_plySEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const std::string& >::type inPly(inPlySEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type outPly(outPlySEXP);
-    plyBinToText(inPly, outPly);
+    Rcpp::traits::input_parameter< const std::string& >::type in_ply(in_plySEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type out_ply(out_plySEXP);
+    plyBinToText(in_ply, out_ply);
     return R_NilValue;
 END_RCPP
 }
 // readDTM
-Rcpp::DataFrame readDTM(std::string dtmFile, std::string srid);
-RcppExport SEXP _tmctools_readDTM(SEXP dtmFileSEXP, SEXP sridSEXP) {
+Rcpp::DataFrame readDTM(std::string dtm, std::string srid);
+RcppExport SEXP _tmctools_readDTM(SEXP dtmSEXP, SEXP sridSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type dtmFile(dtmFileSEXP);
+    Rcpp::traits::input_parameter< std::string >::type dtm(dtmSEXP);
     Rcpp::traits::input_parameter< std::string >::type srid(sridSEXP);
-    rcpp_result_gen = Rcpp::wrap(readDTM(dtmFile, srid));
+    rcpp_result_gen = Rcpp::wrap(readDTM(dtm, srid));
     return rcpp_result_gen;
 END_RCPP
 }
 // readPly
-Rcpp::DataFrame readPly(const std::string& plyFile, const std::string& srid);
-RcppExport SEXP _tmctools_readPly(SEXP plyFileSEXP, SEXP sridSEXP) {
+Rcpp::DataFrame readPly(const std::string& ply, const std::string& srid);
+RcppExport SEXP _tmctools_readPly(SEXP plySEXP, SEXP sridSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const std::string& >::type plyFile(plyFileSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type ply(plySEXP);
     Rcpp::traits::input_parameter< const std::string& >::type srid(sridSEXP);
-    rcpp_result_gen = Rcpp::wrap(readPly(plyFile, srid));
+    rcpp_result_gen = Rcpp::wrap(readPly(ply, srid));
     return rcpp_result_gen;
 END_RCPP
 }
 // writeDTM
-int writeDTM(std::string dtmFile, std::string user, std::string hostname, std::string dbname, std::string tableName, std::string schema, std::string port, std::string srid);
-RcppExport SEXP _tmctools_writeDTM(SEXP dtmFileSEXP, SEXP userSEXP, SEXP hostnameSEXP, SEXP dbnameSEXP, SEXP tableNameSEXP, SEXP schemaSEXP, SEXP portSEXP, SEXP sridSEXP) {
+int writeDTM(std::string dtm, std::string db_user, std::string db_host, std::string db_name, std::string db_table, std::string schema, std::string port, std::string srid);
+RcppExport SEXP _tmctools_writeDTM(SEXP dtmSEXP, SEXP db_userSEXP, SEXP db_hostSEXP, SEXP db_nameSEXP, SEXP db_tableSEXP, SEXP schemaSEXP, SEXP portSEXP, SEXP sridSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type dtmFile(dtmFileSEXP);
-    Rcpp::traits::input_parameter< std::string >::type user(userSEXP);
-    Rcpp::traits::input_parameter< std::string >::type hostname(hostnameSEXP);
-    Rcpp::traits::input_parameter< std::string >::type dbname(dbnameSEXP);
-    Rcpp::traits::input_parameter< std::string >::type tableName(tableNameSEXP);
+    Rcpp::traits::input_parameter< std::string >::type dtm(dtmSEXP);
+    Rcpp::traits::input_parameter< std::string >::type db_user(db_userSEXP);
+    Rcpp::traits::input_parameter< std::string >::type db_host(db_hostSEXP);
+    Rcpp::traits::input_parameter< std::string >::type db_name(db_nameSEXP);
+    Rcpp::traits::input_parameter< std::string >::type db_table(db_tableSEXP);
     Rcpp::traits::input_parameter< std::string >::type schema(schemaSEXP);
     Rcpp::traits::input_parameter< std::string >::type port(portSEXP);
     Rcpp::traits::input_parameter< std::string >::type srid(sridSEXP);
-    rcpp_result_gen = Rcpp::wrap(writeDTM(dtmFile, user, hostname, dbname, tableName, schema, port, srid));
+    rcpp_result_gen = Rcpp::wrap(writeDTM(dtm, db_user, db_host, db_name, db_table, schema, port, srid));
     return rcpp_result_gen;
 END_RCPP
 }

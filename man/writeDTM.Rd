@@ -5,26 +5,26 @@
 \title{Write Surpac DTM file}
 \usage{
 writeDTM(
-  dtmFile,
-  user,
-  hostname,
-  dbname,
-  tableName,
+  dtm,
+  db_user,
+  db_host,
+  db_name,
+  db_table,
   schema = "staging",
   port = "5432",
   srid = "3125"
 )
 }
 \arguments{
-\item{dtmFile}{file name}
+\item{dtm}{file name}
 
-\item{user}{PostGIS user}
+\item{db_user}{PostGIS user}
 
-\item{hostname}{PostGIS server host name or IP address}
+\item{db_host}{PostGIS server host name or IP address}
 
-\item{dbname}{database to write into}
+\item{db_name}{database to write into}
 
-\item{tableName}{table to write into}
+\item{db_table}{table to write into}
 
 \item{schema}{schema to write into}
 

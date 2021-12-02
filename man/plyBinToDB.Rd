@@ -5,26 +5,26 @@
 \title{Write binary PLY to database}
 \usage{
 plyBinToDB(
-  inPly,
-  user,
-  hostname,
-  dbname,
-  tableName,
+  ply,
+  db_user,
+  db_host,
+  db_name,
+  db_table,
   schema = "public",
   port = "5432",
   srid = "3125"
 )
 }
 \arguments{
-\item{inPly}{name of ply file to be translated}
+\item{ply}{name of ply file to be translated}
 
-\item{user}{PostGIS user}
+\item{db_user}{PostGIS user}
 
-\item{hostname}{PostGIS server host name or IP address}
+\item{db_host}{PostGIS server host name or IP address}
 
-\item{dbname}{database to write into}
+\item{db_name}{database to write into}
 
-\item{tableName}{table to write into. This will be overwritten if it exists!}
+\item{db_table}{table to write into. This will be overwritten if it exists!}
 
 \item{schema}{schema to write into}
 

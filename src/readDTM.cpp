@@ -6,7 +6,7 @@
 //'   are present in the same directory and have the same file name. Outputs
 //'   a data.frame with each row representing a triangle of the DTM.
 //'
-//' @param dtmFile file name
+//' @param dtm file name
 //' @param srid spatial reference identifier
 //' @return a data.frame with the following columns:
 //'   \describe{
@@ -17,17 +17,17 @@
 //'   }
 //' @export
 // [[Rcpp::export]]
-Rcpp::DataFrame readDTM( std::string dtmFile, std::string srid = "" )
+Rcpp::DataFrame readDTM( std::string dtm, std::string srid = "" )
 {
   std::vector<DirVector> points;
   std::vector<Triangle> triangles;
 
-  if ( !fileExists( dtmFile ) )
-    Rcpp::stop( dtmFile + " does not exist!" );
+  if ( !fileExists( dtm ) )
+    Rcpp::stop( dtm + " does not exist!" );
 
-  std::string stringFile = dtmFile.substr( 0, dtmFile.size() - 3 ) + "str";
+  std::string stringFile = dtm.substr( 0, dtm.size() - 3 ) + "str";
   points = readSTR( stringFile );
-  triangles = pointToTri( points, dtmFile );
+  triangles = pointToTri( points, dtm );
   Rcpp::DataFrame out = triangleToDataFrame( triangles, srid );
 
   return out;

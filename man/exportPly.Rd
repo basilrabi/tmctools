@@ -5,25 +5,25 @@
 \title{Export Surface to a PLY File}
 \usage{
 exportPly(
-  user,
-  hostname,
-  dbname,
+  db_user,
+  db_host,
+  db_name,
   schema,
-  tableName,
+  db_table,
   srid = "3125",
   port = "5432"
 )
 }
 \arguments{
-\item{user}{PostGIS user}
+\item{db_user}{PostGIS user}
 
-\item{hostname}{PostGIS server host name or IP address}
+\item{db_host}{PostGIS server host name or IP address}
 
-\item{dbname}{database containing the polygon soup}
+\item{db_name}{database containing the polygon soup}
 
 \item{schema}{schema containing the polygon soup}
 
-\item{tableName}{table containing the polygon soup}
+\item{db_table}{table containing the polygon soup}
 
 \item{srid}{spatial reference identifier of the geometry}
 
