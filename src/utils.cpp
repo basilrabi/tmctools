@@ -252,6 +252,70 @@ void readPlyFile( const std::string& in_ply,
   }
 }
 
+void writePlyBinFromDB( const std::string& prefix,
+                        const std::string& connection_parameters)
+{
+  std::filebuf ply_buffer;
+  std::string query;
+  std::string ply = prefix + ".ply";
+  std::vector<float2> vertices;
+  std::vector<int4> triangles;
+  tinyply::PlyFile ply_file;
+
+  pqxx::connection c{connection_parameters};
+  pqxx::work txn{c};
+  query =
+    "SELECT ST_X(geom) x, ST_Y(geom) y, ST_Z(geom) z "
+    "FROM " + prefix +  "_point "
+    "ORDER BY id";
+
+  for ( auto [x, y, z] : txn.stream<double, double, double>( query ) )
+    vertices.push_back( float2{x, y, z} );
+
+  query =
+    "WITH cte_a AS ("
+    "  SELECT "
+    "    pointset.tid,"
+    "    pointset.pid,"
+    "    points.id"
+    "  FROM "+ prefix + "_pointset pointset"
+    "    INNER JOIN " + prefix + "_point points"
+    "      ON points.geom = pointset.geom"
+    ") "
+    "SELECT lat_a.id p_a, lat_b.id p_b, lat_c.id p_c "
+    "FROM cte_a lat_a, cte_a lat_b, cte_a lat_c "
+    "WHERE lat_a.tid = lat_b.tid"
+    "  AND lat_a.tid = lat_c.tid"
+    "  AND lat_a.pid = 1"
+    "  AND lat_b.pid = 2"
+    "  AND lat_c.pid = 3";
+
+  for ( auto [i, j, k] : txn.stream<uint32_t, uint32_t, uint32_t>( query ) )
+    triangles.push_back( int4{i - 1, j - 1, k - 1} );
+
+  ply_buffer.open( ply, std::ios::out | std::ios::binary );
+  std::ostream ply_stream( &ply_buffer );
+  if ( ply_stream.fail() )
+    Rcpp::stop( "Failed to open " + ply + "." );
+
+  ply_file.add_properties_to_element( "vertex",
+                                      {"x", "y", "z"},
+                                      tinyply::Type::FLOAT64,
+                                      vertices.size(),
+                                      reinterpret_cast<uint8_t*>( vertices.data() ),
+                                      tinyply::Type::INVALID,
+                                      0 );
+  ply_file.add_properties_to_element( "face",
+                                      {"vertex_indices"},
+                                      tinyply::Type::UINT32,
+                                      triangles.size(),
+                                      reinterpret_cast<uint8_t*>( triangles.data() ),
+                                      tinyply::Type::UINT32,
+                                      3 );
+  ply_file.get_comments().push_back( "TMC generated PLY File" );
+  ply_file.write( ply_stream, true );
+}
+
 void writePlyHeader( std::ofstream& ply,
                      const unsigned int& n_points,
                      const unsigned int& n_faces )
@@ -278,12 +342,8 @@ void writePlyHeaderFromDB( const std::string& ply,
   ply_stream.close();
 }
 
-void writePlyFaceFromDB( const std::string& ply,
-                         const std::string& connection_parameters,
-                         const std::string& point_set_schema,
-                         const std::string& point_set_table,
-                         const std::string& point_schema,
-                         const std::string& point_table )
+void writePlyFaceFromDB( const std::string& connection_parameters,
+                         const std::string& prefix )
 {
   pqxx::connection c{connection_parameters};
   pqxx::work txn{c};
@@ -293,8 +353,8 @@ void writePlyFaceFromDB( const std::string& ply,
     "    pointset.tid,"
     "    pointset.pid,"
     "    points.id"
-    "  FROM "+ point_set_schema + "." + point_set_table + " pointset" +
-    "    INNER JOIN " + point_schema + "." + point_table + " points" +
+    "  FROM " + prefix + "_pointset pointset" +
+    "    INNER JOIN " + prefix + "_point points" +
     "      ON points.geom = pointset.geom" +
     ") " +
     "SELECT lat_a.id p_a, lat_b.id p_b, lat_c.id p_c " +
@@ -306,7 +366,7 @@ void writePlyFaceFromDB( const std::string& ply,
     "  AND lat_c.pid = 3";
 
   std::ofstream ply_stream;
-  ply_stream.open( ply, std::ios_base::app );
+  ply_stream.open( prefix + ".ply", std::ios_base::app );
   for ( auto [p_a, p_b, p_c] : txn.stream<unsigned int, unsigned int, unsigned int>( query ) )
   {
     ply_stream << "3 "
@@ -317,22 +377,20 @@ void writePlyFaceFromDB( const std::string& ply,
   ply_stream.close();
 }
 
-void writePlyVertexFromDB( const std::string& ply,
-                           const std::string& connection_parameters,
-                           const std::string& schema,
-                           const std::string& table,
+void writePlyVertexFromDB( const std::string& connection_parameters,
+                           const std::string& prefix,
                            const unsigned int& digits )
 {
   pqxx::connection c{connection_parameters};
   pqxx::work txn{c};
   std::string query =
     "SELECT ST_X(geom) x, ST_Y(geom) y, ST_Z(geom) z "
-    "FROM " + schema + "." + table + " " +
+    "FROM " + prefix + "_point " +
     "ORDER BY id";
   std::stringstream xx, yy, zz;
 
   std::ofstream ply_stream;
-  ply_stream.open( ply, std::ios_base::app );
+  ply_stream.open( prefix + ".ply", std::ios_base::app );
   for ( auto [x, y, z] : txn.stream<double, double, double>( query ) )
   {
     xx << std::fixed << std::setprecision( digits ) << x;

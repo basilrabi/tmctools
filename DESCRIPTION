@@ -2,7 +2,7 @@ Package: tmctools
 Type: Package
 Title: Various Tools for TMC
 Version: 1.0.0
-Date: 2021-11-24
+Date: 2022-01-28
 Authors@R: c(
   person("Basil Eric", "Rabi",
   email = "basil.rabi@tmc.nickelasia.com",
@@ -15,15 +15,15 @@ Depends: R (>= 4.1.0)
 Imports:
   dplyr    (>= 1.0.7),
   magrittr (>= 2.0.1),
-  Rcpp     (>= 1.0.7),
-  sf       (>= 1.0-4)
+  Rcpp     (>= 1.0.8),
+  sf       (>= 1.0-5)
 Suggests:
-  DBI        (>= 1.1.1),
-  knitr      (>= 1.36),
+  DBI        (>= 1.1.2),
+  knitr      (>= 1.37),
   rmarkdown  (>= 2.11),
-  RPostgres  (>= 1.4.1),
+  RPostgres  (>= 1.4.3),
   rstudioapi (>= 0.13),
-  testthat   (>= 3.1.0)
+  testthat   (>= 3.1.1)
 RoxygenNote: 7.1.2
 LinkingTo: Rcpp
 VignetteBuilder: knitr

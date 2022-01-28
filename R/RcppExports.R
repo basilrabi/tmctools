@@ -4,7 +4,9 @@
 #' Export Surface to a PLY File
 #'
 #' A polygon soup represented by a PostGIS table with a PolygonZ column 'geom'
-#'   is exported into a Stanford Polygon File (*.ply).
+#'   is exported into a Stanford Polygon File (*.ply). During exportation, a
+#'   table will be created in the default schema. Thus, if the user has no
+#'   privilege to write on the default schema, exporting will fail.
 #'
 #' @param db_user PostGIS user
 #' @param db_host PostGIS server host name or IP address
@@ -15,10 +17,11 @@
 #' @param port port number to connect to at the server host, or socket file
 #'   name extension for Unix-domain connections
 #' @param digits precision in number of decimal digits
+#' @param binary output binary file or not (ASCII)
 #' @return file name of exported ply file
 #' @export
-exportPly <- function(db_user, db_host, db_name, schema, db_table, srid = "3125", port = "5432", digits = 3L) {
-    .Call('_tmctools_exportPly', PACKAGE = 'tmctools', db_user, db_host, db_name, schema, db_table, srid, port, digits)
+exportPly <- function(db_user, db_host, db_name, schema, db_table, srid = "3125", port = "5432", digits = 3L, binary = FALSE) {
+    .Call('_tmctools_exportPly', PACKAGE = 'tmctools', db_user, db_host, db_name, schema, db_table, srid, port, digits, binary)
 }
 
 #' Identify asset group

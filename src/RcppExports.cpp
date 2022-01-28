@@ -11,8 +11,8 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // exportPly
-Rcpp::String exportPly(const std::string& db_user, const std::string& db_host, const std::string& db_name, const std::string& schema, const std::string& db_table, const std::string& srid, const std::string& port, const unsigned int& digits);
-RcppExport SEXP _tmctools_exportPly(SEXP db_userSEXP, SEXP db_hostSEXP, SEXP db_nameSEXP, SEXP schemaSEXP, SEXP db_tableSEXP, SEXP sridSEXP, SEXP portSEXP, SEXP digitsSEXP) {
+Rcpp::String exportPly(const std::string& db_user, const std::string& db_host, const std::string& db_name, const std::string& schema, const std::string& db_table, const std::string& srid, const std::string& port, const unsigned int& digits, const bool& binary);
+RcppExport SEXP _tmctools_exportPly(SEXP db_userSEXP, SEXP db_hostSEXP, SEXP db_nameSEXP, SEXP schemaSEXP, SEXP db_tableSEXP, SEXP sridSEXP, SEXP portSEXP, SEXP digitsSEXP, SEXP binarySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -24,7 +24,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const std::string& >::type srid(sridSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type port(portSEXP);
     Rcpp::traits::input_parameter< const unsigned int& >::type digits(digitsSEXP);
-    rcpp_result_gen = Rcpp::wrap(exportPly(db_user, db_host, db_name, schema, db_table, srid, port, digits));
+    Rcpp::traits::input_parameter< const bool& >::type binary(binarySEXP);
+    rcpp_result_gen = Rcpp::wrap(exportPly(db_user, db_host, db_name, schema, db_table, srid, port, digits, binary));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -111,7 +112,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_tmctools_exportPly", (DL_FUNC) &_tmctools_exportPly, 8},
+    {"_tmctools_exportPly", (DL_FUNC) &_tmctools_exportPly, 9},
     {"_tmctools_idAssetGroup", (DL_FUNC) &_tmctools_idAssetGroup, 1},
     {"_tmctools_plyBinToDB", (DL_FUNC) &_tmctools_plyBinToDB, 8},
     {"_tmctools_plyBinToText", (DL_FUNC) &_tmctools_plyBinToText, 2},

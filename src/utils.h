@@ -84,6 +84,10 @@ void readPlyFile( const std::string& in_ply,
                   std::vector<TriangleIndex>& out_faces,
                   bool assign_triangle );
 
+// Write a binary ply
+void writePlyBinFromDB( const std::string& prefix,
+                        const std::string& connection_parameters);
+
 // Write a ply header into a file
 void writePlyHeader( std::ofstream& ply,
                      const unsigned int& n_points,
@@ -94,18 +98,12 @@ void writePlyHeaderFromDB( const std::string& ply,
                            const unsigned int& n_faces );
 
 // Append faces to a ply file using a PostGIS table of point set
-void writePlyFaceFromDB( const std::string& ply,
-                         const std::string& connection_parameters,
-                         const std::string& point_set_schema,
-                         const std::string& point_set_table,
-                         const std::string& point_schema,
-                         const std::string& point_table );
+void writePlyFaceFromDB( const std::string& connection_parameters,
+                         const std::string& prefix );
 
 // Append vertices to a ply file using a PostGIS table of points
-void writePlyVertexFromDB( const std::string& ply,
-                           const std::string& connection_parameters,
-                           const std::string& schema,
-                           const std::string& table,
+void writePlyVertexFromDB( const std::string& connection_parameters,
+                           const std::string& prefix,
                            const unsigned int& digits );
 
 #endif

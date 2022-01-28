@@ -12,7 +12,8 @@ exportPly(
   db_table,
   srid = "3125",
   port = "5432",
-  digits = 3L
+  digits = 3L,
+  binary = FALSE
 )
 }
 \arguments{
@@ -32,11 +33,15 @@ exportPly(
 name extension for Unix-domain connections}
 
 \item{digits}{precision in number of decimal digits}
+
+\item{binary}{output binary file or not (ASCII)}
 }
 \value{
 file name of exported ply file
 }
 \description{
 A polygon soup represented by a PostGIS table with a PolygonZ column 'geom'
-  is exported into a Stanford Polygon File (*.ply).
+  is exported into a Stanford Polygon File (*.ply). During exportation, a
+  table will be created in the default schema. Thus, if the user has no
+  privilege to write on the default schema, exporting will fail.
 }

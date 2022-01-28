@@ -4,7 +4,9 @@
 //' Export Surface to a PLY File
 //'
 //' A polygon soup represented by a PostGIS table with a PolygonZ column 'geom'
-//'   is exported into a Stanford Polygon File (*.ply).
+//'   is exported into a Stanford Polygon File (*.ply). During exportation, a
+//'   table will be created in the default schema. Thus, if the user has no
+//'   privilege to write on the default schema, exporting will fail.
 //'
 //' @param db_user PostGIS user
 //' @param db_host PostGIS server host name or IP address
@@ -15,6 +17,7 @@
 //' @param port port number to connect to at the server host, or socket file
 //'   name extension for Unix-domain connections
 //' @param digits precision in number of decimal digits
+//' @param binary output binary file or not (ASCII)
 //' @return file name of exported ply file
 //' @export
 // [[Rcpp::export]]
@@ -25,13 +28,16 @@ Rcpp::String exportPly( const std::string& db_user,
                         const std::string& db_table,
                         const std::string& srid = "3125",
                         const std::string& port = "5432",
-                        const unsigned int& digits = 3 )
+                        const unsigned int& digits = 3,
+                        const bool& binary = false )
 {
   Rcpp::Environment tmctools = Rcpp::Environment::namespace_env( "tmctools" );
   Rcpp::Function psql = tmctools["psql"];
   std::string connection_parameters = "postgresql://" + db_user + "@" + db_host + ":" + port + "/" + db_name + "?application_name=tmctools";
   std::string prefix = randomString( 5 );
   std::string sql;
+
+  // Table container for unique points representing a vertex.
   sql =
     "CREATE TABLE " + prefix + "_point(" +
     "  id SERIAL PRIMARY KEY," +
@@ -39,6 +45,8 @@ Rcpp::String exportPly( const std::string& db_user,
     ")";
   sendQuery( connection_parameters, sql );
 
+  // Table container for the triangles. Each triangle will be composed of 3
+  // rows with each row referencing to a  vertex.
   sql =
     "CREATE TABLE " + prefix + "_pointset(" +
     "  id SERIAL PRIMARY KEY," +
@@ -87,20 +95,18 @@ Rcpp::String exportPly( const std::string& db_user,
   sql = "VACUUM ANALYZE " + prefix + "_point";
   psql( db_host, db_user, db_name, sql );
 
-  writePlyHeaderFromDB( prefix + ".ply",
-                        nrow( connection_parameters, "public", prefix + "_point" ),
-                        nrow( connection_parameters, schema, db_table ) );
-  writePlyVertexFromDB( prefix + ".ply",
-                        connection_parameters,
-                        "public",
-                        prefix + "_point",
-                        digits );
-  writePlyFaceFromDB( prefix + ".ply",
-                      connection_parameters,
-                      "public",
-                      prefix + "_pointset",
-                      "public",
-                      prefix + "_point" );
+  if ( binary )
+  {
+    writePlyBinFromDB( prefix, connection_parameters );
+  }
+  else
+  {
+    writePlyHeaderFromDB( prefix + ".ply",
+                          nrow( connection_parameters, "public", prefix + "_point" ),
+                          nrow( connection_parameters, schema, db_table ) );
+    writePlyVertexFromDB( connection_parameters, prefix, digits );
+    writePlyFaceFromDB( connection_parameters, prefix );
+  }
 
   sendQuery( connection_parameters, "DROP TABLE " + prefix + "_point" );
   sendQuery( connection_parameters, "DROP TABLE " + prefix + "_pointset" );

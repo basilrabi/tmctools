@@ -27,11 +27,15 @@ psql(
 )
 psql(db_host, db_user, db_name, "ALTER TABLE testply ADD PRIMARY KEY (id)")
 
-test <- tmctools::exportPly("rtest", "localhost", "rtest", "public", "testply")
-psql(db_host, db_user, db_name, "DROP TABLE testply")
-testDF <- readPly(test)
-file.remove(test)
+testA <- tmctools::exportPly("rtest", "localhost", "rtest", "public", "testply")
+testB <- tmctools::exportPly("rtest", "localhost", "rtest", "public", "testply", binary = TRUE)
+testDFA <- readPly(testA)
+testDFB <- readPly(testB)
+file.remove(testA, testB)
 
 test_that("exportPly() works", {
-  expect_equal(sort(plyDF$polygon), sort(testDF$polygon))
+  expect_equal(sort(plyDF$polygon), sort(testDFA$polygon))
+  expect_equal(sort(plyDF$polygon), sort(testDFB$polygon))
 })
+
+psql(db_host, db_user, db_name, "DROP TABLE testply")
