@@ -14,6 +14,8 @@ struct int1 { int16_t x, y, z; };
 struct int2 { uint16_t x, y, z; };
 struct int3 { int32_t x, y, z; };
 struct int4 { uint32_t x, y, z; };
+struct int5 { int8_t x, y, z; };
+struct int6 { uint8_t x, y, z; };
 
 // Convert triangles to dataframe with columns:
 //  1. area_2d     : 2D area of the triangle

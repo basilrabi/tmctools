@@ -191,7 +191,25 @@ void readPlyFile( const std::string& in_ply,
 
   // Copy faces.
   const size_t num_faces_bytes = faces->buffer.size_bytes();
-  if ( faces->t == tinyply::Type::INT16 )
+  if ( faces->t == tinyply::Type::INVALID )
+  {
+    Rcpp::stop( "Invalid PLY." );
+  }
+  else if ( faces->t == tinyply::Type::INT8 )
+  {
+    std::vector<int5> faces1( faces->count );
+    std::memcpy( faces1.data(), faces->buffer.get(), num_faces_bytes );
+    for ( i = 0; i < faces->count; i++ )
+      out_faces.push_back( TriangleIndex( faces1[i].x, faces1[i].y, faces1[i].z ) );
+  }
+  else if ( faces->t == tinyply::Type::UINT8 )
+  {
+    std::vector<int6> faces1( faces->count );
+    std::memcpy( faces1.data(), faces->buffer.get(), num_faces_bytes );
+    for ( i = 0; i < faces->count; i++ )
+      out_faces.push_back( TriangleIndex( faces1[i].x, faces1[i].y, faces1[i].z ) );
+  }
+  else if ( faces->t == tinyply::Type::INT16 )
   {
     std::vector<int1> faces1( faces->count );
     std::memcpy( faces1.data(), faces->buffer.get(), num_faces_bytes );
