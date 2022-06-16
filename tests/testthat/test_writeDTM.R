@@ -5,7 +5,7 @@ library(tmctools)
 
 con <- DBI::dbConnect(RPostgres::Postgres(),
                       dbname = "rtest",
-                      host = "localhost",
+                      host = Sys.getenv("R_TEST_HOST"),
                       port = 5432,
                       user = "rtest")
 
@@ -40,7 +40,7 @@ sql <- paste0(
 DBI::dbExecute(con, sql)
 
 dtm_fle <- system.file("testdata", "eng.dtm", package = "tmctools")
-testDF <- writeDTM( dtm_fle, "rtest", "localhost", "rtest", tableName, "public")
+testDF <- writeDTM( dtm_fle, "rtest", Sys.getenv("R_TEST_HOST"), "rtest", tableName, "public")
 
 writtenData <- sf::read_sf(con, tableName)
 

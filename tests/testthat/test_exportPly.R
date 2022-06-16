@@ -2,7 +2,7 @@ library(RPostgres)
 library(tmctools)
 library(tools)
 
-db_host <- "localhost"
+db_host <- Sys.getenv("R_TEST_HOST")
 db_user <- "rtest"
 db_name <- "rtest"
 
@@ -27,8 +27,8 @@ psql(
 )
 psql(db_host, db_user, db_name, "ALTER TABLE testply ADD PRIMARY KEY (id)")
 
-testA <- tmctools::exportPly("rtest", "localhost", "rtest", "public", "testply")
-testB <- tmctools::exportPly("rtest", "localhost", "rtest", "public", "testply", binary = TRUE)
+testA <- tmctools::exportPly("rtest", Sys.getenv("R_TEST_HOST"), "rtest", "public", "testply")
+testB <- tmctools::exportPly("rtest", Sys.getenv("R_TEST_HOST"), "rtest", "public", "testply", binary = TRUE)
 testDFA <- readPly(testA)
 testDFB <- readPly(testB)
 file.remove(testA, testB)

@@ -2,7 +2,7 @@ library(DBI)
 library(RPostgres)
 library(tmctools)
 
-db_host <- "localhost"
+db_host <- Sys.getenv("R_TEST_HOST")
 db_user <- "rtest"
 db_name <- "rtest"
 db_table <- "testply"
