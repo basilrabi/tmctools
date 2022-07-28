@@ -8,11 +8,11 @@ db_name <- "rtest"
 db_table <- "testply"
 
 ply <- system.file("testdata", "tribin.ply", package = "tmctools")
-plyBinToDB(ply = ply,
-           db_user = db_user,
-           db_host = db_host,
-           db_name = db_name,
-           db_table = db_table)
+plyToDB(ply = ply,
+        db_user = db_user,
+        db_host = db_host,
+        db_name = db_name,
+        db_table = db_table)
 plyBinToText(in_ply = ply)
 dbPly <- exportPly(db_user = db_user,
                    db_host = db_host,
@@ -32,7 +32,7 @@ con <- DBI::dbConnect(RPostgres::Postgres(),
 areaDB <- DBI::dbGetQuery(con, "select st_area(geom) from testply")
 areaPly <- readPly(ply, "3125")
 
-test_that("plyBinToDB() works", {
+test_that("plyToDB() works", {
   expect_equal(all(plyA$polygon == plyB$polygon), TRUE)
   expect_equal(all(areaDB$st_area == areaPly$area_2d), TRUE)
 })

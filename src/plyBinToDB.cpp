@@ -3,14 +3,14 @@
 #include <tuple>
 #include "utils.h"
 
-//' Write binary PLY to database
+//' Write PLY to database
 //'
-//' Reads the binary PLY file and writes it to a PostGIS database via streaming.
-//' The table will have the columns: \code{geom geometry(PolygonZ, srid)} and
-//' \code{slope_angle double precision}.
+//' Reads a PLY file and writes it to a PostGIS database via streaming.
+//' The table will have the columns: \code{id integer} and
+//' \code{geom geometry(PolygonZ, srid)}.
 //'
 //'
-//' @param ply name of ply file to be translated
+//' @param ply name of ply file
 //' @param db_user PostGIS user
 //' @param db_host PostGIS server host name or IP address
 //' @param db_name database to write into
@@ -22,14 +22,14 @@
 //' @return void
 //' @export
 // [[Rcpp::export]]
-void plyBinToDB( const std::string& ply,
-                 const std::string& db_user,
-                 const std::string& db_host,
-                 const std::string& db_name,
-                 const std::string& db_table,
-                 const std::string& schema = "public",
-                 const std::string& port = "5432",
-                 const std::string& srid = "3125" )
+void plyToDB( const std::string& ply,
+              const std::string& db_user,
+              const std::string& db_host,
+              const std::string& db_name,
+              const std::string& db_table,
+              const std::string& schema = "public",
+              const std::string& port = "5432",
+              const std::string& srid = "3125" )
 {
   Rcpp::Environment tmctools = Rcpp::Environment::namespace_env( "tmctools" );
   Rcpp::Function psql = tmctools["psql"];

@@ -40,9 +40,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// plyBinToDB
-void plyBinToDB(const std::string& ply, const std::string& db_user, const std::string& db_host, const std::string& db_name, const std::string& db_table, const std::string& schema, const std::string& port, const std::string& srid);
-RcppExport SEXP _tmctools_plyBinToDB(SEXP plySEXP, SEXP db_userSEXP, SEXP db_hostSEXP, SEXP db_nameSEXP, SEXP db_tableSEXP, SEXP schemaSEXP, SEXP portSEXP, SEXP sridSEXP) {
+// plyToDB
+void plyToDB(const std::string& ply, const std::string& db_user, const std::string& db_host, const std::string& db_name, const std::string& db_table, const std::string& schema, const std::string& port, const std::string& srid);
+RcppExport SEXP _tmctools_plyToDB(SEXP plySEXP, SEXP db_userSEXP, SEXP db_hostSEXP, SEXP db_nameSEXP, SEXP db_tableSEXP, SEXP schemaSEXP, SEXP portSEXP, SEXP sridSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::string& >::type ply(plySEXP);
@@ -53,7 +53,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const std::string& >::type schema(schemaSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type port(portSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type srid(sridSEXP);
-    plyBinToDB(ply, db_user, db_host, db_name, db_table, schema, port, srid);
+    plyToDB(ply, db_user, db_host, db_name, db_table, schema, port, srid);
     return R_NilValue;
 END_RCPP
 }
@@ -114,7 +114,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_tmctools_exportPly", (DL_FUNC) &_tmctools_exportPly, 9},
     {"_tmctools_idAssetGroup", (DL_FUNC) &_tmctools_idAssetGroup, 1},
-    {"_tmctools_plyBinToDB", (DL_FUNC) &_tmctools_plyBinToDB, 8},
+    {"_tmctools_plyToDB", (DL_FUNC) &_tmctools_plyToDB, 8},
     {"_tmctools_plyBinToText", (DL_FUNC) &_tmctools_plyBinToText, 2},
     {"_tmctools_readDTM", (DL_FUNC) &_tmctools_readDTM, 2},
     {"_tmctools_readPly", (DL_FUNC) &_tmctools_readPly, 2},
