@@ -11,8 +11,8 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // exportPly
-Rcpp::String exportPly(const std::string& db_user, const std::string& db_host, const std::string& db_name, const std::string& schema, const std::string& db_table, const std::string& srid, const std::string& port, const unsigned int& digits, const bool& binary);
-RcppExport SEXP _tmctools_exportPly(SEXP db_userSEXP, SEXP db_hostSEXP, SEXP db_nameSEXP, SEXP schemaSEXP, SEXP db_tableSEXP, SEXP sridSEXP, SEXP portSEXP, SEXP digitsSEXP, SEXP binarySEXP) {
+Rcpp::String exportPly(const std::string& db_user, const std::string& db_host, const std::string& db_name, const std::string& schema, const std::string& db_table, const std::string& srid, const std::string& port, const unsigned int& digits, const bool& binary, const bool& drop_temporary_tables);
+RcppExport SEXP _tmctools_exportPly(SEXP db_userSEXP, SEXP db_hostSEXP, SEXP db_nameSEXP, SEXP schemaSEXP, SEXP db_tableSEXP, SEXP sridSEXP, SEXP portSEXP, SEXP digitsSEXP, SEXP binarySEXP, SEXP drop_temporary_tablesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -25,7 +25,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const std::string& >::type port(portSEXP);
     Rcpp::traits::input_parameter< const unsigned int& >::type digits(digitsSEXP);
     Rcpp::traits::input_parameter< const bool& >::type binary(binarySEXP);
-    rcpp_result_gen = Rcpp::wrap(exportPly(db_user, db_host, db_name, schema, db_table, srid, port, digits, binary));
+    Rcpp::traits::input_parameter< const bool& >::type drop_temporary_tables(drop_temporary_tablesSEXP);
+    rcpp_result_gen = Rcpp::wrap(exportPly(db_user, db_host, db_name, schema, db_table, srid, port, digits, binary, drop_temporary_tables));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -41,8 +42,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // plyToDB
-void plyToDB(const std::string& ply, const std::string& db_user, const std::string& db_host, const std::string& db_name, const std::string& db_table, const std::string& schema, const std::string& port, const std::string& srid);
-RcppExport SEXP _tmctools_plyToDB(SEXP plySEXP, SEXP db_userSEXP, SEXP db_hostSEXP, SEXP db_nameSEXP, SEXP db_tableSEXP, SEXP schemaSEXP, SEXP portSEXP, SEXP sridSEXP) {
+void plyToDB(const std::string& ply, const std::string& db_user, const std::string& db_host, const std::string& db_name, const std::string& db_table, const std::string& schema, const std::string& port, const std::string& srid, const bool& drop_temporary_tables);
+RcppExport SEXP _tmctools_plyToDB(SEXP plySEXP, SEXP db_userSEXP, SEXP db_hostSEXP, SEXP db_nameSEXP, SEXP db_tableSEXP, SEXP schemaSEXP, SEXP portSEXP, SEXP sridSEXP, SEXP drop_temporary_tablesSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::string& >::type ply(plySEXP);
@@ -53,7 +54,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const std::string& >::type schema(schemaSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type port(portSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type srid(sridSEXP);
-    plyToDB(ply, db_user, db_host, db_name, db_table, schema, port, srid);
+    Rcpp::traits::input_parameter< const bool& >::type drop_temporary_tables(drop_temporary_tablesSEXP);
+    plyToDB(ply, db_user, db_host, db_name, db_table, schema, port, srid, drop_temporary_tables);
     return R_NilValue;
 END_RCPP
 }
@@ -112,9 +114,9 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_tmctools_exportPly", (DL_FUNC) &_tmctools_exportPly, 9},
+    {"_tmctools_exportPly", (DL_FUNC) &_tmctools_exportPly, 10},
     {"_tmctools_idAssetGroup", (DL_FUNC) &_tmctools_idAssetGroup, 1},
-    {"_tmctools_plyToDB", (DL_FUNC) &_tmctools_plyToDB, 8},
+    {"_tmctools_plyToDB", (DL_FUNC) &_tmctools_plyToDB, 9},
     {"_tmctools_plyBinToText", (DL_FUNC) &_tmctools_plyBinToText, 2},
     {"_tmctools_readDTM", (DL_FUNC) &_tmctools_readDTM, 2},
     {"_tmctools_readPly", (DL_FUNC) &_tmctools_readPly, 2},

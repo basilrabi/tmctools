@@ -13,7 +13,8 @@ exportPly(
   srid = "3125",
   port = "5432",
   digits = 3L,
-  binary = FALSE
+  binary = FALSE,
+  drop_temporary_tables = TRUE
 )
 }
 \arguments{
@@ -35,6 +36,8 @@ name extension for Unix-domain connections}
 \item{digits}{precision in number of decimal digits}
 
 \item{binary}{output binary file or not (ASCII)}
+
+\item{drop_temporary_tables}{drop created tables after processing}
 }
 \value{
 file name of exported ply file

@@ -19,9 +19,10 @@
 #' @param digits precision in number of decimal digits
 #' @param binary output binary file or not (ASCII)
 #' @return file name of exported ply file
+#' @param drop_temporary_tables drop created tables after processing
 #' @export
-exportPly <- function(db_user, db_host, db_name, schema, db_table, srid = "3125", port = "5432", digits = 3L, binary = FALSE) {
-    .Call('_tmctools_exportPly', PACKAGE = 'tmctools', db_user, db_host, db_name, schema, db_table, srid, port, digits, binary)
+exportPly <- function(db_user, db_host, db_name, schema, db_table, srid = "3125", port = "5432", digits = 3L, binary = FALSE, drop_temporary_tables = TRUE) {
+    .Call('_tmctools_exportPly', PACKAGE = 'tmctools', db_user, db_host, db_name, schema, db_table, srid, port, digits, binary, drop_temporary_tables)
 }
 
 #' Identify asset group
@@ -136,10 +137,11 @@ idAssetGroup <- function(x) {
 #' @param port port number to connect to at the server host, or socket file
 #'   name extension for Unix-domain connections
 #' @param srid spatial reference identifier
+#' @param drop_temporary_tables drop created tables after processing
 #' @return void
 #' @export
-plyToDB <- function(ply, db_user, db_host, db_name, db_table, schema = "public", port = "5432", srid = "3125") {
-    invisible(.Call('_tmctools_plyToDB', PACKAGE = 'tmctools', ply, db_user, db_host, db_name, db_table, schema, port, srid))
+plyToDB <- function(ply, db_user, db_host, db_name, db_table, schema = "public", port = "5432", srid = "3125", drop_temporary_tables = TRUE) {
+    invisible(.Call('_tmctools_plyToDB', PACKAGE = 'tmctools', ply, db_user, db_host, db_name, db_table, schema, port, srid, drop_temporary_tables))
 }
 
 #' Translate Binary PLY File

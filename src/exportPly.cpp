@@ -19,6 +19,7 @@
 //' @param digits precision in number of decimal digits
 //' @param binary output binary file or not (ASCII)
 //' @return file name of exported ply file
+//' @param drop_temporary_tables drop created tables after processing
 //' @export
 // [[Rcpp::export]]
 Rcpp::String exportPly( const std::string& db_user,
@@ -29,7 +30,8 @@ Rcpp::String exportPly( const std::string& db_user,
                         const std::string& srid = "3125",
                         const std::string& port = "5432",
                         const unsigned int& digits = 3,
-                        const bool& binary = false )
+                        const bool& binary = false,
+                        const bool& drop_temporary_tables = true )
 {
   Rcpp::Environment tmctools = Rcpp::Environment::namespace_env( "tmctools" );
   Rcpp::Function psql = tmctools["psql"];
@@ -108,8 +110,11 @@ Rcpp::String exportPly( const std::string& db_user,
     writePlyFaceFromDB( connection_parameters, prefix );
   }
 
-  sendQuery( connection_parameters, "DROP TABLE " + prefix + "_point" );
-  sendQuery( connection_parameters, "DROP TABLE " + prefix + "_pointset" );
+  if ( drop_temporary_tables )
+  {
+    sendQuery( connection_parameters, "DROP TABLE " + prefix + "_point" );
+    sendQuery( connection_parameters, "DROP TABLE " + prefix + "_pointset" );
+  }
 
   return prefix + ".ply";
 }

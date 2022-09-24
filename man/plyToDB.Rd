@@ -12,7 +12,8 @@ plyToDB(
   db_table,
   schema = "public",
   port = "5432",
-  srid = "3125"
+  srid = "3125",
+  drop_temporary_tables = TRUE
 )
 }
 \arguments{
@@ -32,6 +33,8 @@ plyToDB(
 name extension for Unix-domain connections}
 
 \item{srid}{spatial reference identifier}
+
+\item{drop_temporary_tables}{drop created tables after processing}
 }
 \value{
 void

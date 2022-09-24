@@ -19,6 +19,7 @@
 //' @param port port number to connect to at the server host, or socket file
 //'   name extension for Unix-domain connections
 //' @param srid spatial reference identifier
+//' @param drop_temporary_tables drop created tables after processing
 //' @return void
 //' @export
 // [[Rcpp::export]]
@@ -29,7 +30,8 @@ void plyToDB( const std::string& ply,
               const std::string& db_table,
               const std::string& schema = "public",
               const std::string& port = "5432",
-              const std::string& srid = "3125" )
+              const std::string& srid = "3125",
+              const bool& drop_temporary_tables = true )
 {
   Rcpp::Environment tmctools = Rcpp::Environment::namespace_env( "tmctools" );
   Rcpp::Function psql = tmctools["psql"];
@@ -126,11 +128,14 @@ void plyToDB( const std::string& ply,
     " " + schema + ".ply_vertices_geom_" + prefix + " p_b," +
     " " + schema + ".ply_vertices_geom_" + prefix + " p_c " +
     "WHERE faces.p_a = p_a.id AND faces.p_b = p_b.id AND faces.p_c = p_c.id";
-  sendQuery( connectionParam, sql );
-  sql = "DROP TABLE IF EXISTS " + schema + ".ply_vertices_text_" + prefix;
-  sendQuery( connectionParam, sql );
-  sql = "DROP TABLE IF EXISTS " + schema + ".ply_vertices_geom_" + prefix;
-  sendQuery( connectionParam, sql );
-  sql = "DROP TABLE IF EXISTS " + schema + ".ply_faces_" + prefix;
-  sendQuery( connectionParam, sql );
+  if ( drop_temporary_tables )
+  {
+    sendQuery( connectionParam, sql );
+    sql = "DROP TABLE IF EXISTS " + schema + ".ply_vertices_text_" + prefix;
+    sendQuery( connectionParam, sql );
+    sql = "DROP TABLE IF EXISTS " + schema + ".ply_vertices_geom_" + prefix;
+    sendQuery( connectionParam, sql );
+    sql = "DROP TABLE IF EXISTS " + schema + ".ply_faces_" + prefix;
+    sendQuery( connectionParam, sql );
+  }
 }
